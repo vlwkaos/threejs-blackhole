@@ -2,4 +2,17 @@
     to your site with Javascript */
 
 // prints "hi" in the browser's dev tools console
-console.log('hi');
+let debug = {
+  
+  
+}
+let cv
+
+window.onload=()=>{
+  
+  
+  cv = document.querySelector('canvas').getContext('webgl2')
+  
+  
+  
+}
