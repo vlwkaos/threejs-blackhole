@@ -1,4 +1,4 @@
-/* globals THREE */
+/* globals THREE dat*/
 // http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
 
 // Start with scene, camera, and renderer
@@ -6,7 +6,7 @@ let scene;
 let camera;
 let renderer;
 
-window.onload =()=>{
+window.onload = ()=>{
   
   scene = new THREE.Scene();
   
@@ -28,14 +28,17 @@ window.onload =()=>{
 
 }
 
-const sceneInit=()=>{
+// Scene drawing
+var cube;
+var cubeMaterial;
+const sceneInit = ()=>{
   
   //cube
   var cubeGeometry = new THREE.CubeGeometry(6, 4, 6); // width, height, depth
-  var cubeMaterial = new THREE.MeshLambertMaterial({
+  cubeMaterial = new THREE.MeshLambertMaterial({
    color: "red"
   });
-  var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   cube.castShadow = true; // must tell which object will cast shadow
   scene.add(cube);
   
@@ -59,9 +62,29 @@ const sceneInit=()=>{
   
 }
 
-const render=()=>{
+const render = ()=>{
   
   requestAnimationFrame(render)
+  cube.rotation.y +=0.01;
+  
 	renderer.render( scene, camera );
   
+}
+
+// dat.gui
+const control = {
+    
+  rotationSpeed: 0.005,
+  opacity:0.6,
+  color: cubeMaterial.color.getHex()
+  
+}
+
+const addControlGUI = ()=>{
+    
+  var gui = new dat.GUI();
+  gui.add(control, 'rotationSpeed', -0.01, 0.01);
+  gui.add(control, 'opacity', 0.1, 1);
+  gui.addColor(control, 'color');
+
 }
