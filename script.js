@@ -6,28 +6,6 @@ let scene;
 let camera;
 let renderer;
 
-window.onload = ()=>{
-  
-  scene = new THREE.Scene();
-  
-  camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // POV, ratio, start, end
-  camera.position.x = 15;
-  camera.position.y = 16;
-  camera.position.z = 13;
-  camera.lookAt(scene.position);
-  
-  renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor(0x000000, 1.0);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMapEnabled = true;
-  
-  document.body.appendChild( renderer.domElement );
-  
-  sceneInit();
-  render();
-
-}
-
 // Scene drawing
 var cube;
 var cubeMaterial;
@@ -63,28 +41,56 @@ const sceneInit = ()=>{
 }
 
 const render = ()=>{
+
   
+  cube.rotation.y += control.rotationSpeed;
+  cube.material.color = new THREE.Color(control.color);
+  cube.material.opacity = control.opacity;
+  
+	
+  renderer.render( scene, camera );
   requestAnimationFrame(render)
-  cube.rotation.y +=0.01;
-  
-	renderer.render( scene, camera );
-  
 }
 
 // dat.gui
-const control = {
+let control;
+const addControlGUI = ()=>{
+  
+  // define properties
+  control = {
     
   rotationSpeed: 0.005,
   opacity:0.6,
   color: cubeMaterial.color.getHex()
   
-}
-
-const addControlGUI = ()=>{
-    
-  var gui = new dat.GUI();
+  }
+  
+  let gui = new dat.GUI();
   gui.add(control, 'rotationSpeed', -0.01, 0.01);
   gui.add(control, 'opacity', 0.1, 1);
   gui.addColor(control, 'color');
+
+}
+
+window.onload = ()=>{
+  
+  scene = new THREE.Scene();
+  
+  camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // POV, ratio, start, end
+  camera.position.x = 15;
+  camera.position.y = 16;
+  camera.position.z = 13;
+  camera.lookAt(scene.position);
+  
+  renderer = new THREE.WebGLRenderer();
+  renderer.setClearColor(0x000000, 1.0);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMapEnabled = true;
+  
+  document.body.appendChild( renderer.domElement );
+  
+  sceneInit();
+  addControlGUI();
+  render();
 
 }
