@@ -1,76 +1,26 @@
-// Some Codes taken from https://webgl2fundamentals.org
+/* globals THREE */
 
-/**
- * Creates and compiles a shader.
- *
- * @param {!WebGLRenderingContext} gl The WebGL Context.
- * @param {string} shaderSource The GLSL source code for the shader.
- * @param {number} shaderType The type of shader, VERTEX_SHADER or
- *     FRAGMENT_SHADER.
- * @return {!WebGLShader} The shader.
- */
-const compileShader = (gl, shaderSource, shaderType)=> {
-  // Create the shader object
-  var shader = gl.createShader(shaderType);
- 
-  // Set the shader source code.
-  gl.shaderSource(shader, shaderSource);
- 
-  // Compile the shader
-  gl.compileShader(shader);
- 
-  // Check if it compiled
-  var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-  if (!success) {
-    // Something went wrong during compilation; get the error
-    throw "could not compile shader:" + gl.getShaderInfoLog(shader);
-  }
- 
-  return shader;
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
+
+
+var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
+
+camera.position.z = 5;
+
+function animate() {
+	requestAnimationFrame( animate );
+  
+  cube.rotation.x += 0.01;
+cube.rotation.y += 0.01;
+  
+	renderer.render( scene, camera );
 }
-
-
-
-let debug = {
-  
-  
-}
-
-/**
- * Creates a program from 2 shaders.
- *
- * @param {!WebGLRenderingContext) gl The WebGL context.
- * @param {!WebGLShader} vertexShader A vertex shader.
- * @param {!WebGLShader} fragmentShader A fragment shader.
- * @return {!WebGLProgram} A program.
- */
-const createProgram = (gl, vertexShader, fragmentShader) => {
-  // create a program.
-  var program = gl.createProgram();
- 
-  // attach the shaders.
-  gl.attachShader(program, vertexShader);
-  gl.attachShader(program, fragmentShader);
- 
-  // link the program.
-  gl.linkProgram(program);
- 
-  // Check if it linked.
-  var success = gl.getProgramParameter(program, gl.LINK_STATUS);
-  if (!success) {
-      // something went wrong with the link
-      throw ("program filed to link:" + gl.getProgramInfoLog (program));
-  }
- 
-  return program;
-};
-let cv
-
-window.onload=()=>{
-  
-  
-  cv = document.querySelector('canvas').getContext('webgl2')
-  
-  
-  
-}
+animate();
