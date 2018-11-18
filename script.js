@@ -1,23 +1,23 @@
 /* globals THREE dat*/
-// http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
+// Following through - http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
 
 // Start with scene, camera, and renderer
-let scene;
-let camera;
-let renderer;
+let s_console = {debugMode: true}
+s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
+
 
 // Scene drawing
 var cube;
-var cubeMaterial;
 const sceneInit = ()=>{
   
   //cube
-  var cubeGeometry = new THREE.CubeGeometry(6, 4, 6); // width, height, depth
-  cubeMaterial = new THREE.MeshLambertMaterial({
+  let cubeGeometry = new THREE.CubeGeometry(6, 4, 6); // width, height, depth
+  let cubeMaterial = new THREE.MeshLambertMaterial({
    color: "red"
   });
   cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
   cube.castShadow = true; // must tell which object will cast shadow
+  cube.material.transparent = true;
   scene.add(cube);
   
   //floor
@@ -40,18 +40,6 @@ const sceneInit = ()=>{
   
 }
 
-const render = ()=>{
-
-  
-  cube.rotation.y += control.rotationSpeed;
-  cube.material.color = new THREE.Color(control.color);
-  cube.material.opacity = control.opacity;
-  
-	
-  renderer.render( scene, camera );
-  requestAnimationFrame(render)
-}
-
 // dat.gui
 let control;
 const addControlGUI = ()=>{
@@ -61,7 +49,7 @@ const addControlGUI = ()=>{
     
   rotationSpeed: 0.005,
   opacity:0.6,
-  color: cubeMaterial.color.getHex()
+  color: cube.material.color.getHex()
   
   }
   
@@ -72,6 +60,11 @@ const addControlGUI = ()=>{
 
 }
 
+let scene;
+let camera;
+let cameraControl;
+let renderer;
+// 
 window.onload = ()=>{
   
   scene = new THREE.Scene();
@@ -81,6 +74,8 @@ window.onload = ()=>{
   camera.position.y = 16;
   camera.position.z = 13;
   camera.lookAt(scene.position);
+  
+  cameraControl = new THREE.OrbitControls(camera);
   
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 1.0);
@@ -93,4 +88,17 @@ window.onload = ()=>{
   addControlGUI();
   render();
 
+}
+
+const render = ()=>{
+  
+  cube.rotation.y += control.rotationSpeed;
+  cube.material.color = new THREE.Color(control.color);
+  cube.material.opacity = control.opacity;
+  
+  cameraControl.update();
+  
+  renderer.render( scene, camera );
+  requestAnimationFrame(render)
+  
 }
