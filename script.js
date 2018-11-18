@@ -91,6 +91,7 @@ window.onload = ()=>{
 }
 
 const render = ()=>{
+  requestAnimationFrame(render)
   
   cube.rotation.y += control.rotationSpeed;
   cube.material.color = new THREE.Color(control.color);
@@ -98,7 +99,8 @@ const render = ()=>{
   
   cameraControl.update();
   
-  renderer.render( scene, camera );
-  requestAnimationFrame(render)
+  
+
+    renderer.render( scene, camera );
   
 }
