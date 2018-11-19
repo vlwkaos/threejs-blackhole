@@ -12,13 +12,13 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 // My float attribute
 
 var cube;
-let cubeGeometry
-
+let cubeGeometry;
+let vertexDisplacement;
 const sceneInit = ()=>{
   
   //cube
-  cubeGeometry = new THREE.BoxBufferGeometry(0, 0, 0,0,0,0); // width, height, depth
-  let vertexDisplacement = new Float32Array(cubeGeometry.attributes.position.count);
+  cubeGeometry = new THREE.BoxBufferGeometry(10, 10, 10,3,3,3); // width, height, depth
+  vertexDisplacement = new Float32Array(cubeGeometry.attributes.position.count);
   for (var i = 0; i < vertexDisplacement.length; i ++) {
     vertexDisplacement[i] = Math.sin(i);
   }
@@ -100,7 +100,7 @@ window.onload = ()=>{
   camera.position.z = 13;
   camera.lookAt(scene.position);
   
-  cameraControl = new THREE.OrbitControls(camera);
+  cameraControl = new THREE.OrbitControls(camera,renderer.domElement);
   
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 1.0);
@@ -114,18 +114,27 @@ window.onload = ()=>{
   render();
 
 }
-
+var delta=0;
 const render = ()=>{
   requestAnimationFrame(render)
-  
-  cube.rotation.y += control.rotationSpeed;
-  //cube.material.color = new THREE.Color(control.color);
-  cube.material.opacity = control.opacity;
-  
   cameraControl.update();
+  
+  delta += 0.1;
+cube.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
+
+for (var i = 0; i < vertexDisplacement.length; i ++) {
+    vertexDisplacement[i] = 0.5 + Math.sin(i + delta) * 0.25;
+}
+
+cube.geometry.attributes.vertexDisplacement.needsUpdate = true;
+  //cube.rotation.y += control.rotationSpeed;
+  //cube.material.color = new THREE.Color(control.color);
+  //cube.material.opacity = control.opacity;
+  
+  
   
   
 
-    renderer.render( scene, camera );
+  renderer.render( scene, camera );
   
 }
