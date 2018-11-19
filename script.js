@@ -9,7 +9,15 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
 
 // Scene drawing
+// My float attribute
+
 var cube;
+var vertexDisplacement = new Float32Array(geometry.attributes.position.count);
+
+for (var i = 0; i < vertexDisplacement.length; i ++) {
+	vertexDisplacement[i] = Math.sin(i);
+}
+
 const sceneInit = ()=>{
   
   //cube
@@ -17,7 +25,20 @@ const sceneInit = ()=>{
   let cubeMaterial = new THREE.MeshLambertMaterial({
    color: "red"
   });
-  cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+  
+  let material = new THREE.ShaderMaterial({  
+  uniforms: {
+  
+		time: { value: 1.0 },
+		resolution: { value: new THREE.Vector2() },
+    delta: {value: 0}
+
+	},
+  vertexShader: document.getElementById('vertexShader').textContent,
+  fragmentShader: document.getElementById('fragmentShader').textContent
+});
+  
+  cube = new THREE.Mesh(cubeGeometry, material);
   cube.castShadow = true; // must tell which object will cast shadow
   cube.material.transparent = true;
   scene.add(cube);
@@ -50,15 +71,15 @@ const addControlGUI = ()=>{
   control = {
     
   rotationSpeed: 0.005,
-  opacity:0.6,
-  color: cube.material.color.getHex()
+  opacity:0.6
+  //color: cube.material.color.getHex()
   
   }
   
   let gui = new dat.GUI();
   gui.add(control, 'rotationSpeed', -0.01, 0.01);
   gui.add(control, 'opacity', 0.1, 1);
-  gui.addColor(control, 'color');
+ //gui.addColor(control, 'color');
 
 }
 
@@ -96,7 +117,7 @@ const render = ()=>{
   requestAnimationFrame(render)
   
   cube.rotation.y += control.rotationSpeed;
-  cube.material.color = new THREE.Color(control.color);
+  //cube.material.color = new THREE.Color(control.color);
   cube.material.opacity = control.opacity;
   
   cameraControl.update();

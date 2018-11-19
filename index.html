@@ -20,12 +20,21 @@
 
     <script type="x-shader/x-vertex" id="vertexShader">  
       // Your GLSL vertex shader here...
-      
+      void main() 
+      {
+        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_Position = projectionMatrix * modelViewPosition;
+      }
+
     </script>
 
     <script type="x-shader/x-fragment" id="fragmentShader">  
       // Your GLSL fragment shader here...
-      
+      void main() 
+      {
+	      gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+      }
+
     </script>  
     
     <!-- include the Glitch button to show what the webpage is about and
