@@ -94,6 +94,12 @@ window.onload = ()=>{
   
   scene = new THREE.Scene();
   
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setClearColor(0x000000, 1.0);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMapEnabled = true;
+  
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // POV, ratio, start, end
   camera.position.x = 15;
   camera.position.y = 16;
@@ -101,12 +107,7 @@ window.onload = ()=>{
   camera.lookAt(scene.position);
   
   cameraControl = new THREE.OrbitControls(camera,renderer.domElement);
-  
-  renderer = new THREE.WebGLRenderer();
-  renderer.setClearColor(0x000000, 1.0);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMapEnabled = true;
-  
+   
   document.body.appendChild( renderer.domElement );
   
   sceneInit();

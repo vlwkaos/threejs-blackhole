@@ -16,7 +16,6 @@
     <script src="/script.js" defer></script>
   </head>  
   <body>
-    <cavnas></cavnas>
 
     <script type="x-shader/x-vertex" id="vertexShader">  
       // Your GLSL vertex shader here...
@@ -32,8 +31,6 @@
 
           vec3 p = position;
 
-          p.x += sin(vertexDisplacement)*10.0;
-          p.y += cos(vertexDisplacement)*10.0;
 
         vec4 modelViewPosition = modelViewMatrix * vec4(p, 1.0);
         gl_Position = projectionMatrix * modelViewPosition;
