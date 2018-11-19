@@ -1,5 +1,7 @@
 /* globals THREE dat*/
 // Following through - http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
+// Custrom Shader - http://www.ianww.com/blog/2012/12/16/an-introduction-to-custom-shaders-with-three-dot-js/
+
 
 // Start with scene, camera, and renderer
 let s_console = {debugMode: true}
