@@ -1,4 +1,4 @@
-/* globals THREE dat*/
+/* globals THREE dat Stats*/
 // Following through - http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
 // Custrom Shader - http://www.ianww.com/blog/2012/12/16/an-introduction-to-custom-shaders-with-three-dot-js/
 
@@ -67,6 +67,18 @@ const sceneInit = ()=>{
 
 // dat.gui
 let control;
+let stats;
+const addStatsGUI = ()=>{
+     
+  stats = new Stats();
+  stats.setMode(0);
+  stats.domElement.style.position = 'absolute';
+  stats.domElement.style.left = '0px';
+  stats.domElement.style.top = '0px';
+  document.body.appendChild( stats.domElement ); 
+  
+}
+
 const addControlGUI = ()=>{
   
   // define properties
@@ -111,15 +123,17 @@ window.onload = ()=>{
   document.body.appendChild( renderer.domElement );
   
   sceneInit();
+  addStatsGUI();
   addControlGUI();
   render();
 
 }
 var delta=0;
 const render = ()=>{
+  
   requestAnimationFrame(render)
   cameraControl.update();
-  
+  stats.update();
   delta += 0.1;
 cube.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
 
@@ -128,14 +142,9 @@ for (var i = 0; i < vertexDisplacement.length; i ++) {
 }
 
 cube.geometry.attributes.vertexDisplacement.needsUpdate = true;
-  //cube.rotation.y += control.rotationSpeed;
+cube.rotation.y += control.rotationSpeed;
   //cube.material.color = new THREE.Color(control.color);
-  //cube.material.opacity = control.opacity;
-  
-  
-  
-  
-
+  //cube.material.opacity = control.opacity
   renderer.render( scene, camera );
   
 }
