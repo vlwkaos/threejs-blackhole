@@ -12,19 +12,17 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 // My float attribute
 
 var cube;
-var vertexDisplacement = new Float32Array(geometry.attributes.position.count);
-
-for (var i = 0; i < vertexDisplacement.length; i ++) {
-	vertexDisplacement[i] = Math.sin(i);
-}
+let cubeGeometry
 
 const sceneInit = ()=>{
   
   //cube
-  let cubeGeometry = new THREE.CubeGeometry(6, 4, 6); // width, height, depth
-  let cubeMaterial = new THREE.MeshLambertMaterial({
-   color: "red"
-  });
+  cubeGeometry = new THREE.BoxBufferGeometry(0, 0, 0,0,0,0); // width, height, depth
+  let vertexDisplacement = new Float32Array(cubeGeometry.attributes.position.count);
+  for (var i = 0; i < vertexDisplacement.length; i ++) {
+    vertexDisplacement[i] = Math.sin(i);
+  }
+  cubeGeometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
@@ -37,10 +35,14 @@ const sceneInit = ()=>{
   vertexShader: document.getElementById('vertexShader').textContent,
   fragmentShader: document.getElementById('fragmentShader').textContent
 });
-  
   cube = new THREE.Mesh(cubeGeometry, material);
   cube.castShadow = true; // must tell which object will cast shadow
   cube.material.transparent = true;
+  
+    
+
+
+  
   scene.add(cube);
   
   //floor
