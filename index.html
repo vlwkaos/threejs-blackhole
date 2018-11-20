@@ -30,11 +30,11 @@
           vUv = position;
           vOpacity = vertexDisplacement;
 
-          vec3 p = position;
+          vec3 p = position*vertexDisplacement;
 
 
-        vec4 modelViewPosition = modelViewMatrix * vec4(p, 1.0);
-        gl_Position = projectionMatrix * modelViewPosition;
+        vec4 MVP = modelViewMatrix * vec4(p, 1.0);
+        gl_Position = projectionMatrix * MVP;
       }
 
     </script>
