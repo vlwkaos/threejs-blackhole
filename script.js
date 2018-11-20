@@ -11,18 +11,18 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 // Scene drawing
 // My float attribute
 
-var cube;
-let cubeGeometry;
+let geometry;
+let mesh;
 let vertexDisplacement;
 const sceneInit = ()=>{
   
   //cube
-  cubeGeometry = new THREE.BoxBufferGeometry(10, 10, 10,3,3,3); // width, height, depth
-  vertexDisplacement = new Float32Array(cubeGeometry.attributes.position.count);
+  geometry = new THREE.SphereBufferGeometry(10, 30, 30); // width, height, depth
+  vertexDisplacement = new Float32Array(geometry.attributes.position.count);
   for (var i = 0; i < vertexDisplacement.length; i ++) {
     vertexDisplacement[i] = Math.sin(i);
   }
-  cubeGeometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
+  geometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
@@ -35,27 +35,11 @@ const sceneInit = ()=>{
   vertexShader: document.getElementById('vertexShader').textContent,
   fragmentShader: document.getElementById('fragmentShader').textContent
 });
-  cube = new THREE.Mesh(cubeGeometry, material);
-  cube.castShadow = true; // must tell which object will cast shadow
-  cube.material.transparent = true;
-  
-    
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.castShadow = true; // must tell which object will cast shadow
+  mesh.material.transparent = true;
+  scene.add(mesh);
 
-
-  
-  scene.add(cube);
-  
-  //floor
-  var planeGeometry = new THREE.PlaneGeometry(20, 20);
-  var planeMaterial = new THREE.MeshLambertMaterial({
-   color: 0xcccccc
-  });
-  var plane = new THREE.Mesh(planeGeometry, planeMaterial);
-  plane.receiveShadow = true; // shadow will be casted on the floor
-  plane.rotation.x = -0.5 * Math.PI;
-  plane.position.y = -2;
-  scene.add(plane);
-  
   //light
   var spotLight = new THREE.SpotLight(0xffffff);
   spotLight.position.set(10, 20, 20);
@@ -135,14 +119,14 @@ const render = ()=>{
   cameraControl.update();
   stats.update();
   delta += 0.1;
-cube.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
+  mesh.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
 
-for (var i = 0; i < vertexDisplacement.length; i ++) {
-    vertexDisplacement[i] = 0.5 + Math.sin(i + delta) * 0.25;
-}
+  for (var i = 0; i < vertexDisplacement.length; i ++) {
+      vertexDisplacement[i] = 0.5 + Math.sin(i + delta) * 0.25;
+  }
 
-cube.geometry.attributes.vertexDisplacement.needsUpdate = true;
-cube.rotation.y += control.rotationSpeed;
+  mesh.geometry.attributes.vertexDisplacement.needsUpdate = true;
+  mesh.rotation.y += control.rotationSpeed;
   //cube.material.color = new THREE.Color(control.color);
   //cube.material.opacity = control.opacity
   renderer.render( scene, camera );
