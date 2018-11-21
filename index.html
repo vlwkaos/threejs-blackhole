@@ -17,9 +17,30 @@
     <script src="/script.js" defer></script>
   </head>  
   <body>
-
+    
     <script type="x-shader/x-vertex" id="vertexShader">  
       // Your GLSL vertex shader here...
+      /* 
+      Default built-in uniforms
+      //= object.matrixWorld
+      uniform mat4 modelMatrix;
+
+      // = camera.matrixWorldInverse * object.matrixWorld
+      uniform mat4 modelViewMatrix;
+
+      // = camera.projectionMatrix
+      uniform mat4 projectionMatrix;
+
+      // = camera.matrixWorldInverse
+      uniform mat4 viewMatrix;
+
+      // = inverse transpose of modelViewMatrix
+      uniform mat3 normalMatrix;
+
+      // = camera position in world space
+      uniform vec3 cameraPosition;
+      */
+      
       attribute float vertexDisplacement;
       uniform float delta;
       varying float vOpacity;
