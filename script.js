@@ -26,8 +26,7 @@ const sceneInit = ()=>{
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
-  
-		time: { value: 1.0 },
+
 		resolution: { value: new THREE.Vector2() },
     delta: {value: 0}
 
