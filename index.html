@@ -43,6 +43,7 @@
       
       attribute float vertexDisplacement;
       uniform float delta;
+      uniform vec2 resolution;
       varying vec3 vUv;
 
       void main() 
@@ -70,7 +71,7 @@
           float b = abs(vUv.z);
           vec3 rgb = vec3(r, g, b);
 
-        gl_FragColor = vec4(rgb, vOpacity);
+        gl_FragColor = vec4(rgb, 1.0);
       }
 
     </script>  
