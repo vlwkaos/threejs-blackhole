@@ -37,7 +37,7 @@ const sceneInit = ()=>{
   mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true; // must tell which object will cast shadow
   mesh.material.transparent = true;
-  //scene.add(mesh);
+  scene.add(mesh);
 
   //light
   var spotLight = new THREE.SpotLight(0xffffff);
