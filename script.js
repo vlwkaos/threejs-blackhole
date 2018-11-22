@@ -37,7 +37,7 @@ const sceneInit = ()=>{
   mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true; // must tell which object will cast shadow
   mesh.material.transparent = true;
-  scene.add(mesh);
+  //scene.add(mesh);
 
   //light
   var spotLight = new THREE.SpotLight(0xffffff);
@@ -88,6 +88,14 @@ let renderer;
 window.onload = ()=>{
   
   scene = new THREE.Scene();
+  scene.background = new THREE.CubeTextureLoader()
+					.load( [ 'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_ft.JPG?1542862336481', 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549', 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935', 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_rt.JPG?1542862335631', 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_up.JPG?1542862336350', 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_dn.JPG?1542862336411'] );
+  
   
 
   renderer = new THREE.WebGLRenderer();
@@ -118,6 +126,7 @@ const render = ()=>{
   cameraControl.update();
   stats.update();
   delta += 0.1;
+ /*
   mesh.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
 
   for (var i = 0; i < vertexDisplacement.length; i ++) {
@@ -126,8 +135,8 @@ const render = ()=>{
 
   mesh.geometry.attributes.vertexDisplacement.needsUpdate = true;
   mesh.rotation.y += control.rotationSpeed;
-  //cube.material.color = new THREE.Color(control.color);
-  //cube.material.opacity = control.opacity
+
+ */
   renderer.render( scene, camera );
   
 }
