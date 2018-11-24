@@ -36,11 +36,10 @@
 
       uniform float delta;
       uniform vec2 resolution;
-      varying vec3 vUv;
+
       void main() 
       {
-      
-        vUv = position;
+
         vec4 MVP = modelViewMatrix * vec4(position, 1.0);
         gl_Position = projectionMatrix * MVP;
       }
@@ -52,7 +51,6 @@
     
       uniform float delta;
       uniform vec2 resolution;
-      varying vec3 vUv;
       
       struct Ray {
         vec3 origin; // Origin
@@ -97,7 +95,7 @@
         // Converting all coordinates (x,y) to be in the range [0,1]
         float x = (vUv.x) / resolution.x; // iResolution.x is width in pixels
         float y = (vUv.y) / resolution.y; // iResolution.y is height in pixels
-        
+
       	x = x * 2.0 - 1.0;
       	y = y * 2.0 - 1.0;
         
@@ -131,7 +129,7 @@
 
         } else
               // Otherwise we draw the colour of the background
-          gl_FragColor = vec4(x,0,0, 1);
+          gl_FragColor = vec4(0,0,0, 1);
 
     }
 
