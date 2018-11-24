@@ -15,9 +15,10 @@ let geometry;
 let mesh;
 let vertexDisplacement;
 const sceneInit = ()=>{
-  
+  var axesHelper = new THREE.AxesHelper( 5 ); // R:x G:y B:z
+  scene.add( axesHelper );
   //cube
-  geometry = new THREE.SphereBufferGeometry(10, 30, 30); // width, height, depth
+  geometry = new THREE.SphereBufferGeometry(10, 30, 50); // rad, 
   vertexDisplacement = new Float32Array(geometry.attributes.position.count);
   for (var i = 0; i < vertexDisplacement.length; i ++) {
     vertexDisplacement[i] = Math.sin(i);
@@ -26,8 +27,6 @@ const sceneInit = ()=>{
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
-
-		resolution: { value: new THREE.Vector2() },
     delta: {value: 0}
 
 	},
@@ -35,8 +34,8 @@ const sceneInit = ()=>{
   fragmentShader: document.getElementById('fragmentShader').textContent
 });
   mesh = new THREE.Mesh(geometry, material);
-  mesh.castShadow = true; // must tell which object will cast shadow
   mesh.material.transparent = true;
+  mesh.position.set(10,10,0);
   scene.add(mesh);
 
   //light
@@ -89,12 +88,13 @@ window.onload = ()=>{
   
   scene = new THREE.Scene();
   scene.background = new THREE.CubeTextureLoader()
-					.load( [ 'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_ft.JPG?1542862336481', 
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549', 
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935', 
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_rt.JPG?1542862335631', 
+					.load( [ 'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_ft.JPG?1542862336481', //px
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549',  //nx
                   'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_up.JPG?1542862336350', 
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_dn.JPG?1542862336411'] );
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_dn.JPG?1542862336411',
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935', 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_rt.JPG?1542862335631' 
+                  ] );
   
   
 

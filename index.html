@@ -63,10 +63,11 @@
       varying vec3 veyedir;
 
       void main() {
-        vec3 reflectedDirection = normalize(reflect(veyedir, normalize(vnormal)));
-        reflectedDirection.y = -reflectedDirection.y;
-        vec4 fragColor = textureCube(cubeMap, reflectedDirection);
-        gl_FragColor = fragColor;
+        vec3 fvNormal = normalize(vnormal);
+        vec3 fvEyeDir = normalize(veyedir);
+        vec3 reflectedDirection = normalize(reflect(fvEyeDir, fvNormal));
+
+        gl_FragColor = textureCube(cubeMap, reflectedDirection);
       }
 
     </script>  
