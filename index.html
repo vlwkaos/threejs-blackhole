@@ -40,12 +40,13 @@
       uniform samplerCube cubeMap;
       varying vec3 vnormal;
       varying vec3 veyedir;
+      varying res
 
       void main() 
       {
           vnormal = normalize(vec3(vec4(normal,0.0) * viewMatrix));
           veyedir = position-cameraPosition;
-
+          
         vec4 MVP = modelViewMatrix * vec4(position, 1.0);
         gl_Position = projectionMatrix * MVP;
       }
@@ -55,6 +56,32 @@
     <script type="x-shader/x-fragment" id="fragmentShader">  
       // Your GLSL fragment shader here...
       
+struct Ray {
+	vec3 origin; // Origin
+	vec3 direction; // Direction
+};
+// Sphere represents of centre and radius of a sphere
+struct Sphere {
+	vec3 center;  // Center
+	float radius; // Radius
+};
+
+float intersectSphere(in Ray ray, in Sphere sphere) {
+	// Sphere center to ray origin
+	vec3 co = ray.origin - sphere.center;
+
+	// The discriminant is negative for a miss, or a postive value
+	// used to calcluate the distance
+	float discriminant = dot(co, ray.direction) * dot(co, ray.direction)
+			- (dot(co, co) - sphere.radius * sphere.radius);
+
+	// If answer is not negative, calculate the origin-surface distance
+	if (discriminant >= 0.0)
+		return -dot(ray.direction, co) - sqrt(discriminant); //
+	else
+		return -1.; // Any negative number to indicate no intersect
+}
+
       uniform float delta;
       uniform samplerCube cubeMap;
       varying vec3 vnormal;
@@ -67,8 +94,8 @@
         float refractiveIndex = 1.5;
         vec3 refractedDirection = refract(fvEyeDir,fvNormal, 1.0 / refractiveIndex);
         //vec3 reflectedDirection = normalize(refract(fvEyeDir, fvNormal));
-
-        gl_FragColor = textureCube(cubeMap, refractedDirection);
+        //textureCube(cubeMap, refractedDirection);
+        gl_FragColor = vec4(1.0,0,0,1.0)
       }
 
     </script>  

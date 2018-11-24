@@ -15,35 +15,29 @@ let geometry;
 let mesh;
 let vertexDisplacement;
 const sceneInit = ()=>{
-  var axesHelper = new THREE.AxesHelper( 5 ); // R:x G:y B:z
-  scene.add( axesHelper );
   //cube
-  geometry = new THREE.SphereBufferGeometry(10, 30, 50); // rad, 
-  vertexDisplacement = new Float32Array(geometry.attributes.position.count);
-  for (var i = 0; i < vertexDisplacement.length; i ++) {
-    vertexDisplacement[i] = Math.sin(i);
-  }
-  geometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
+  geometry = new THREE.PlaneBufferGeometry(2,2); // rad, 
+  //geometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
-    delta: {value: 0}
-
+    delta: {value: 0},
+    resolution: {type:f, 
 	},
   vertexShader: document.getElementById('vertexShader').textContent,
   fragmentShader: document.getElementById('fragmentShader').textContent
 });
   mesh = new THREE.Mesh(geometry, material);
   mesh.material.transparent = true;
-  mesh.position.set(10,10,0);
   scene.add(mesh);
 
   //light
+  /*
   var spotLight = new THREE.SpotLight(0xffffff);
   spotLight.position.set(10, 20, 20);
   spotLight.castShadow = true;
   scene.add(spotLight);
-  
+  */
   
 }
 
@@ -87,6 +81,7 @@ let renderer;
 window.onload = ()=>{
   
   scene = new THREE.Scene();
+  /*
   scene.background = new THREE.CubeTextureLoader()
 					.load( [ 
                   'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549',  //nx      
@@ -97,7 +92,7 @@ window.onload = ()=>{
                   'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935',
      
                   ] );
-  
+  */
   
 
   renderer = new THREE.WebGLRenderer();
@@ -106,9 +101,9 @@ window.onload = ()=>{
   renderer.shadowMapEnabled = true;
   
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // POV, ratio, start, end
-  camera.position.x = 15;
-  camera.position.y = 16;
-  camera.position.z = 13;
+  camera.position.x = 0;
+  camera.position.y = 0;
+  camera.position.z = 0;
   camera.lookAt(scene.position);
   
   cameraControl = new THREE.OrbitControls(camera,renderer.domElement);
@@ -139,7 +134,7 @@ const render = ()=>{
  
 
  */
-  mesh.rotation.y += control.rotationSpeed;
+  //mesh.rotation.y += control.rotationSpeed;
   renderer.render( scene, camera );
   
 }
