@@ -33,20 +33,14 @@
       attribute vec3 normal;
       attribute vec2 uv;
       */
-      
-      attribute float vertexDisplacement;
+
       uniform float delta;
       uniform vec2 resolution;
-      uniform samplerCube cubeMap;
-      varying vec3 vnormal;
-      varying vec3 veyedir;
-      varying res
-
+      varying vec3 vUv;
       void main() 
       {
-          vnormal = normalize(vec3(vec4(normal,0.0) * viewMatrix));
-          veyedir = position-cameraPosition;
-          
+      
+        vUv = position;
         vec4 MVP = modelViewMatrix * vec4(position, 1.0);
         gl_Position = projectionMatrix * MVP;
       }
@@ -55,48 +49,91 @@
 
     <script type="x-shader/x-fragment" id="fragmentShader">  
       // Your GLSL fragment shader here...
-      
-struct Ray {
-	vec3 origin; // Origin
-	vec3 direction; // Direction
-};
-// Sphere represents of centre and radius of a sphere
-struct Sphere {
-	vec3 center;  // Center
-	float radius; // Radius
-};
-
-float intersectSphere(in Ray ray, in Sphere sphere) {
-	// Sphere center to ray origin
-	vec3 co = ray.origin - sphere.center;
-
-	// The discriminant is negative for a miss, or a postive value
-	// used to calcluate the distance
-	float discriminant = dot(co, ray.direction) * dot(co, ray.direction)
-			- (dot(co, co) - sphere.radius * sphere.radius);
-
-	// If answer is not negative, calculate the origin-surface distance
-	if (discriminant >= 0.0)
-		return -dot(ray.direction, co) - sqrt(discriminant); //
-	else
-		return -1.; // Any negative number to indicate no intersect
-}
-
+    
       uniform float delta;
-      uniform samplerCube cubeMap;
-      varying vec3 vnormal;
-      varying vec3 veyedir;
+      uniform vec2 resolution;
+      varying vec3 vUv;
+      
+      struct Ray {
+        vec3 origin; // Origin
+        vec3 direction; // Direction
+      };
+      // Sphere represents of centre and radius of a sphere
+      struct Sphere {
+        vec3 center;  // Center
+        float radius; // Radius
+      };
+
+      vec4 diffuse(in vec3 surface, in vec3 center, in vec4 color, in vec3 litePos) {
+        // Surface normal
+        vec3 n = normalize(surface - center);
+
+        // Light direction from surface
+        vec3 l = normalize(litePos - surface);
+
+        // The diffuse equation
+        return color * max(0.0, dot(n, l));
+      }
+
+      float intersectSphere(in Ray ray, in Sphere sphere) {
+        // Sphere center to ray origin
+        vec3 co = ray.origin - sphere.center;
+
+        // The discriminant is negative for a miss, or a postive value
+        // used to calcluate the distance
+        float discriminant = dot(co, ray.direction) * dot(co, ray.direction)
+            - (dot(co, co) - sphere.radius * sphere.radius);
+
+        // If answer is not negative, calculate the origin-surface distance
+        if (discriminant >= 0.0)
+          return -dot(ray.direction, co) - sqrt(discriminant); //
+        else
+          return -1.; // Any negative number to indicate no intersect
+        }
+
+
 
       void main() {
-        vec3 fvNormal = normalize(vnormal);
-        vec3 fvEyeDir = normalize(veyedir);
+        // Converting all coordinates (x,y) to be in the range [0,1]
+        float x = vUv.x / resolution.x; // iResolution.x is width in pixels
+        float y = vUv.y / resolution.y; // iResolution.y is height in pixels
+
+      	x = x * 2.0 - 1.0;
+      	y = y * 2.0 - 1.0;
         
-        float refractiveIndex = 1.5;
-        vec3 refractedDirection = refract(fvEyeDir,fvNormal, 1.0 / refractiveIndex);
-        //vec3 reflectedDirection = normalize(refract(fvEyeDir, fvNormal));
-        //textureCube(cubeMap, refractedDirection);
-        gl_FragColor = vec4(1.0,0,0,1.0)
-      }
+        // The pixel position in 3D space - i.e. the z value, 0.0, is the plane of the screen.
+        vec3 pixelPos = vec3(x, y, 0);
+
+          // The eye position in this example is fixed.
+        vec3 eyePos = vec3(0, 0, -4); // Some distance in front of the screen
+
+        // The ray for the raytrace - which is just intersectSphere in this tutorial
+        vec3 rayDir = normalize(pixelPos - eyePos);
+
+          Sphere sphere = Sphere(vec3(0.0, 0.0, 7.0), 1.0); // Position and size of sphere
+
+        // Does rayDirUnit ray from ndcEye intersect the sphere?
+        float eyeToSphere = intersectSphere(Ray(eyePos, rayDir), sphere);
+
+        // If positive, then we draw a pixel of the sphere
+        if (eyeToSphere >= 0.)
+        {
+          // Choose a diffuse colour
+          vec4 diffuseColour =  vec4(0.,1.,1.,1);
+
+          // Choose an ambient colour
+          vec4 ambientColour =  vec4(0.2,0.,0.,1);
+
+              // Position of a white light
+              vec3 litePos = vec3(3., 0., 0.);
+
+          gl_FragColor = ambientColour + diffuse(eyePos + eyeToSphere * rayDir, sphere.center, diffuseColour, litePos);
+
+        } else
+              // Otherwise we draw the colour of the background
+          gl_FragColor = vec4(0, 0, 0, 1);
+
+    }
 
     </script>  
     
