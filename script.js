@@ -16,13 +16,13 @@ let mesh;
 let vertexDisplacement;
 const sceneInit = ()=>{
   //cube
-  geometry = new THREE.PlaneBufferGeometry(2,2); // rad, 
+  geometry = new THREE.PlaneBufferGeometry(renderer.getSize().width,renderer.getSize().height); // rad, 
   //geometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
     delta: {value: 0},
-    resolution: {type:'f', value: new THREE.Vector2(480,480) }
+    resolution: {type:'f', value: new THREE.Vector2(renderer.getSize().width,renderer.getSize().height) }
 	},
   vertexShader: document.getElementById('vertexShader').textContent,
   fragmentShader: document.getElementById('fragmentShader').textContent
