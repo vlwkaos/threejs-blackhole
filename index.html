@@ -22,33 +22,29 @@
       // Your GLSL vertex shader here...
       /* 
       Default built-in uniforms
-      //= object.matrixWorld
-      uniform mat4 modelMatrix;
-
-      // = camera.matrixWorldInverse * object.matrixWorld
-      uniform mat4 modelViewMatrix;
-
-      // = camera.projectionMatrix
-      uniform mat4 projectionMatrix;
-
-      // = camera.matrixWorldInverse
-      uniform mat4 viewMatrix;
-
-      // = inverse transpose of modelViewMatrix
-      uniform mat3 normalMatrix;
-
-      // = camera position in world space
-      uniform vec3 cameraPosition;
+      uniform mat4 modelMatrix;  //= object.matrixWorld
+      uniform mat4 modelViewMatrix;  // = camera.matrixWorldInverse * object.matrixWorld
+      uniform mat4 projectionMatrix; // = camera.projectionMatrix
+      uniform mat4 viewMatrix;  // = camera.matrixWorldInverse
+      uniform mat3 normalMatrix; // = inverse transpose of modelViewMatrix
+      uniform vec3 cameraPosition; // = camera position in world space
+      // default vertex attributes provided by Geometry and BufferGeometry
+      attribute vec3 position;
+      attribute vec3 normal;
+      attribute vec2 uv;
       */
       
       attribute float vertexDisplacement;
       uniform float delta;
       uniform vec2 resolution;
-      varying vec3 vUv;
+      uniform samplerCube cubeMap;
+      varying vec3 vnormal;
+      varying vec3 veyedir;
 
       void main() 
       {
-          vUv = position;
+          vnormal = normalMatrix * normal;
+          veyedir = vec3(modelViewMatrix * modelMatrix);
           vec3 p = position;
 
 
@@ -62,16 +58,15 @@
       // Your GLSL fragment shader here...
       
       uniform float delta;
-      varying vec3 vUv;
+      uniform samplerCube cubeMap;
+      varying vec3 vnormal;
+      varying vec3 veyedir;
 
       void main() {
-
-          float r = abs(vUv.x);
-          float g = abs(vUv.y);
-          float b = abs(vUv.z);
-          vec3 rgb = vec3(r, g, b);
-
-        gl_FragColor = vec4(rgb, 1.0);
+        vec3 reflectedDirection = normalize(reflect(veyedir, normalize(vnormal)));
+        reflectedDirection.y = -reflectedDirection.y;
+        vec4 fragColor = textureCube(cubeMap, reflectedDirection);
+        gl_FragColor = fragColor;
       }
 
     </script>  
