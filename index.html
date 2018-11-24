@@ -43,12 +43,10 @@
 
       void main() 
       {
-          vnormal = normalMatrix * normal;
+          vnormal = normalize(vec3(vec4(normal,0.0)*modelMatrixInverse)normalMatrix * normal;
           veyedir = vec3(modelViewMatrix * modelMatrix);
-          vec3 p = position;
 
-
-        vec4 MVP = modelViewMatrix * vec4(p, 1.0);
+        vec4 MVP = modelViewMatrix * vec4(position, 1.0);
         gl_Position = projectionMatrix * MVP;
       }
 
@@ -65,9 +63,12 @@
       void main() {
         vec3 fvNormal = normalize(vnormal);
         vec3 fvEyeDir = normalize(veyedir);
-        vec3 reflectedDirection = normalize(reflect(fvEyeDir, fvNormal));
+        
+        float refractiveIndex = 1.5;
+        vec3 refractedDirection = refract(fvEyeDir,fvNormal, 1.0 / refractiveIndex);
+        //vec3 reflectedDirection = normalize(refract(fvEyeDir, fvNormal));
 
-        gl_FragColor = textureCube(cubeMap, reflectedDirection);
+        gl_FragColor = textureCube(cubeMap, refractedDirection);
       }
 
     </script>  

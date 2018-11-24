@@ -88,12 +88,14 @@ window.onload = ()=>{
   
   scene = new THREE.Scene();
   scene.background = new THREE.CubeTextureLoader()
-					.load( [ 'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_ft.JPG?1542862336481', //px
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549',  //nx
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_up.JPG?1542862336350', 
+					.load( [ 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549',  //nx      
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_ft.JPG?1542862336481',
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_up.JPG?1542862336350',              
                   'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_dn.JPG?1542862336411',
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935', 
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_rt.JPG?1542862335631' 
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_rt.JPG?1542862335631',           
+                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935',
+     
                   ] );
   
   
