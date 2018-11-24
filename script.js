@@ -22,7 +22,7 @@ const sceneInit = ()=>{
   let material = new THREE.ShaderMaterial({  
   uniforms: {
     delta: {value: 0},
-    resolution: { value: new THREE.Vector2(window.innerWidth,window.innerHeight) }
+    resolution: {type:'f', value: new THREE.Vector2(480,480) }
 	},
   vertexShader: document.getElementById('vertexShader').textContent,
   fragmentShader: document.getElementById('fragmentShader').textContent
@@ -99,6 +99,8 @@ window.onload = ()=>{
   renderer.setClearColor(0x000000, 1.0);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMapEnabled = true;
+  
+
   
   camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // POV, ratio, start, end
   camera.position.x = 0;
