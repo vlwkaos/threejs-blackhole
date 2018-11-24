@@ -136,9 +136,10 @@ const render = ()=>{
   }
 
   mesh.geometry.attributes.vertexDisplacement.needsUpdate = true;
-  mesh.rotation.y += control.rotationSpeed;
+ 
 
  */
+  mesh.rotation.y += control.rotationSpeed;
   renderer.render( scene, camera );
   
 }
