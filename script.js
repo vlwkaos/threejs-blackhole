@@ -21,8 +21,6 @@ const sceneInit = ()=>{
   
   let material = new THREE.ShaderMaterial({  
   uniforms: {
-    delta: {value: 0},
-    resolution: {value: new THREE.Vector2() }
 	},
   vertexShader: document.getElementById('vertexShader').textContent,
   fragmentShader: document.getElementById('fragmentShader').textContent
