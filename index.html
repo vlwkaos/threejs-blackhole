@@ -19,43 +19,21 @@
   <body>
     
     <script type="x-shader/x-vertex" id="vertexShader">  
-      // Your GLSL vertex shader here...
-      /* 
-      Default built-in uniforms
-      uniform mat4 modelMatrix;  //= object.matrixWorld : 
-      uniform mat4 modelViewMatrix;  // = camera.matrixWorldInverse * object.matrixWorld
-      uniform mat4 projectionMatrix; // = camera.projectionMatrix
-      uniform mat4 viewMatrix;  // = camera.matrixWorldInverse
-      uniform mat3 normalMatrix; // = inverse transpose of modelViewMatrix
-      uniform vec3 cameraPosition; // = camera position in world space
-      // default vertex attributes provided by Geometry and BufferGeometry
-      attribute vec3 position; // gl_Vertex
-      attribute vec3 normal;
-      attribute vec2 uv;
-      */
-
-      uniform float delta;
+      uniform float time;
       uniform vec2 resolution;
-
-      void main() 
-      {
-
-        vec4 MVP = modelViewMatrix * vec4(position, 1.0);
-        gl_Position = projectionMatrix * MVP;
+      void main()	{
+        gl_Position = vec4( position, 1.0 );
       }
 
     </script>
 
     <script type="x-shader/x-fragment" id="fragmentShader">  
-      // Your GLSL fragment shader here...
-    
-      uniform float delta;
-      uniform vec2 resolution;
-      
+      // Ray represents a ray of light's origin and direction
       struct Ray {
         vec3 origin; // Origin
         vec3 direction; // Direction
       };
+
       // Sphere represents of centre and radius of a sphere
       struct Sphere {
         vec3 center;  // Center
@@ -73,6 +51,7 @@
         return color * max(0.0, dot(n, l));
       }
 
+      // https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
       float intersectSphere(in Ray ray, in Sphere sphere) {
         // Sphere center to ray origin
         vec3 co = ray.origin - sphere.center;
@@ -87,49 +66,15 @@
           return -dot(ray.direction, co) - sqrt(discriminant); //
         else
           return -1.; // Any negative number to indicate no intersect
-        }
-
-
-
-      void main() {
-        // Converting all coordinates (x,y) to be in the range [0,1]
-        vec2 uv = ( gl_FragCoord.xy / resolution.xy ) * 2.0 - 1.0;
-        //preserve aspect ratio
-        uv.x *= resolution.x / resolution.y;
-        
-        // The pixel position in 3D space - i.e. the z value, 0.0, is the plane of the screen.
-        vec3 pixelPos = vec3(uv.x, uv.y, 0);
-
-          // The eye position in this example is fixed.
-        vec3 eyePos = vec3(0, 0, -4); // Some distance in front of the screen
-
-        // The ray for the raytrace - which is just intersectSphere in this tutorial
-        vec3 rayDir = normalize(pixelPos - eyePos);
-
-          Sphere sphere = Sphere(vec3(0.0, 0.0, 7.0), 1.0); // Position and size of sphere
-
-        // Does rayDirUnit ray from ndcEye intersect the sphere?
-        float eyeToSphere = intersectSphere(Ray(eyePos, rayDir), sphere);
-
-        // If positive, then we draw a pixel of the sphere
-        if (eyeToSphere >= 0.)
-        {
-          // Choose a diffuse colour
-          vec4 diffuseColour =  vec4(0.,1.,1.,1);
-
-          // Choose an ambient colour
-          vec4 ambientColour =  vec4(0.2,0.,0.,1);
-
-              // Position of a white light
-              vec3 litePos = vec3(3., 0., 0.);
-
-          gl_FragColor = ambientColour + diffuse(eyePos + eyeToSphere * rayDir, sphere.center, diffuseColour, litePos);
-
-        } else
-              // Otherwise we draw the colour of the background
-          gl_FragColor = vec4(0,0,0, 1);
-
-    }
+      }
+      
+      uniform float time;
+      uniform vec2 resolution;
+      void main()	{
+        float x = mod(time + gl_FragCoord.x, 20.) < 10. ? 1. : 0.;
+        float y = mod(time + gl_FragCoord.y, 20.) < 10. ? 1. : 0.;
+        gl_FragColor = vec4(vec3(min(x, y)), 1.);
+      }
 
     </script>  
     

@@ -1,42 +1,24 @@
 /* globals THREE dat Stats*/
-// Following through - http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf
-// Custrom Shader - http://www.ianww.com/blog/2012/12/16/an-introduction-to-custom-shaders-with-three-dot-js/
-
-
-// Start with scene, camera, and renderer
 let s_console = {debugMode: true}
 s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
 
 // Scene drawing
-// My float attribute
 
-let geometry;
-let mesh;
-let vertexDisplacement;
+let material, mesh, uniforms;
 const sceneInit = ()=>{
   //cube
-  geometry = new THREE.PlaneBufferGeometry(renderer.getSize().width,renderer.getSize().height); // rad, 
-  //geometry.addAttribute('vertexDisplacement', new THREE.BufferAttribute(vertexDisplacement, 1));
-  
-  let material = new THREE.ShaderMaterial({  
-  uniforms: {
-	},
-  vertexShader: document.getElementById('vertexShader').textContent,
-  fragmentShader: document.getElementById('fragmentShader').textContent
-});
-  mesh = new THREE.Mesh(geometry, material);
-  mesh.material.transparent = true;
-  scene.add(mesh);
-
-  //light
-  /*
-  var spotLight = new THREE.SpotLight(0xffffff);
-  spotLight.position.set(10, 20, 20);
-  spotLight.castShadow = true;
-  scene.add(spotLight);
-  */
-  
+  uniforms = {
+			time: { type: "f", value: 1.0 },
+			resolution: { type: "v2", value: new THREE.Vector2() }
+	};
+  material = new THREE.ShaderMaterial( {
+			uniforms: uniforms,
+			vertexShader: document.getElementById( 'vertexShader' ).textContent,
+			fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+		});
+  mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material );
+	scene.add( mesh );
 }
 
 // dat.gui
@@ -79,40 +61,26 @@ let renderer;
 window.onload = ()=>{
   
   scene = new THREE.Scene();
-  /*
-  scene.background = new THREE.CubeTextureLoader()
-					.load( [ 
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_bk.JPG?1542862335549',  //nx      
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_ft.JPG?1542862336481',
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_dn.JPG?1542862336411',
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_up.JPG?1542862336350',
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_rt.JPG?1542862335631',           
-                  'https://cdn.glitch.com/96c56fb3-b58a-401e-af23-f19ea072100e%2Fcwd_lf.JPG?1542862335935',
-     
-                  ] );
-  */
-  
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 1.0);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.shadowMapEnabled = true;
-  
 
-  
-  camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 ); // POV, ratio, start, end
+  camera = new THREE.Camera(); // POV, ratio, start, end
   camera.position.x = 0;
   camera.position.y = 0;
   camera.position.z = 1;
-  camera.lookAt(scene.position);
-  
+
   cameraControl = new THREE.OrbitControls(camera,renderer.domElement);
    
   document.body.appendChild( renderer.domElement );
   
   sceneInit();
+  uniforms.resolution.value.x = window.innerWidth;
+	uniforms.resolution.value.y = window.innerHeight
+  
   addStatsGUI();
-  addControlGUI();
+  //addControlGUI();
   render();
 
 }
@@ -120,21 +88,9 @@ var delta=0;
 const render = ()=>{
   
   requestAnimationFrame(render)
-  cameraControl.update();
+  //cameraControl.update();
   stats.update();
-  delta += 0.1;
- /*
-  mesh.material.uniforms.delta.value = 0.5 + Math.sin(delta) * 0.5;
 
-  for (var i = 0; i < vertexDisplacement.length; i ++) {
-      vertexDisplacement[i] = 0.5 + Math.sin(i + delta) * 0.25;
-  }
-
-  mesh.geometry.attributes.vertexDisplacement.needsUpdate = true;
- 
-
- */
-  //mesh.rotation.y += control.rotationSpeed;
   renderer.render( scene, camera );
   
 }
