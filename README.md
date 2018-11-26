@@ -8,10 +8,24 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 Find out more [about Glitch](https://glitch.com/about).
 
 
-three-js-testing-chamber
+three-js-custom-shader-start
 ------------
 My painful attempt at rendering a blackhole using Three.js.
-Work in Progress!
+
+This is a starting template for rendering using fragmentshader only with three.js
+It is like Shadertoy.
+
+
+Help material
+-----------
+**basics of three.js**  
+http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf  
+**basics of shader**  
+https://aerotwist.com/tutorials/an-introduction-to-shaders-part-2/  
+**ray marching**  
+http://barradeau.com/blog/?p=575   
+**basic sphere ray tracing**  
+https://www.shadertoy.com/view/Xdj3zz  
 
 
 
