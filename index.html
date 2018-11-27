@@ -38,21 +38,13 @@ struct Ray {
   vec3 direction; // Direction
 };
 
-// Sphere represents of centre and radius of a sphere
-struct Sphere {
-  vec3 center;  // Center
-  float radius; // Radius
-};
-
-vec3 spherical2spatial(float n, float t, float phi, float u)
-{
-  return (n*cos(phi) + t*sin(phi)) / u
-}
-
-float gfield(float phi){
-  // motion
-  return 
-
+float binet(vec3 r)
+{  
+  // Integrate this for geodesic.
+  float h = 1
+  vec3 n = normalize(r)
+  
+  return (-1.5)*(h^2)*n *r^(-5)
 }
 
 
