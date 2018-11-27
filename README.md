@@ -22,9 +22,9 @@ Help material
 [**basic sphere ray tracing (shader toy)**](https://www.shadertoy.com/view/Xdj3zz)  
 [**ray marching**](http://barradeau.com/blog/?p=575)  
 
-### About Blackhole  
-[**Physics of blackhole**](https://oseiskar.github.io/black-hole/docs/physics.html])  
-[**1**]()
+### More Maths 
+[**Physics of blackhole**](https://oseiskar.github.io/black-hole/docs/physics.html)  
+[**Leapfrog integration**](http://vcg.isti.cnr.it/~tarini/teaching/gamedev2017/03_physics_dynamics.3.pdf)
 
 ------------------
 Made by [Glitch](https://glitch.com/)
