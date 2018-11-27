@@ -8,13 +8,11 @@ Click `Show` in the header to see your app live. Updates to your code will insta
 Find out more [about Glitch](https://glitch.com/about).
 
 
-three-js-custom-shader-start
+three-js-blackhole
 ------------
-My painful attempt at rendering a blackhole using Three.js.
-
-This is a starting template for rendering using fragmentshader only with three.js
-It is like Shadertoy.
-
+1. Use Schwarzchild stationary blackhole with mass=1.
+2. Get spherical coordinates by integration from simplified geodesic equation. 
+3. Change to spatial coordinates
 
 Help material
 -----------
