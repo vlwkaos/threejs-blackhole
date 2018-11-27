@@ -24,6 +24,8 @@ Help material
 
 ### More Maths 
 [**Physics of blackhole**](https://oseiskar.github.io/black-hole/docs/physics.html)  
+
+[**Killing Vector**](https://phys.libretexts.org/TextBooks_and_TextMaps/Relativity/Book%3A_General_Relativity_(Crowell)/7%3A_Symmetries/7.1%3A_Killing_Vectors)  
 [**Leapfrog integration**](http://vcg.isti.cnr.it/~tarini/teaching/gamedev2017/03_physics_dynamics.3.pdf)
 
 ------------------
