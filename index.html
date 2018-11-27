@@ -49,6 +49,13 @@ vec3 spherical2spatial(float n, float t, float phi, float u)
   return (n*cos(phi) + t*sin(phi)) / u
 }
 
+float gfield(float phi){
+  // motion
+
+
+}
+
+
 // https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
 float intersectSphere(in Ray ray, in Sphere sphere) {
   // Sphere center to ray origin
