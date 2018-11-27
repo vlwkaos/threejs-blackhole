@@ -10,8 +10,8 @@ Find out more [about Glitch](https://glitch.com/about).
 
 three-js-blackhole
 ------------
-1. Use Schwarzchild stationary blackhole with mass=1.
-2. Get spherical coordinates by integration from simplified geodesic equation. 
+1. Use stationary Schwarzchild blackhole with mass=1. (gravitational field)
+2. Get spherical coordinates of by integration from simplified geodesic equation. 
 3. Change to spatial coordinates
 
 Help material
