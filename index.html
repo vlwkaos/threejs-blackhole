@@ -44,7 +44,10 @@ struct Sphere {
   float radius; // Radius
 };
 
-vec3 spherical2spatial(float pi, 
+vec3 spherical2spatial(float n, float t, float pi, float u)
+{
+  return (n*cos(pi) + t*sin(pi)) / u
+}
 
 // https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
 float intersectSphere(in Ray ray, in Sphere sphere) {

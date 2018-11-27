@@ -16,11 +16,15 @@ three-js-blackhole
 
 Help material
 -----------
+### Basics  
 [**basics of three.js**](http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf)  
 [**basics of shaders**](https://aerotwist.com/tutorials/an-introduction-to-shaders-part-2/)  
 [**basic sphere ray tracing (shader toy)**](https://www.shadertoy.com/view/Xdj3zz)  
-[**Ray marching**](http://barradeau.com/blog/?p=575)  
+[**ray marching**](http://barradeau.com/blog/?p=575)  
 
+### About Blackhole  
+[**Physics of blackhole**](https://oseiskar.github.io/black-hole/docs/physics.html])  
+[**1**]()
 
 ------------------
 Made by [Glitch](https://glitch.com/)
