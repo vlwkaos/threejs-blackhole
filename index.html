@@ -47,8 +47,6 @@ float binet(vec3 r)
   return (-1.5)*(h^2)*n *r^(-5)
 }
 
-
-// https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
 float intersectSphere(in Ray ray, in Sphere sphere) {
   // Sphere center to ray origin
   vec3 co = ray.origin - sphere.center;
