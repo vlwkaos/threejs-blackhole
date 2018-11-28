@@ -10,10 +10,9 @@ uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 float step_size = 0.02;
-float iterations = 100;
+int iterations = 100;
 // helper functions
-vec2 squareFrame(vec2 screenSize)
-{
+vec2 squareFrame(vec2 screenSize){
   vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
   position.x *= screenSize.x / screenSize.y;
   return position;
@@ -30,23 +29,28 @@ struct Ray {
 };
 
 vec3 leapFrog(vec3 point, vec3 velocity){
-  float h2 = normalize(point*velocity)^2
+  cross(point*velocity)
+  float h2 = pow(normalize(),2.0)
   
-    
-  for 
+  for (int i=0; i<iterations;i++){ 
     point += velocity * step_size;
-    vec3 accel = -1.5 * h2 * point / point^5
+    vec3 accel = -1.5 * h2 * point / pow(point,5.0);
+    velocity += accel * step_size;
+  }
+  
+  return point;
 }
 
 void main()	{
   vec2 uv = squareFrame(resolution);
   vec3 pixelPos = vec3(uv, 0.);
-  
   // The eye position in this example is fixed.
   vec3 eyePos = vec3(0, 0, 0); // Some distance in front of the screen
   // The ray for the raytrace - which is just intersectSphere in this tutorial
   vec3 rayDir = normalize(pixelPos - eyePos);
-  vec2 tex_coord = sphere_map(rayDir*BG_COORDS);
+  
+  vec3 arrival = leapFrog(eyePos, rayDir);
+  vec2 tex_coord = sphere_map(arrival*BG_COORDS);
     
   gl_FragColor = texture2D(bg_texture, tex_coord);
 }
