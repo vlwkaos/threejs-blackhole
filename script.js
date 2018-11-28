@@ -14,18 +14,15 @@ const init = ()=>{
   uniforms = {
 			time: { type: "f", value: 1.0 },
 			resolution: { type: "v2", value: new THREE.Vector2() },
-      bg_texture: {
+      bg_texture: {type: "t", value: bgTex}
 	};
-  
-  uniforms.resolution.value.x = window.innerWidth;
-	uniforms.resolution.value.y = window.innerHeight
-  
   
   material = new THREE.ShaderMaterial( {
 			uniforms: uniforms,
 			vertexShader: document.getElementById( 'vertexShader' ).textContent,
 			fragmentShader: document.getElementById( 'fragmentShader' ).textContent
 		});
+  material.needsUpdate = true;
   mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material );
 	scene.add( mesh );
 }
@@ -80,15 +77,25 @@ window.onload = ()=>{
   
   init();
   addStatsGUI();
-  render();
+  update();
 
 }
-var delta=0;
+
+const update = ()=>{
+  
+  stats.update();
+  updateUniforms();
+  render();
+  requestAnimationFrame(update)
+}
+
+const updateUniforms = ()=>{
+  uniforms.resolution.value.x = window.innerWidth;
+	uniforms.resolution.value.y = window.innerHeight
+  
+}
+
 const render = ()=>{
   
-  requestAnimationFrame(render)
-  stats.update();
-
   renderer.render( scene, camera );
-  
 }
