@@ -33,87 +33,35 @@ uniform vec2 resolution;
 
 uniform sampler2D bg_texture;
 
+
+// Frame to draw on
+vec2 squareFrame(vec2 screenSize)
+{
+  vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
+  position.x *= screenSize.x / screenSize.y;
+  return position;
+}
+
 // Ray represents a ray of light's origin and direction
 struct Ray {
   vec3 origin; // Origin
   vec3 direction; // Direction
 };
 
-float binet(vec3 r)
-{  
-  // Integrate this for geodesic.
-  float h = 1
-  vec3 n = normalize(r)
-  
-  return (-1.5)*(h^2)*n *r^(-5)
-}
 
-float intersectSphere(in Ray ray, in Sphere sphere) {
-  // Sphere center to ray origin
-  vec3 co = ray.origin - sphere.center;
-
-  // The discriminant is negative for a miss, or a postive value
-  // used to calcluate the distance
-  float discriminant = dot(co, ray.direction) * dot(co, ray.direction)
-      - (dot(co, co) - sphere.radius * sphere.radius);
-
-  // If answer is not negative, calculate the origin-surface distance
-  if (discriminant >= 0.0)
-    return -dot(ray.direction, co) - sqrt(discriminant); //
-  else
-    return -1.; // Any negative number to indicate no intersect
-}
 
 
 void main()	{
-  float x = gl_FragCoord.x / resolution.x; // iResolution.x is width in pixels
-  float y = gl_FragCoord.y / resolution.y; // iResolution.y is height in pixels
-
-  // Now convert from coordinate range [0,1] to [-1,1]
-  // This moves pixel (0,0) to the middle of the screen
-  // This coordinate system is a common convention
-  x = x * 2.0 - 1.0;
-  y = y * 2.0 - 1.0;
-
-  // For raytracing, we need a ray - i.e. a direction and a point of origin
-  // The direction is the pixel position minus the eye postition,
-  // which is normalized.
-  // Normailizing makes rayDir a unit of distance (as well as direction)
-
-  // The pixel position in 3D space - i.e. the z value, 0.0, is the plane of the screen.
-  vec3 pixelPos = vec3(x, y, 0);
-  pixelPos.x *= resolution.x/resolution.y;
+  vec2 uv = squareFrame(resolution);
 
   // The eye position in this example is fixed.
   vec3 eyePos = vec3(0, 0, -4); // Some distance in front of the screen
 
-  // The ray for the raytrace - which is just intersectSphere in this tutorial
-  vec3 rayDir = normalize(pixelPos - eyePos);
 
-  Sphere sphere = Sphere(vec3(0.0, 0.0, 7.0), 1.0); // Position and size of sphere
+  // Otherwise we draw the colour of the background
+  gl_FragColor = texture2D(bg_texture, uv);   
 
-  // Does rayDirUnit ray from ndcEye intersect the sphere?
-  float eyeToSphere = intersectSphere(Ray(eyePos, rayDir), sphere);
-
-  // If positive, then we draw a pixel of the sphere
-  if (eyeToSphere >= 0.)
-  {
-    // Choose a diffuse colour
-    vec4 diffuseColour =  vec4(0.,1.,1.,1);
-
-    // Choose an ambient colour
-    vec4 ambientColour =  vec4(0.2,0.,0.,1);
-
-        // Position of a white light
-        vec3 litePos = vec3(3., 0., 0.);
-
-    gl_FragColor = ambientColour + diffuse(eyePos + eyeToSphere * rayDir, sphere.center, diffuseColour, litePos);
-
-  } else
-        // Otherwise we draw the colour of the background
-    gl_FragColor = vec4(0, 0, 0, 1);        
-
-  }
+}
 
     </script>  
     
