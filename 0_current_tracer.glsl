@@ -1,6 +1,8 @@
 #define M_PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (M_PI/180.0)
+#define STEP 0.02
+#define ITER 100
 
 uniform float time;
 uniform vec2 resolution;
@@ -9,8 +11,6 @@ uniform vec2 resolution;
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
-float step_size = 0.02;
-int iterations = 100;
 // helper functions
 vec2 squareFrame(vec2 screenSize){
   vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
@@ -29,13 +29,13 @@ struct Ray {
 };
 
 vec3 leapFrog(vec3 point, vec3 velocity){
-  cross(point*velocity)
-  float h2 = pow(normalize(),2.0)
+  vec3 c = cross(point,velocity);
+  float h2 = normalize(c)*normalize(c)
   
-  for (int i=0; i<iterations;i++){ 
-    point += velocity * step_size;
-    vec3 accel = -1.5 * h2 * point / pow(point,5.0);
-    velocity += accel * step_size;
+  for (int i=0; i<ITER;i++){ 
+    point += velocity * STEP;
+    vec3 accel = -1.5 * h2 * point / (point*point*point*point*point);
+    velocity += accel * STEP;
   }
   
   return point;
@@ -50,7 +50,7 @@ void main()	{
   vec3 rayDir = normalize(pixelPos - eyePos);
   
   vec3 arrival = leapFrog(eyePos, rayDir);
-  vec2 tex_coord = sphere_map(arrival*BG_COORDS);
+  vec2 tex_coord = sphereMap(arrival*BG_COORDS);
     
   gl_FragColor = texture2D(bg_texture, tex_coord);
 }
