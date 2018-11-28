@@ -1,8 +1,6 @@
 three-js-blackhole
 =======
-1. Use stationary Schwarzchild blackhole with mass=1. (gravitational field)  천체 주위의 물체의 운동을 계산 
-2. Get spherical coordinates of by integration from simplified geodesic equation. 
-3. Change to spatial coordinates
+Look at note files for more information.
 
 Help material
 -----------
