@@ -6,12 +6,21 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 // Scene drawing
 
 let material, mesh, uniforms;
-const sceneInit = ()=>{
-  //cube
+
+const init = ()=>{
+  textureLoader = new THREE.TextureLoader();
+  let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
+  
   uniforms = {
 			time: { type: "f", value: 1.0 },
-			resolution: { type: "v2", value: new THREE.Vector2() }
+			resolution: { type: "v2", value: new THREE.Vector2() },
+      bg_texture: {
 	};
+  
+  uniforms.resolution.value.x = window.innerWidth;
+	uniforms.resolution.value.y = window.innerHeight
+  
+  
   material = new THREE.ShaderMaterial( {
 			uniforms: uniforms,
 			vertexShader: document.getElementById( 'vertexShader' ).textContent,
@@ -53,13 +62,11 @@ const addControlGUI = ()=>{
 
 }
 
-let scene;
-let camera;
-let cameraControl;
-let renderer;
-// 
+let scene, camera, renderer;
+let textureLoader;
 window.onload = ()=>{
   
+  //
   scene = new THREE.Scene();
 
   renderer = new THREE.WebGLRenderer();
@@ -67,20 +74,12 @@ window.onload = ()=>{
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   camera = new THREE.Camera(); // POV, ratio, start, end
-  camera.position.x = 0;
-  camera.position.y = 0;
   camera.position.z = 1;
-
-  cameraControl = new THREE.OrbitControls(camera,renderer.domElement);
-   
+  
   document.body.appendChild( renderer.domElement );
   
-  sceneInit();
-  uniforms.resolution.value.x = window.innerWidth;
-	uniforms.resolution.value.y = window.innerHeight
-  
+  init();
   addStatsGUI();
-  //addControlGUI();
   render();
 
 }
@@ -88,7 +87,6 @@ var delta=0;
 const render = ()=>{
   
   requestAnimationFrame(render)
-  //cameraControl.update();
   stats.update();
 
   renderer.render( scene, camera );
