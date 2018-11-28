@@ -6,7 +6,7 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 // Scene drawing
 
 let material, mesh, uniforms;
-
+const loader = new THREE.FileLoader();
 const init = ()=>{
   textureLoader = new THREE.TextureLoader();
   let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
@@ -19,12 +19,16 @@ const init = ()=>{
   
   material = new THREE.ShaderMaterial( {
 			uniforms: uniforms,
-			vertexShader: document.getElementById( 'vertexShader' ).textContent,
-			fragmentShader: 
+			vertexShader: document.getElementById( 'vertexShader' ).textContent
 		});
-  material.needsUpdate = true;
-  mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material );
-	scene.add( mesh );
+  loader.load('0_current_tracer.glsl', (data)=>{
+    material.fragmentShader = data;
+    material.fragmentShader.needsUpdate = true;
+    material.needsUpdate = true;
+    mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material );
+  	scene.add( mesh );   
+  });
+  
 }
 
 // dat.gui
