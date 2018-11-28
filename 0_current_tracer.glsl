@@ -2,7 +2,7 @@
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (M_PI/180.0)
 #define STEP 0.02
-#define ITER 100
+#define ITER 1
 
 uniform float time;
 uniform vec2 resolution;
@@ -30,11 +30,11 @@ struct Ray {
 
 vec3 leapFrog(vec3 point, vec3 velocity){
   vec3 c = cross(point,velocity);
-  float h2 = normalize(c)*normalize(c)
+  float h2 = normalize(dot(c,c));
   
   for (int i=0; i<ITER;i++){ 
     point += velocity * STEP;
-    vec3 accel = -1.5 * h2 * point / (point*point*point*point*point);
+    vec3 accel = -1.5 * h2 * point / dot(dot(point,point)*point*point*point);
     velocity += accel * STEP;
   }
   
@@ -45,7 +45,7 @@ void main()	{
   vec2 uv = squareFrame(resolution);
   vec3 pixelPos = vec3(uv, 0.);
   // The eye position in this example is fixed.
-  vec3 eyePos = vec3(0, 0, 0); // Some distance in front of the screen
+  vec3 eyePos = vec3(0, 0, -0.5); // Some distance in front of the screen
   // The ray for the raytrace - which is just intersectSphere in this tutorial
   vec3 rayDir = normalize(pixelPos - eyePos);
   

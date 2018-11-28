@@ -88,6 +88,7 @@ window.onload = ()=>{
 const update = ()=>{
   
   stats.update();
+  renderer.setSize(window.innerWidth, window.innerHeight);
   updateUniforms();
   render();
   requestAnimationFrame(update)
