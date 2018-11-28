@@ -20,7 +20,7 @@ const init = ()=>{
   material = new THREE.ShaderMaterial( {
 			uniforms: uniforms,
 			vertexShader: document.getElementById( 'vertexShader' ).textContent,
-			fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+			fragmentShader: 
 		});
   material.needsUpdate = true;
   mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material );
