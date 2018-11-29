@@ -8,9 +8,11 @@
 uniform float time;
 uniform vec2 resolution;
 
-
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
+
+const float FOV_ANGLE_DEG = 90.0;
+float FOV_MULT = 1.0 / tan(DEG_TO_RAD * FOV_ANGLE_DEG*0.5);
 
 // helper functions
 vec2 squareFrame(vec2 screenSize){
@@ -50,8 +52,11 @@ vec3 leapFrog(vec3 point, vec3 velocity){
 }
 
 void main()	{
-  vec2 uv = squareFrame(resolution);
+  vec2 p  squareFrame(resolution);
   
+  // cam position
+  vec3 pos = vec3(0,0,-10);
+  vec3 ray = normalize(p.x*
   vec3 pixelPos = vec3(uv,0.);
   
   
