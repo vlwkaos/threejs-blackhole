@@ -76,18 +76,10 @@ void main()	{
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),5.0);
     velocity += accel * STEP;    
-    if (length(point) > 1.0) break;
   }
-  if (length(point) < 1.0){
-      // did not escape
-     gl_FragColor = vec4(0.,0.,0.,1.);
-      
-  } else {
-    
-    velocity = normalize(point - old_point); 
-    vec2 tex_coord = sphereMap(velocity * BG_COORDS);  
-    gl_FragColor = texture2D(bg_texture, tex_coord);
-  }
+  velocity = normalize(point - old_point); 
+  vec2 tex_coord = sphereMap(velocity * BG_COORDS);  
+  gl_FragColor = texture2D(bg_texture, tex_coord);
   //color intesection
   
 }
