@@ -19,6 +19,7 @@ Help material
 -[Proper Time]()
 
 http://jila.colorado.edu/~ajsh/insidebh/schw.html
+https://arxiv.org/pdf/0911.2187.pdf
 
 [**Leapfrog integration**](http://vcg.isti.cnr.it/~tarini/teaching/gamedev2017/03_physics_dynamics.3.pdf)
 
