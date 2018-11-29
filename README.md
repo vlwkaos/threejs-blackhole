@@ -18,7 +18,7 @@ Help material
 -[Binet Equation](https://en.wikipedia.org/wiki/Binet_equation)  
 -[Proper Time]()
 
-
+http://jila.colorado.edu/~ajsh/insidebh/schw.html
 
 [**Leapfrog integration**](http://vcg.isti.cnr.it/~tarini/teaching/gamedev2017/03_physics_dynamics.3.pdf)
 
