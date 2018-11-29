@@ -1,7 +1,7 @@
 #define M_PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (M_PI/180.0)
-#define STEP 0.2
+#define STEP 0.02
 #define NITER 50
 #define SPEED 1
 
@@ -33,10 +33,6 @@ struct Ray {
   vec3 direction; // Direction
 };
 
-struct Sphere{
-  vec3 position;
-  float radius;
-};
 
 vec3 lorentz_velocity_transformation(vec3 moving_v, vec3 frame_v) {
     float v = length(frame_v);
@@ -54,6 +50,22 @@ vec3 lorentz_velocity_transformation(vec3 moving_v, vec3 frame_v) {
 }
 
 vec3 leapFrog(vec3 point, vec3 velocity){
+ 
+  
+  return point;
+}
+
+void main()	{
+  vec2 p = squareFrame(resolution);
+  vec3 pixel_pos = vec3(p.xy, 0.);
+    
+  // cam position
+  vec3 cam_pos = vec3(0,0,-4);
+
+  //leap frog
+  vec3 point = pixel_pos;
+  vec3 velocity = normalize(cam_pos - point);
+  
   vec3 c = cross(point,velocity);
   float h2 = normalize(dot(c,c));
   
@@ -63,27 +75,13 @@ vec3 leapFrog(vec3 point, vec3 velocity){
     
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
-    velocity += accel * STEP;
+    velocity += accel * STEP;    
     
+    if (length(point)
   }
-  
-  return point;
-}
 
-void main()	{
-  vec2 p = squareFrame(resolution);
+  vec3 ray = normalize(point - old_point); 
   
-  // cam position
-  vec3 pos = vec3(0,0,-10);
-  // ray position
-  vec3 ray = normalize(vec3(p.x*pos.x, p.y*pos.y, FOV_MULT*pos.z));
-  
-  //ray = lorentz_velocity_transformation(ray, vec3(0.)) // ray, cam_vel
-  vec3 ray_dir = normalize(ray - pos);
-  
-  //vec3 arrival = leapFrog(eyePos, rayDir);
-  
-
   vec2 tex_coord = sphereMap(ray*BG_COORDS);
   gl_FragColor = texture2D(bg_texture, tex_coord);
 
