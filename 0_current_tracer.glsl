@@ -16,6 +16,7 @@ float FOV_MULT = 1.0 / tan(DEG_TO_RAD * FOV_ANGLE_DEG*0.5);
 
 // helper functions
 vec2 squareFrame(vec2 screenSize){
+  
   vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
   position.x *= screenSize.x / screenSize.y;
   return position;
@@ -41,7 +42,10 @@ vec3 leapFrog(vec3 point, vec3 velocity){
   vec3 c = cross(point,velocity);
   float h2 = normalize(dot(c,c));
   
+  vec3 old_point = point;
   for (int i=0; i<NITER;i++){ 
+    old_point = point;
+    
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;
@@ -60,7 +64,7 @@ void main()	{
   vec3 ray = normalize(p.x*pos.x + p.y*pos.y + FOV_MULT*pos.z);
   
   vec4 color = vec4(0.0,0.0,0.0,1.0);
-  vec3 rayDir = normalize(ray - pos);
+  vec3 ray_dir = normalize(ray - pos);
   
   vec3 arrival = leapFrog(eyePos, rayDir);
   
