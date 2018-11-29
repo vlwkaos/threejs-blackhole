@@ -2,7 +2,7 @@
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (M_PI/180.0)
 #define STEP 0.02
-#define NITER 10
+#define NITER 40
 #define SPEED 1
 
 uniform float time;
@@ -43,7 +43,8 @@ vec3 leapFrog(vec3 point, vec3 velocity){
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;
-    if (length(point) >1.0) return point;
+    
+    if (length(point) >1.0) return point; // outside 
   }
   
   return point;
@@ -52,9 +53,11 @@ vec3 leapFrog(vec3 point, vec3 velocity){
 void main()	{
   vec2 uv = squareFrame(resolution);
   
-  vec3 pixelPos = vec3(uv, 0.);
+  vec3 pixelPos = vec3(uv,0.);
+  
+  
   // The eye position in this example is fixed.
-  vec3 eyePos = vec3(0, 0, -.3); // Some distance in front of the screen
+  vec3 eyePos = vec3(0, 0, -4); // Some distance in front of the screen
   // The ray for the raytrace - which is just intersectSphere in this tutorial
   vec3 rayDir = normalize(pixelPos - eyePos);
   
@@ -63,7 +66,7 @@ void main()	{
   if (length(arrival) < 1.0){
      vec2 tex_coord = sphereMap(rayDir*BG_COORDS);
     gl_FragColor = texture2D(bg_texture, tex_coord);
-  } else{
+  } else { // black
      vec2 tex_coord = sphereMap(arrival*BG_COORDS);
     gl_FragColor = texture2D(bg_texture, tex_coord);
     
