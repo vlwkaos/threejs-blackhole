@@ -2,7 +2,7 @@
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (M_PI/180.0)
 #define STEP 0.02
-#define NITER 50
+#define NITER 10
 #define SPEED 1
 
 uniform float time;
@@ -60,35 +60,34 @@ void main()	{
   vec3 pixel_pos = vec3(p.xy, 0.);
     
   // cam position
-  vec3 cam_pos = vec3(0,0,-4);
+  vec3 cam_pos = vec3(0,0,-5);
 
   //leap frog
   vec3 point = pixel_pos;
   vec3 velocity = normalize(cam_pos - point);
   
   vec3 c = cross(point,velocity);
-  float h2 = normalize(dot(c,c));
+  float h2 = pow(normalize(dot(c,c)), 2.0);
   
   vec3 old_point = point;
   for (int i=0; i<NITER;i++){ 
     old_point = point;
     
     point += velocity * STEP;
-    vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
+    vec3 accel = -1.5 * h2 * point / pow(dot(point,point),5.0);
     velocity += accel * STEP;    
-    
-    if (length(point)
+    if (length(point) > 1.0) break;
   }
-
-  vec3 ray = normalize(point - old_point); 
-  
-  vec2 tex_coord = sphereMap(ray*BG_COORDS);
-  gl_FragColor = texture2D(bg_texture, tex_coord);
-
-  
- 
+  if (length(point) < 1.0){
+      // did not escape
+     gl_FragColor = vec4(0.,0.,0.,1.);
+      
+  } else {
     
-  
+    velocity = normalize(point - old_point); 
+    vec2 tex_coord = sphereMap(velocity * BG_COORDS);  
+    gl_FragColor = texture2D(bg_texture, tex_coord);
+  }
   //color intesection
   
 }
