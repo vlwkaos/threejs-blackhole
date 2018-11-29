@@ -52,18 +52,15 @@ vec3 leapFrog(vec3 point, vec3 velocity){
 }
 
 void main()	{
-  vec2 p  squareFrame(resolution);
+  vec2 p = squareFrame(resolution);
   
   // cam position
   vec3 pos = vec3(0,0,-10);
-  vec3 ray = normalize(p.x*
-  vec3 pixelPos = vec3(uv,0.);
+  // ray position
+  vec3 ray = normalize(p.x*pos.x + p.y*pos.y + FOV_MULT*pos.z);
   
-  
-  // The eye position in this example is fixed.
-  vec3 eyePos = vec3(0, 0, -5); // Some distance in front of the screen
-  // The ray for the raytrace - which is just intersectSphere in this tutorial
-  vec3 rayDir = normalize(pixelPos - eyePos);
+  vec4 color = vec4(0.0,0.0,0.0,1.0);
+  vec3 rayDir = normalize(ray - pos);
   
   vec3 arrival = leapFrog(eyePos, rayDir);
   
