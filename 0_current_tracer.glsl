@@ -38,6 +38,21 @@ struct Sphere{
   float radius;
 };
 
+vec3 lorentz_velocity_transformation(vec3 moving_v, vec3 frame_v) {
+    float v = length(frame_v);
+    if (v > 0.0) {
+        vec3 v_axis = -frame_v / v;
+        float gamma = 1.0/sqrt(1.0 - v*v);
+
+        float moving_par = dot(moving_v, v_axis);
+        vec3 moving_perp = moving_v - v_axis*moving_par;
+
+        float denom = 1.0 + v*moving_par;
+        return (v_axis*(moving_par+v)+moving_perp/gamma)/denom;
+    }
+    return moving_v;
+}
+
 vec3 leapFrog(vec3 point, vec3 velocity){
   vec3 c = cross(point,velocity);
   float h2 = normalize(dot(c,c));
@@ -61,16 +76,16 @@ void main()	{
   // cam position
   vec3 pos = vec3(0,0,-10);
   // ray position
-  vec3 ray = normalize(p.x*pos.x + p.y*pos.y + FOV_MULT*pos.z);
+  vec3 ray = normalize(vec3(p.x*pos.x, p.y*pos.y, FOV_MULT*pos.z));
   
-  vec4 color = vec4(0.0,0.0,0.0,1.0);
+  //ray = lorentz_velocity_transformation(ray, vec3(0.)) // ray, cam_vel
   vec3 ray_dir = normalize(ray - pos);
   
-  vec3 arrival = leapFrog(eyePos, rayDir);
+  //vec3 arrival = leapFrog(eyePos, rayDir);
   
 
-     vec2 tex_coord = sphereMap(arrival*BG_COORDS);
-    gl_FragColor = texture2D(bg_texture, tex_coord);
+  vec2 tex_coord = sphereMap(ray*BG_COORDS);
+  gl_FragColor = texture2D(bg_texture, tex_coord);
 
   
  

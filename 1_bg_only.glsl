@@ -33,10 +33,10 @@ void main()	{
   vec3 pixelPos = vec3(uv, 0.);
   
   // The eye position in this example is fixed.
-  vec3 eyePos = vec3(0, 0, 0.1); // Some distance in front of the screen
+  vec3 eyePos = vec3(0, 0, 1); // Some distance in front of the screen
 
   // The ray for the raytrace - which is just intersectSphere in this tutorial
-  vec3 rayDir = normalize(pixelPos - eyePos);
+  vec3 rayDir = normalize(eyePos-pixelPos);
   vec2 tex_coord = sphere_map(rayDir*BG_COORDS);
     
   gl_FragColor = texture2D(bg_texture, tex_coord);
