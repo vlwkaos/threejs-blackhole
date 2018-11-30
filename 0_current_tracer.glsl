@@ -1,8 +1,8 @@
 #define PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (PI/180.0)
-#define STEP 0.2
-#define NITER 50
+#define STEP 0.1
+#define NITER 100
 #define SPEED 1
 
 
@@ -64,29 +64,33 @@ void main()	{
   vec3 c = cross(point,velocity);
   float h2 = normalize(dot(c,c));
   
-  vec3 oldPoint = point;
+  vec3 oldPoint; 
+  float pointsqr;
   for (int i=0; i<NITER;i++){ 
     oldPoint = point; // for finding intersection
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
+    
+     pointsqr = dot(point,point);
+    if (pointsqr < 1.) break;
   }
   
   vec2 tex_coord = sphereMap(normalize(point-oldPoint) * BG_COORDS);
   color+=texture2D(bg_texture, tex_coord);
   
   
-  float pointsqr = dot(point,point);
+ 
   float oldpointsqr = dot(oldPoint,oldPoint);
   
-  bool horizonMask = pointsqr < 1.;// && oldpointsqr > 1.;
+  bool horizonMask = pointsqr < 1. ;
   // does it enter event horizon?
   if (horizonMask) {
     float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     
     
-    color += vec4(1.0,0.,0.,1.0);
+    color = vec4(0.,0.,0.,1.0);
   }
   
 
