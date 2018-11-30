@@ -1,9 +1,18 @@
-#define M_PI 3.141592653589793238462643383279
+#define PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (M_PI/180.0)
 #define STEP 0.02
 #define NITER 10
 #define SPEED 1
+
+const vec3 cameraPosition = vec3(0.0, 0.0, 10.0);
+const vec3 cameraDirection = vec3(0.0, 0.0, -1.0);
+const vec3 cameraUp = vec3(0.0, 1.0, 0.0);
+const float fov = 90.0;
+const float fovx = PI * fov / 360.0;
+float fovy = fovx * resolution.y/resolution.x;
+float ulen = tan(fovx);
+float vlen = tan(fovy);
 
 uniform float time;
 uniform vec2 resolution;
