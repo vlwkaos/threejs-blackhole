@@ -12,3 +12,4 @@ https://en.wikipedia.org/wiki/Spherical_coordinate_system
 https://en.wikipedia.org/wiki/Killing_vector_field  
 https://physics.stackexchange.com/questions/39124/what-is-a-killing-vector-field  
 https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)  
+http://www.ita.uni-heidelberg.de/~massimo/sub/Lectures/gl_all.pdf  
