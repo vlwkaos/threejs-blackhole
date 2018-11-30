@@ -56,7 +56,7 @@ void main()	{
   // initial color
   vec4 color = vec4(0.2,0.0,0.3,0.4);
 
-  /*
+  
   // geodesic by leapfrog integration
   vec3 point = cameraPosition;
   vec3 velocity = rayDirection;
@@ -65,16 +65,26 @@ void main()	{
   
   vec3 oldPoint = point;
   for (int i=0; i<NITER;i++){ 
-    oldPoint = point;
-    
+    oldPoint = point; // for finding intersection
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
   }
   
-  pointsqr = sqrnorm(point)
-  oldpointsqr
-  */
+  float pointsqr = dot(point,point);
+  float oldpointsqr = dot(oldPoint,oldPoint);
+  
+  bool horizonMask = pointsqr < 1. && dot(oldPoint,oldPoint) > 1.;
+  // does it enter event horizon?
+  if (horizonMask) {
+    float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
+    //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
+    
+    vec4 horizonColor = vec4(0., 0., 0., horizonMask);
+    color = blendColors(horizonColor);
+  }
+  
+  
   
   gl_FragColor = color;
   //color intesection
