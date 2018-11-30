@@ -4,11 +4,6 @@ Look at note files for more information.
 
 Help material
 -----------
-### Basics  
-[**basics of three.js**](http://www.dominictran.com/pdf/ThreeJS.Essentials.PACKT.pdf)  
-[**basics of shaders**](https://aerotwist.com/tutorials/an-introduction-to-shaders-part-2/)  
-[**basic sphere ray tracing (shader toy)**](https://www.shadertoy.com/view/Xdj3zz)  
-[**ray marching**](http://barradeau.com/blog/?p=575)  
 
 ### More Maths 
 [**Example 1**](https://github.com/oseiskar/black-hole)  

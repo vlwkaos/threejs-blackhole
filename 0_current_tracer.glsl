@@ -10,7 +10,7 @@ uniform float time;
 uniform vec2 resolution;
 
 uniform sampler2D bg_texture;
-mat3 BG_COORDS = ROT_Y(90.0 * DEG_TO_RAD);
+mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 // helper functions
 vec3 blendColors(vec3 colorB, float alphaB, vec3 colorA, float alphaA){
