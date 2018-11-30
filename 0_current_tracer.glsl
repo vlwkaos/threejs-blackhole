@@ -16,8 +16,12 @@ const float FOV_ANGLE_DEG = 90.0;
 float FOV_MULT = 1.0 / tan(DEG_TO_RAD * FOV_ANGLE_DEG*0.5);
 
 // helper functions
-vec4 blendColors(vec4 cb, vec4 ca){
- return ca+cb*(cb.w*(1.0-ca.w)); 
+vec3 blendColors(vec3 colorB, float alphaB, vec3 colorA, float alphaA){
+ return colorA+colorB*(alphaB*(1.-alphaA)); 
+}
+
+float blendAlphas(float alphaB, float alphaA){
+  return (alphaA+alphaB*(1.-alphaA));
 }
 
 vec2 squareFrame(vec2 screenSize){
@@ -34,7 +38,7 @@ vec2 sphereMap(vec3 p){
 
 
 void main()	{
-  vec3 cameraPosition = vec3(0.0, 0.0, 10.0);
+  vec3 cameraPosition = vec3(0.0, 0.0, 5.0);
   vec3 cameraDirection = vec3(0.0, 0.0, -1.0);
   vec3 cameraUp = vec3(0.0, 1.0, 0.0);
   float fov = 90.0;
@@ -54,8 +58,8 @@ void main()	{
   vec3 rayDirection = normalize(pixelPos - cameraPosition);
 
   // initial color
-  vec4 color = vec4(0.2,0.0,0.3,0.4);
-
+  vec3 color = vec3(1.0,0.0,0.0);
+  float alpha = 0.5;
   
   // geodesic by leapfrog integration
   vec3 point = cameraPosition;
@@ -80,13 +84,15 @@ void main()	{
     float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     
-    vec4 horizonColor = vec4(0., 0., 0., horizonMask);
-    color = blendColors(horizonColor);
+    vec3 horizonColor = vec3(0.);
+    float horizonAlpha = 1.0;
+    color = blendColors(horizonColor, horizonAlpha, color, alpha);
+    alpha = blendAlphas(horizonAlpha, alpha);
   }
   
   
   
-  gl_FragColor = color;
+  gl_FragColor = vec4(color,alpha);
   //color intesection
   
 }
