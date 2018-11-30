@@ -18,8 +18,9 @@ Help material
 -[Binet Equation](https://en.wikipedia.org/wiki/Binet_equation)  
 -[Proper Time]()
 
-http://jila.colorado.edu/~ajsh/insidebh/schw.html
-https://arxiv.org/pdf/0911.2187.pdf
+http://jila.colorado.edu/~ajsh/insidebh/schw.html  
+https://arxiv.org/pdf/0911.2187.pdf  
+https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)  
 
 [**Leapfrog integration**](http://vcg.isti.cnr.it/~tarini/teaching/gamedev2017/03_physics_dynamics.3.pdf)
 
