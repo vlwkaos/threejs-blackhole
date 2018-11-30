@@ -1,9 +1,9 @@
-Deriving simple form  
+Deriving simple geodesic
 ---------------------
 http://spiro.fisica.unipd.it/~antonell/schwarzschild/  
 http://rantonels.github.io/starless/  
 
-Understanding the physics
+Related the physics and maths
 ------------------
 https://en.wikipedia.org/wiki/Schwarzschild_geodesics  
 https://en.wikipedia.org/wiki/Schwarzschild_metric#Singularities_and_black_holes  
