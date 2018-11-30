@@ -1,7 +1,7 @@
 #define PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (PI/180.0)
-#define STEP 0.02
+#define STEP 0.1
 #define NITER 50
 #define SPEED 1
 
@@ -11,9 +11,6 @@ uniform vec2 resolution;
 
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
-
-const float FOV_ANGLE_DEG = 90.0;
-float FOV_MULT = 1.0 / tan(DEG_TO_RAD * FOV_ANGLE_DEG*0.5);
 
 // helper functions
 vec3 blendColors(vec3 colorB, float alphaB, vec3 colorA, float alphaA){
@@ -58,9 +55,10 @@ void main()	{
   vec3 rayDirection = normalize(pixelPos - cameraPosition);
 
   // initial color
-  vec3 color = vec3(1.0,0.0,0.0);
-  float alpha = 0.5;
+  vec3 color = vec3(0.0,0.0,0.0);
+  float alpha = 1.0;
   
+
   // geodesic by leapfrog integration
   vec3 point = cameraPosition;
   vec3 velocity = rayDirection;
@@ -90,7 +88,9 @@ void main()	{
     alpha = blendAlphas(horizonAlpha, alpha);
   }
   
-  
+  vec2 tex_coord = sphereMap(normalize(point-oldPoint) * BG_COORDS);
+  color+=texture2D(bg_texture, tex_coord).xyz;
+  alpha+=
   
   gl_FragColor = vec4(color,alpha);
   //color intesection
