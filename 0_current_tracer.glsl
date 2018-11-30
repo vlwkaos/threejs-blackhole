@@ -10,7 +10,7 @@ uniform float time;
 uniform vec2 resolution;
 
 uniform sampler2D bg_texture;
-mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
+mat3 BG_COORDS = ROT_Y(90.0 * DEG_TO_RAD);
 
 // helper functions
 vec3 blendColors(vec3 colorB, float alphaB, vec3 colorA, float alphaA){
@@ -34,8 +34,8 @@ vec2 sphereMap(vec3 p){
 
 
 void main()	{
-  vec3 cameraPosition = vec3(0.0, 0.0, 10.0);
-  vec3 cameraDirection = vec3(0.0, 0.0, -1.0);
+  vec3 cameraPosition = vec3(0.0, 0.0, 7.0);
+  vec3 cameraDirection = normalize(vec3(0.0, 0.0, -1.0));
   vec3 cameraUp = vec3(0.0, 1.0, 0.0);
   float fov = 90.0;
   float fovx = PI * fov / 360.0;
