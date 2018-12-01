@@ -1,6 +1,6 @@
-#define M_PI 3.141592653589793238462643383279
+#define PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
-#define DEG_TO_RAD (M_PI/180.0)
+#define DEG_TO_RAD (PI/180.0)
 
 uniform float time;
 uniform vec2 resolution;
@@ -18,7 +18,7 @@ vec2 squareFrame(vec2 screenSize)
 }
 
 vec2 sphere_map(vec3 p){
-  return vec2(atan(p.x,p.y)/M_PI*0.5+0.5, asin(p.z)/M_PI+0.5);
+  return vec2(atan(p.x,p.y)/PI*0.5+0.5, asin(p.z)/PI+0.5);
 }
 
 // Ray represents a ray of light's origin and direction
