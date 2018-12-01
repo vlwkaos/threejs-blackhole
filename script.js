@@ -2,15 +2,6 @@
 let s_console = {debugMode: true}
 s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
-class Observer {
-  constructor(){
-    this.position = new THREE.Vector3();
-    this.direction = new THREE.Vector3();
-    this.up = new THREE.Vector3();
-    this.fov = 45.0;
-  }
-  
-}
 
 // Scene drawing
 let material, mesh, uniforms;
@@ -21,11 +12,12 @@ const init = ()=>{
 
   let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
 
+  // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2() },
     cam_pos: {type:"v3", value: new THREE.Vector3() },
-    cam_dir: {type:"v3", value: new THREE.Vector3()},
+    cam_lookat: {type:"m4", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"v3", value: new THREE.Vector3()},
     bg_texture: {type: "t", value: bgTex}
@@ -89,11 +81,13 @@ window.onload = ()=>{
   camera = new THREE.Camera(); 
   camera.position.z = 1;
   
-  observer = new Observer();
-  observer.position.set(0,0,7);
-  observer.direction.set(0,0,-1);
-  observer.up.set(0,1,0);
+  observer = new THREE.Camera();
+  observer.position = new THREE.Vector3(0,0,7);
+  observer.up = new THREE.Vector3(0,1,0);
+  observer.lookAt(0,0,0);
   observer.fov = 90.0;
+  
+  scene.add(observer);
   
   document.body.appendChild( renderer.domElement );
   
@@ -116,13 +110,10 @@ const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
 	uniforms.resolution.value.y = window.innerHeight;
   uniforms.cam_pos.value = observer.position;
-  uniforms.cam_pos.needsUpdate = true;
   uniforms.cam_dir.value = observer.direction;
-  uniforms.cam_dir.needsUpdate = true;
   uniforms.cam_up.value = observer.up;
-  uniforms.cam_up.needsUpdate = true;
   uniforms.fov.value = observer.fov;
-  uniforms.fov.needsUpdate = true;
+
 }
 
 const render = ()=>{
