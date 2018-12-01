@@ -2,6 +2,15 @@
 let s_console = {debugMode: true}
 s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
+class Observer {
+  constructor(fov, ar, n, f){
+    this.prototype = new THREE.PerspectiveCamera(fov,ar,n,f); 
+    this.position = new THREE.Vector3();
+    this.direction = new THREE.Vector3();
+    this.up = new THREE.Vector3();
+  }
+  
+}
 
 // Scene drawing
 let material, mesh, uniforms;
@@ -67,6 +76,7 @@ const addControlGUI = ()=>{
 }
 
 let scene, camera, renderer;
+let observer;
 window.onload = ()=>{
   
   //
@@ -76,8 +86,13 @@ window.onload = ()=>{
   renderer.setClearColor(0x000000, 1.0);
   renderer.setSize(window.innerWidth/2, window.innerHeight/2); // res
 
-  camera = new THREE.Camera(); // POV, ratio, start, end
+  camera = new THREE.Camera(); 
   camera.position.z = 1;
+  
+  observer = new Observer(90.0, window.innerWidth/window.innerHeight, 1,1000);
+  observer.position.set(0,0,7);
+  observer.direction.set(0,0,-1);
+  observer.up.set(0,1,0);
   
   document.body.appendChild( renderer.domElement );
   
@@ -99,13 +114,13 @@ const update = ()=>{
 const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
 	uniforms.resolution.value.y = window.innerHeight;
-  uniforms.cam_pos.value.set(0,0,7);
+  uniforms.cam_pos.value = observer.position;
   uniforms.cam_pos.needsUpdate = true;
-  uniforms.cam_dir.value.set(0,0,-1);
+  uniforms.cam_dir.value = observer.direction;
   uniforms.cam_dir.needsUpdate = true;
-  uniforms.cam_up.value.set(0,1,0);
+  uniforms.cam_up.value = observer.up;
   uniforms.cam_up.needsUpdate = true;
-  uniforms.fov.value = 90.0;
+  uniforms.fov.value = observer.fov;
   uniforms.fov.needsUpdate = true;
 }
 

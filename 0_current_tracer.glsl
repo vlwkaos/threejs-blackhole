@@ -9,12 +9,12 @@
 
 uniform float time;
 uniform vec2 resolution;
-/*
+
 uniform vec3 cam_pos;
 uniform vec3 cam_dir;
 uniform vec3 cam_up;
-float fov;
-*/
+uniform float fov;
+
 
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
@@ -31,11 +31,6 @@ vec2 sphereMap(vec3 p){
 
 
 void main()	{
-  uniform vec3 cam_pos;
-uniform vec3 cam_dir;
-niform vec3 cam_up;
-  float fov;
-
   float hfov = fov / 2. * DEG_TO_RAD;
   float ulen = tan(hfov);
   float vfov = hfov* resolution.y/resolution.x;
