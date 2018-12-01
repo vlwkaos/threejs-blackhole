@@ -31,11 +31,9 @@ void main()	{
   vec3 cameraDirection = normalize(vec3(0.0, 0.0, -1.0));
   vec3 cameraUp = vec3(0.0, 1.0, 0.0);
   float fov = 90.0;
-  float fovx = PI * fov / 360.0;
-  
-  // camera variables 
-  float fovy = fovx * resolution.y/resolution.x;
+  float fovx = fov / 2 * DEG_TO_RAD
   float ulen = tan(fovx);
+  float fovy = fovx* resolution.y/resolution.x;
   float vlen = tan(fovy);
   
   
