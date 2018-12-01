@@ -15,7 +15,7 @@ mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 // helper functions
 
-vec2 square_frame(vec2 screen_size){
+vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
   return position;
 }
