@@ -18,15 +18,23 @@ float fov;
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
-// helper functions
-vec3 getPixelPos(vec3 cam_pos, vec3 cam_dir, vec3 cam_up, float fov){
-  
-  
-}
-
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
   return position;
+}
+
+// helper functions
+vec3 getPixelPos(vec3 cam_pos, vec3 cam_dir, vec3 cam_up, float fov){ 
+  float hfov = fov / 2. * DEG_TO_RAD;
+  float ulen = tan(hfov);
+  float vfov = hfov* resolution.y/resolution.x;
+  float vlen = tan(vfov);
+  
+  vec2 uv = squareFrame(resolution); 
+  
+  vec3 nright = normalize(cross(cam_up, cam_dir));
+  return cam_pos + cam_dir +
+                 nright*uv.x*ulen + cam_up*uv.y*vlen;
 }
 
 vec2 sphereMap(vec3 p){
@@ -36,21 +44,10 @@ vec2 sphereMap(vec3 p){
 
 
 void main()	{
-  vec3 cameraPosition = vec3(0.0, 0.0, 7.0);
-  vec3 cameraDirection = normalize(vec3(0.0, 0.0, -1.0));
-  vec3 cameraUp = vec3(0.0, 1.0, 0.0);
-  float hfov = fov / 2. * DEG_TO_RAD;
-  float ulen = tan(hfov);
-  float vfov = hfov* resolution.y/resolution.x;
-  float vlen = tan(vfov);
-  
-  
-  vec2 uv = squareFrame(resolution);
+
   // generate ray
-  vec3 nright = normalize(cross(cameraUp, cameraDirection));
-  vec3 pixelPos = cameraPosition + cameraDirection +
-                 nright*uv.x*ulen + cameraUp*uv.y*vlen;
-  vec3 rayDirection = normalize(pixelPos - cameraPosition);
+  vec3 pixelPos = getPixelPos(cam_pos,normalize(cam_dir),cam_up,fov);
+  vec3 rayDirection = normalize(pixelPos - cam_pos);
 
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);

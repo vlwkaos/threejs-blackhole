@@ -4,13 +4,14 @@ s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
 
 // Scene drawing
-
 let material, mesh, uniforms;
-const loader = new THREE.FileLoader();
+let loader, textureLoader; 
 const init = ()=>{
   textureLoader = new THREE.TextureLoader();
+  loader = new THREE.FileLoader();
+
   let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
-  
+
   uniforms = {
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2() },
@@ -66,7 +67,6 @@ const addControlGUI = ()=>{
 }
 
 let scene, camera, renderer;
-let textureLoader;
 window.onload = ()=>{
   
   //
@@ -99,6 +99,10 @@ const update = ()=>{
 const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
 	uniforms.resolution.value.y = window.innerHeight;
+  uniforms.cam_pos.value.set(0,0,10);
+  uniforms.cam_dir.value.set(0,0,-1);
+  uniforms.cam_up.value.set(0,1,0);
+  uniforms.fov.value = 90.0;
   
 }
 
