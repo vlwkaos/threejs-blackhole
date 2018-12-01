@@ -16,10 +16,10 @@ const init = ()=>{
   uniforms = {
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2() },
-    cam_pos: {type:"v3", value: new THREE.Vector3() },
+    cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
-    fov: {type:"v3", value: new THREE.Vector3()},
+    fov: {type:"f", value: 1.0},
     bg_texture: {type: "t", value: bgTex}
 	};
   
@@ -81,19 +81,22 @@ window.onload = ()=>{
   camera = new THREE.Camera(); 
   camera.position.z = 1;
   
+
+  
+  document.body.appendChild( renderer.domElement );
+  
+  init();
+  
   observer = new THREE.Camera();
-  observer.position = new THREE.Vector3(0,0,5);
-  observer.up = new THREE.Vector3(0,1,0);
+  observer.position.set(0,0,7);
+  observer.up.set(0,1,0);
   observer.lookAt(0,0,0);
-  observer.fov = 90.0;
+  observer.fov = 60.0;
   observer.direction = new THREE.Vector3();
   observer.getWorldDirection(observer.direction);
   
   scene.add(observer);
   
-  document.body.appendChild( renderer.domElement );
-  
-  init();
   addStatsGUI();
   update();
 
@@ -112,11 +115,8 @@ const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
 	uniforms.resolution.value.y = window.innerHeight;
   uniforms.cam_pos.value = observer.position;
-  uniforms.cam_pos.needsUpdate = true;
   uniforms.cam_dir.value = observer.direction;
-  uniforms.cam_dir.needsUpdate = true;
   uniforms.cam_up.value = observer.up;
-  uniforms.cam_up.needsUpdate = true;
   uniforms.fov.value = observer.fov;
 
 }

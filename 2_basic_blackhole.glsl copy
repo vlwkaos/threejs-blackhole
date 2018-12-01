@@ -5,7 +5,6 @@
 #define NITER 100
 #define SPEED 1
 
-
 uniform float time;
 uniform vec2 resolution;
 
