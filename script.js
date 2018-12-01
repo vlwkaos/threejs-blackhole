@@ -12,9 +12,13 @@ const init = ()=>{
   let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
   
   uniforms = {
-			time: { type: "f", value: 1.0 },
-			resolution: { type: "v2", value: new THREE.Vector2() },
-      bg_texture: {type: "t", value: bgTex}
+		time: { type: "f", value: 1.0 },
+		resolution: { type: "v2", value: new THREE.Vector2() },
+    cam_pos: {type:"v3", value: new THREE.Vector3() },
+    cam_dir: {type:"v3", value: new THREE.Vector3()},
+    cam_up: {type:"v3", value: new THREE.Vector3()},
+    fov: {type:"v3", value: new THREE.Vector3()},
+    bg_texture: {type: "t", value: bgTex}
 	};
   
   material = new THREE.ShaderMaterial( {
@@ -49,11 +53,9 @@ const addControlGUI = ()=>{
   
   // define properties
   control = {
-    
   rotationSpeed: 0.005,
   opacity:0.6
-  //color: cube.material.color.getHex()
-  
+
   }
   
   let gui = new dat.GUI();

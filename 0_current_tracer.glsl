@@ -10,10 +10,19 @@
 uniform float time;
 uniform vec2 resolution;
 
+uniform vec3 cam_pos;
+uniform vec3 cam_dir;
+uniform vec3 cam_up;
+float fov;
+
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 // helper functions
+vec3 getPixelPos(vec3 cam_pos, vec3 cam_dir, vec3 cam_up, float fov){
+  
+  
+}
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
@@ -30,11 +39,10 @@ void main()	{
   vec3 cameraPosition = vec3(0.0, 0.0, 7.0);
   vec3 cameraDirection = normalize(vec3(0.0, 0.0, -1.0));
   vec3 cameraUp = vec3(0.0, 1.0, 0.0);
-  float fov = 90.0;
-  float fovx = fov / 2 * DEG_TO_RAD
-  float ulen = tan(fovx);
-  float fovy = fovx* resolution.y/resolution.x;
-  float vlen = tan(fovy);
+  float hfov = fov / 2. * DEG_TO_RAD;
+  float ulen = tan(hfov);
+  float vfov = hfov* resolution.y/resolution.x;
+  float vlen = tan(vfov);
   
   
   vec2 uv = squareFrame(resolution);
