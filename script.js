@@ -72,7 +72,7 @@ window.onload = ()=>{
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 1.0);
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth/2, window.innerHeight/2); // res
 
   camera = new THREE.Camera(); // POV, ratio, start, end
   camera.position.z = 1;
@@ -96,7 +96,7 @@ const update = ()=>{
 
 const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
-	uniforms.resolution.value.y = window.innerHeight
+	uniforms.resolution.value.y = window.innerHeight;
   
 }
 

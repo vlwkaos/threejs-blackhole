@@ -1,3 +1,4 @@
+#version 300 es
 #define PI 3.141592653589793238462643383279
 #define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (PI/180.0)
@@ -13,16 +14,13 @@ uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(90.0 * DEG_TO_RAD);
 
 // helper functions
-vec3 blendColors(vec3 colorB, float alphaB, vec3 colorA, float alphaA){
- return colorA+colorB*(alphaB*(1.-alphaA)); 
-}
-
-float blendAlphas(float alphaB, float alphaA){
-  return (alphaA+alphaB*(1.-alphaA));
+vec4 blendColors(vec4 colorB, vec4 colorA){
+   vec3 c = colorA.xyz+colorB.xyz*(colorB.w*(1.-colorA.w));  
+   float a = colorA.w+colorB.w(1.-colorA.w);
+  return vec4(c,a);
 }
 
 vec2 squareFrame(vec2 screenSize){
-  
   vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
   return position;
 }
@@ -77,7 +75,7 @@ void main()	{
   }
   
   vec2 tex_coord = sphereMap(normalize(point-oldPoint) * BG_COORDS);
-  color+=texture2D(bg_texture, tex_coord);
+  color= blendColors(texture2D(bg_texture, tex_coord),color);
   
   
  
@@ -90,7 +88,8 @@ void main()	{
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     
     
-    color = vec4(0.,0.,0.,1.0);
+    color= blendColors(vec4(0.,0.,0.,1.0),color);
+  
   }
   
 
