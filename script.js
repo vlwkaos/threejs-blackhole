@@ -3,11 +3,11 @@ let s_console = {debugMode: true}
 s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
 class Observer {
-  constructor(fov, ar, n, f){
-    this.prototype = new THREE.PerspectiveCamera(fov,ar,n,f); 
+  constructor(){
     this.position = new THREE.Vector3();
     this.direction = new THREE.Vector3();
     this.up = new THREE.Vector3();
+    this.fov = 45.0;
   }
   
 }
@@ -89,10 +89,11 @@ window.onload = ()=>{
   camera = new THREE.Camera(); 
   camera.position.z = 1;
   
-  observer = new Observer(90.0, window.innerWidth/window.innerHeight, 1,1000);
+  observer = new Observer();
   observer.position.set(0,0,7);
   observer.direction.set(0,0,-1);
   observer.up.set(0,1,0);
+  observer.fov = 90.0;
   
   document.body.appendChild( renderer.domElement );
   
