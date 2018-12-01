@@ -9,11 +9,12 @@
 
 uniform float time;
 uniform vec2 resolution;
-
+/*
 uniform vec3 cam_pos;
 uniform vec3 cam_dir;
 uniform vec3 cam_up;
 float fov;
+*/
 
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
@@ -23,20 +24,6 @@ vec2 squareFrame(vec2 screen_size){
   return position;
 }
 
-// helper functions
-vec3 getPixelPos(vec3 cam_pos, vec3 cam_dir, vec3 cam_up, float fov){ 
-  float hfov = fov / 2. * DEG_TO_RAD;
-  float ulen = tan(hfov);
-  float vfov = hfov* resolution.y/resolution.x;
-  float vlen = tan(vfov);
-  
-  vec2 uv = squareFrame(resolution); 
-  
-  vec3 nright = normalize(cross(cam_up, cam_dir));
-  return cam_pos + cam_dir +
-                 nright*uv.x*ulen + cam_up*uv.y*vlen;
-}
-
 vec2 sphereMap(vec3 p){
   return vec2(atan(p.x,p.y)/PI*0.5+0.5, asin(p.z)/PI+0.5);
 }
@@ -44,26 +31,37 @@ vec2 sphereMap(vec3 p){
 
 
 void main()	{
+  uniform vec3 cam_pos;
+uniform vec3 cam_dir;
+niform vec3 cam_up;
+  float fov;
 
+  float hfov = fov / 2. * DEG_TO_RAD;
+  float ulen = tan(hfov);
+  float vfov = hfov* resolution.y/resolution.x;
+  float vlen = tan(vfov);
+  
+  vec2 uv = squareFrame(resolution); 
+  vec3 cam_ndir = normalize(cam_dir);
+  vec3 nright = normalize(cross(cam_up, cam_dir));
   // generate ray
-  vec3 pixelPos = getPixelPos(cam_pos,normalize(cam_dir),cam_up,fov);
-  vec3 rayDirection = normalize(pixelPos - cam_pos);
+  vec3 pixel_pos =cam_pos + cam_ndir +
+                 nright*uv.x*ulen + cam_up*uv.y*vlen;
+  vec3 ray_dir = normalize(pixel_pos - cam_pos);
 
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
 
-  
-
   // geodesic by leapfrog integration
-  vec3 point = cameraPosition;
-  vec3 velocity = rayDirection;
+  vec3 point = cam_pos;
+  vec3 velocity = ray_dir;
   vec3 c = cross(point,velocity);
   float h2 = normalize(dot(c,c));
   
-  vec3 oldPoint; 
+  vec3 oldpoint; 
   float pointsqr;
   for (int i=0; i<NITER;i++){ 
-    oldPoint = point; // for finding intersection
+    oldpoint = point; // for finding intersection
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
@@ -72,16 +70,16 @@ void main()	{
     if (pointsqr < 1.) break; // ray is lost at rs
   }
   
-  vec2 tex_coord = sphereMap(normalize(point-oldPoint) * BG_COORDS);
+  vec2 tex_coord = sphereMap(normalize(point-oldpoint) * BG_COORDS);
   color += texture2D(bg_texture, tex_coord);
   
   
  
-  float oldpointsqr = dot(oldPoint,oldPoint);
+  float oldpointsqr = dot(oldpoint,oldpoint);
   
-  bool horizonMask = pointsqr < 1. && oldpointsqr > 1.; // intersecting eventhorizon
+  bool horizon_mask = pointsqr < 1. && oldpointsqr > 1.; // intersecting eventhorizon
   // does it enter event horizon?
-  if (horizonMask) {
+  if (horizon_mask) {
     float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     

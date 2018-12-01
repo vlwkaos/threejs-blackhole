@@ -99,11 +99,14 @@ const update = ()=>{
 const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
 	uniforms.resolution.value.y = window.innerHeight;
-  uniforms.cam_pos.value.set(0,0,10);
+  uniforms.cam_pos.value.set(0,0,7);
+  uniforms.cam_pos.needsUpdate = true;
   uniforms.cam_dir.value.set(0,0,-1);
+  uniforms.cam_dir.needsUpdate = true;
   uniforms.cam_up.value.set(0,1,0);
+  uniforms.cam_up.needsUpdate = true;
   uniforms.fov.value = 90.0;
-  
+  uniforms.fov.needsUpdate = true;
 }
 
 const render = ()=>{

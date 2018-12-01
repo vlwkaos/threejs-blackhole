@@ -21,6 +21,12 @@
     <script type="x-shader/x-vertex" id="vertexShader">  
       uniform float time;
       uniform vec2 resolution;
+      
+      uniform vec3 cam_pos;
+      uniform vec3 cam_dir;
+      uniform vec3 cam_up;
+      float fov;
+      
       void main()	{
         gl_Position = vec4( position, 1.0 );
       }
