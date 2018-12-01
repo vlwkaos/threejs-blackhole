@@ -1,7 +1,7 @@
-#version 300 es
 #define PI 3.141592653589793238462643383279
-#define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
+#define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define DEG_TO_RAD (PI/180.0)
+
 #define STEP 0.1
 #define NITER 100
 #define SPEED 1
@@ -11,17 +11,12 @@ uniform float time;
 uniform vec2 resolution;
 
 uniform sampler2D bg_texture;
-mat3 BG_COORDS = ROT_Y(90.0 * DEG_TO_RAD);
+mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 // helper functions
-vec4 blendColors(vec4 colorB, vec4 colorA){
-   vec3 c = colorA.xyz+colorB.xyz*(colorB.w*(1.-colorA.w));  
-   float a = colorA.w+colorB.w(1.-colorA.w);
-  return vec4(c,a);
-}
 
-vec2 squareFrame(vec2 screenSize){
-  vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
+vec2 square_frame(vec2 screen_size){
+  vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
   return position;
 }
 
@@ -75,7 +70,7 @@ void main()	{
   }
   
   vec2 tex_coord = sphereMap(normalize(point-oldPoint) * BG_COORDS);
-  color= blendColors(texture2D(bg_texture, tex_coord),color);
+  color += texture2D(bg_texture, tex_coord);
   
   
  
@@ -87,8 +82,7 @@ void main()	{
     float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     
-    
-    color= blendColors(vec4(0.,0.,0.,1.0),color);
+    color = vec4(0.,0.,0.,1.0);
   
   }
   

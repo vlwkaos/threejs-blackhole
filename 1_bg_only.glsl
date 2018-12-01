@@ -10,10 +10,10 @@ mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 
 // Frame to draw on
-vec2 squareFrame(vec2 screenSize)
+vec2 square_frame(vec2 screen_size)
 {
-  vec2 position = 2.0 * (gl_FragCoord.xy / screenSize.xy) - 1.0;
-  position.x *= screenSize.x / screenSize.y;
+  vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
+  position.x *= screen_size.x / screen_size.y;
   return position;
 }
 
@@ -30,14 +30,14 @@ struct Ray {
 
 void main()	{
   vec2 uv = squareFrame(resolution);
-  vec3 pixelPos = vec3(uv, 0.);
+  vec3 pixel_pos = vec3(uv, 0.);
   
   // The eye position in this example is fixed.
-  vec3 eyePos = vec3(0, 0, 1); // Some distance in front of the screen
+  vec3 eye_pos = vec3(0, 0, 1); // Some distance in front of the screen
 
   // The ray for the raytrace - which is just intersectSphere in this tutorial
-  vec3 rayDir = normalize(eyePos-pixelPos);
-  vec2 tex_coord = sphere_map(rayDir*BG_COORDS);
+  vec3 ray_dir = normalize(eye_pos-pixel_pos);
+  vec2 tex_coord = sphereMap(ray_dir*BG_COORDS);
     
   gl_FragColor = texture2D(bg_texture, tex_coord);
 }
