@@ -15,6 +15,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.mouseX = 0;
 	this.mouseY = 0;
+  this.deltaX = 0;
+  this.deltaY = 0;
   
   this.horizontalAngle = 3.14;
   this.verticalAngle = 0;
@@ -57,9 +59,21 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 		event.preventDefault();
 		event.stopPropagation();
+    if (!this.mouseDragOn){
+		  this.mouseDragOn = true;
+      // remember current mouse position
+      if ( this.domElement === document ) {
 
-		this.mouseDragOn = true;
+        this.mouseX = event.pageX - this.viewHalfX;
+        this.mouseY = event.pageY - this.viewHalfY;
 
+      } else {
+
+        this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+        this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+
+      } 
+    }    
 	};
 
 	this.onMouseUp = function ( event ) {
@@ -71,20 +85,24 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 	this.onMouseMove = function ( event ) {
+    // calculate moved position
+    if (this.mouseDragOn){
+      let newX,newY;  
+      if ( this.domElement === document ) {
 
-		if ( this.domElement === document ) {
+          newX = event.pageX - this.viewHalfX;
+          newY = event.pageY - this.viewHalfY;
 
-			this.mouseX = event.pageX - this.viewHalfX;
-			this.mouseY = event.pageY - this.viewHalfY;
-      
-      
-		} else {
+      } else {
 
-			this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-			this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+          newX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+          newY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
 
-		}
-
+      } 
+      this.deltaX = newX - this.mouseX;
+      this.deltaY = newY - this.mouseY;
+      console.log(`deltaX: ${this.deltaX} , deltaY: ${this.deltaY}`);
+    }
 	};
 
 
@@ -93,8 +111,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		if ( this.enabled === false ) return;
   
     if (this.mouseDragOn){
-    this.horizontalAngle += this.lookSpeed + delta * this.mouseX;
-    this.verticalAngle += this.lookSpeed + delta * this.mouseY;
+    this.horizontalAngle += this.lookSpeed * delta * this.deltaX;
+    this.verticalAngle += this.lookSpeed * delta * this.deltaY;
     
     let newDirection = new THREE.Vector3(
       Math.cos(this.verticalAngle) * Math.sin(this.horizontalAngle),                          
