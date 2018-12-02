@@ -97,10 +97,11 @@ window.onload = ()=>{
   camControl = new THREE.CameraDragControls(observer, renderer.domElement);
   
   scene.add(observer);
+  delta = 0;
   
   addStatsGUI();
   update();
-
+  
 }
 
 let delta, lastframe;

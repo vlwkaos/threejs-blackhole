@@ -12,22 +12,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	this.lookSpeed = 0.005;
 	this.lookVertical = true;	
 
-	this.heightSpeed = false;
-	this.heightCoef = 1.0;
-	this.heightMin = 0.0;
-	this.heightMax = 1.0;
-
-	this.constrainVertical = false;
-	this.verticalMin = 0;
-	this.verticalMax = Math.PI;
-  
 	this.mouseX = 0;
 	this.mouseY = 0;
-
-	this.lat = 0;
-	this.lon = 0;
-	this.phi = 0;
-	this.theta = 0;
 
 	this.mouseDragOn = false;
 
@@ -59,7 +45,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 	this.onMouseDown = function ( event ) {
-
 		if ( this.domElement !== document ) {
 
 			this.domElement.focus();
@@ -79,7 +64,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		event.stopPropagation();
 
 		this.mouseDragOn = false;
-
 	};
 
 	this.onMouseMove = function ( event ) {
@@ -99,29 +83,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 
-
-
 	this.update = function ( delta ) {
 
 		if ( this.enabled === false ) return;
-
-		var verticalLookRatio = 1;
-
-		if ( this.constrainVertical ) {
-
-			verticalLookRatio = Math.PI / ( this.verticalMax - this.verticalMin );
-
-		}
-
-		this.lat = Math.max( - 85, Math.min( 85, this.lat ) );
-		this.phi = THREE.Math.degToRad( 90 - this.lat );
-		this.theta = THREE.Math.degToRad( this.lon );
-
-		if ( this.constrainVertical ) {
-
-			this.phi = THREE.Math.mapLinear( this.phi, 0, Math.PI, this.verticalMin, this.verticalMax );
-
-		}
 
 		var targetPosition = this.target,
 			position = this.object.position;
@@ -141,7 +105,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	}
 
 	this.dispose = function () {
-
 		this.domElement.removeEventListener( 'contextmenu', contextmenu, false );
 		this.domElement.removeEventListener( 'mousedown', _onMouseDown, false );
 		this.domElement.removeEventListener( 'mousemove', _onMouseMove, false );
