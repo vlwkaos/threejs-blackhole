@@ -9,7 +9,7 @@ const init = ()=>{
   textureLoader = new THREE.TextureLoader();
   loader = new THREE.FileLoader();
 
-  let bgTex = textureLoader.load('https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fimage.png?1543740754092');
+  let bgTex = textureLoader.load('http://cdn.eso.org/images/screen/eso0932a.jpg');
 
   // screen frame
   uniforms = {
@@ -18,7 +18,7 @@ const init = ()=>{
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
-    fov: {type:"f", value: 1.0},
+    fov: {type:"f", value: 0.0},
     bg_texture: {type: "t", value: bgTex}
 	};
   
@@ -87,10 +87,10 @@ window.onload = ()=>{
   init();
   
   observer = new THREE.Camera();
-  observer.position.set(0,0,7);
+  observer.position.set(0,0,10);
   observer.up.set(0,1,0);
   observer.direction = new THREE.Vector3(0,0,-1);
-  observer.fov = 60.0;
+  observer.fov = 90.0;
 
   camControl = new THREE.CameraDragControls(observer, renderer.domElement);
   

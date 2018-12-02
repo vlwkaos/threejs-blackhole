@@ -16,7 +16,7 @@ uniform float fov;
 
 
 uniform sampler2D bg_texture;
-mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
+mat3 BG_COORDS = ROT_Y(90.0 * DEG_TO_RAD);
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
@@ -65,7 +65,8 @@ void main()	{
   }
   
   vec2 tex_coord = sphereMap(normalize(point-oldpoint) * BG_COORDS);
-  color += texture2D(bg_texture, tex_coord);  
+  color += texture2D(bg_texture, tex_coord);
+  color /= 2.0;
  
   float oldpointsqr = dot(oldpoint,oldpoint);
   
