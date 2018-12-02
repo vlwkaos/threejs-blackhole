@@ -3,7 +3,8 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-	this.target = new THREE.Vector3( 0, 0, 0 );
+  
+  
 
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
@@ -14,6 +15,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.mouseX = 0;
 	this.mouseY = 0;
+  
+  this.horizontalAngle = 3.14;
+  this.verticalAngle = 0;
 
 	this.mouseDragOn = false;
 
@@ -55,8 +59,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		event.stopPropagation();
 
 		this.mouseDragOn = true;
-    this.mouseX = this.viewHalfX;
-    this.mouseY = this.viewHalfY;
 
 	};
 
@@ -89,16 +91,12 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	this.update = function ( delta ) {
 
 		if ( this.enabled === false ) return;
-
-		var targetPosition = this.target,
-			position = this.object.position;
-
-		targetPosition.x = position.x + 100 * Math.sin( this.phi ) * Math.cos( this.theta );
-		targetPosition.y = position.y + 100 * Math.cos( this.phi );
-		targetPosition.z = position.z + 100 * Math.sin( this.phi ) * Math.sin( this.theta );
-
-		this.object.lookAt( targetPosition );
-
+  
+    this.horizontalAngle += this.lookSpeed + delta * this.mouseX;
+    this.verticalAngle += this.lookSpeed + delta * this.mouseY;
+    
+    let newDirection = new THREE.Vector3();
+    newDirection.x = 
 	};
 
 	function contextmenu( event ) {
