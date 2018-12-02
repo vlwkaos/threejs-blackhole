@@ -119,12 +119,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
       this.offsetX /= 2;
       this.offsetY /= 2;
 
-      if (this.pitch > 89.0)
-        this.pitch = 89;
-      if (this.pitch < -89.0)
-        this.pitch = -89;
-
-      console.log('yaw: ' + this.yaw);
       console.log('pitch:' + this.pitch);
 
       this.object.direction = getNewDirection();

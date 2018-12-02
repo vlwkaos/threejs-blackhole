@@ -9,7 +9,7 @@ const init = ()=>{
   textureLoader = new THREE.TextureLoader();
   loader = new THREE.FileLoader();
 
-  let bgTex = textureLoader.load('http://cdn.eso.org/images/screen/eso0932a.jpg');
+  let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
 
   // screen frame
   uniforms = {
