@@ -2,7 +2,6 @@
 let s_console = {debugMode: true}
 s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
-
 // Scene drawing
 let material, mesh, uniforms;
 let loader, textureLoader; 
