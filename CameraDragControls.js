@@ -92,13 +92,20 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 		if ( this.enabled === false ) return;
   
+    if (this.mouseDragOn){
     this.horizontalAngle += this.lookSpeed + delta * this.mouseX;
     this.verticalAngle += this.lookSpeed + delta * this.mouseY;
     
-    let newDirection = new THREE.Vector3();
-    newDirection.x = 
-	};
-
+    let newDirection = new THREE.Vector3(
+      Math.cos(this.verticalAngle) * Math.sin(this.horizontalAngle),                          
+      Math.sin(this.verticalAngle),
+      Math.cos(this.verticalAngle) * Math.cos(this.horizontalAngle));
+	
+    this.object.lookAt(newDirection);
+    }
+  
+  }
+  
 	function contextmenu( event ) {
 
 		event.preventDefault();
