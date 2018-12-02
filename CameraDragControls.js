@@ -16,8 +16,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
   this.lastY = 0;
   
   this.pitch = 0;
-  this.yaw = 0;
-  this.object.direction = this.getNewDirection();
+  this.yaw = 4.68;
 
 	this.viewHalfX = 0;
 	this.viewHalfY = 0;
@@ -43,6 +42,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 			this.viewHalfY = this.domElement.offsetHeight / 2;
 
 		}
+    this.object.direction = getNewDirection();
+
 	};
 
 	this.onMouseDown = function ( event ) {
@@ -76,6 +77,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		event.stopPropagation();
 
 		this.mouseDragOn = false;
+    this.offsetX = 0;
+    this.offsetY = 0;
 	};
 
 	this.onMouseMove = function ( event ) {
@@ -105,13 +108,16 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 
-	this.update = ( delta )=>{
+	this.update = function ( delta ){
 
 		if ( this.enabled === false ) return;
   
     if (this.mouseDragOn){
       this.yaw += this.lookSpeed * this.offsetX;
       this.pitch += this.lookSpeed * this.offsetY;
+      
+      this.offsetX /= 2;
+      this.offsetY /= 2;
 
       if (this.pitch > 89.0)
         this.pitch = 89;
@@ -121,13 +127,12 @@ THREE.CameraDragControls = function ( object, domElement ) {
       console.log('yaw: ' + this.yaw);
       console.log('pitch:' + this.pitch);
 
-     
-      this.object.direction = this.getNewDirection();
+      this.object.direction = getNewDirection();
     }
   
   }
   
-  this.getNewDirection = () => {
+  const getNewDirection =() => {
     let newDir = new THREE.Vector3(
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
