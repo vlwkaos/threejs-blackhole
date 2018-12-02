@@ -3,12 +3,9 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-
-
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
 	this.enabled = true;
-  this.firstTime = true;
 
 	this.lookSpeed = 0.005;
 	this.lookVertical = true;	
@@ -18,8 +15,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
   this.lastX = 0;
   this.lastY = 0;
   
-  this.pitch = Math.asin(this.object.direction.y) * 180 / Math.PI;
-  this.yaw = Math.atan2(this.object.direction.x,this.object.direction.z) * 180 / Math.PI;
+  this.pitch = 0;
+  this.yaw = 0;
+  this.object.direction = this.getNewDirection();
 
 	this.viewHalfX = 0;
 	this.viewHalfY = 0;
@@ -59,7 +57,17 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 		this.mouseDragOn = true;
       // remember current mouse position
+    if ( this.domElement === document ) {
 
+      this.lastX = event.pageX - this.viewHalfX;
+      this.lastY = event.pageY - this.viewHalfY;
+
+    } else {
+
+      this.lastX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+      this.lastY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+
+    } 
 	};
 
 	this.onMouseUp = function ( event ) {
@@ -71,26 +79,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 	this.onMouseMove = function ( event ) {
-    // calculate moved position
     
+    // calculate moved position
     if (this.mouseDragOn){
-      if (this.firstTime){
-        if ( this.domElement === document ) {
-
-          this.lastX = event.pageX - this.viewHalfX;
-          this.lastY = event.pageY - this.viewHalfY;
-
-        } else {
-
-          this.lastX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-          this.lastY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
-
-        }  
-        this.firstTime = false;
-      }
-      
-      
-      
       let newX,newY;  
       if ( this.domElement === document ) {
 
@@ -114,7 +105,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 
-	this.update = function ( delta ) {
+	this.update = ( delta )=>{
 
 		if ( this.enabled === false ) return;
   
@@ -127,15 +118,21 @@ THREE.CameraDragControls = function ( object, domElement ) {
       if (this.pitch < -89.0)
         this.pitch = -89;
 
-      console.log(this.yaw);
+      console.log('yaw: ' + this.yaw);
+      console.log('pitch:' + this.pitch);
 
-      let newDirection = new THREE.Vector3(
+     
+      this.object.direction = this.getNewDirection();
+    }
+  
+  }
+  
+  this.getNewDirection = () => {
+    let newDir = new THREE.Vector3(
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
-      this.object.direction = newDirection.normalize();
-    }
-  
+    return newDir.normalize();
   }
   
 	function contextmenu( event ) {
