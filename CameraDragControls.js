@@ -3,8 +3,6 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-  
-  
 
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
@@ -59,6 +57,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 		event.preventDefault();
 		event.stopPropagation();
+
     if (!this.mouseDragOn){
 		  this.mouseDragOn = true;
       // remember current mouse position
@@ -82,6 +81,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		event.stopPropagation();
 
 		this.mouseDragOn = false;
+    this.deltaX = 0;
+    this.deltaY = 0;
 	};
 
 	this.onMouseMove = function ( event ) {
@@ -101,8 +102,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
       } 
       this.deltaX = newX - this.mouseX;
       this.deltaY = newY - this.mouseY;
-      console.log(`deltaX: ${this.deltaX} , deltaY: ${this.deltaY}`);
     }
+    
 	};
 
 
@@ -111,15 +112,10 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		if ( this.enabled === false ) return;
   
     if (this.mouseDragOn){
-    this.horizontalAngle += this.lookSpeed * delta * this.deltaX;
-    this.verticalAngle += this.lookSpeed * delta * this.deltaY;
-    
-    let newDirection = new THREE.Vector3(
-      Math.cos(this.verticalAngle) * Math.sin(this.horizontalAngle),                          
-      Math.sin(this.verticalAngle),
-      Math.cos(this.verticalAngle) * Math.cos(this.horizontalAngle));
-	
-    this.object.lookAt(newDirection);
+      this.horizontalAngle += this.lookSpeed * delta * this.deltaX;
+      this.verticalAngle += this.lookSpeed * delta * this.deltaY;
+
+      
     }
   
   }
