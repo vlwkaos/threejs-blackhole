@@ -89,7 +89,6 @@ window.onload = ()=>{
   observer = new THREE.Camera();
   observer.position.set(0,0,7);
   observer.up.set(0,1,0);
-  observer.lookAt(0,0,0);
   observer.fov = 90.0;
   observer.direction = new THREE.Vector3(0,0,-1);
   camControl = new THREE.CameraDragControls(observer, renderer.domElement);
@@ -120,7 +119,7 @@ const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth;
 	uniforms.resolution.value.y = window.innerHeight;
   uniforms.cam_pos.value = observer.position;
-  observer.getWorldDirection(uniforms.cam_dir.value);
+  uniforms.cam_dir.value = observer.direction;
   uniforms.cam_up.value = observer.up;
   uniforms.fov.value = observer.fov;
 

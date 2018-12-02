@@ -3,10 +3,12 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
+  this.direction = this.object.direction;
 
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
 	this.enabled = true;
+  this.firstTime = true;
 
 	this.lookSpeed = 0.005;
 	this.lookVertical = true;	
@@ -43,8 +45,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
 			this.viewHalfY = this.domElement.offsetHeight / 2;
 
 		}
-    this.lastX = this.viewHalfX;
-    this.lastY = this.viewHalfY;
 	};
 
 	this.onMouseDown = function ( event ) {
@@ -71,9 +71,26 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 	this.onMouseMove = function ( event ) {
-    
     // calculate moved position
+    
     if (this.mouseDragOn){
+      if (this.firstTime){
+        if ( this.domElement === document ) {
+
+          this.lastX = event.pageX - this.viewHalfX;
+          this.lastY = event.pageY - this.viewHalfY;
+
+        } else {
+
+          this.lastX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+          this.lastY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+
+        }  
+        this.firstTime = false;
+      }
+      
+      
+      
       let newX,newY;  
       if ( this.domElement === document ) {
 
@@ -88,7 +105,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
       } 
       
       this.offsetX = newX - this.lastX;
-      this.offsetY = this.lastY - newY;
+      this.offsetY = newY - this.lastY;
       this.lastX = newX;
       this.lastY = newY;
       
@@ -116,8 +133,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
-      newDirection = newDirection.normalize();
-      this.object.lookAt(newDirection);
+      this.object.direction = newDirection.normalize();
     }
   
   }
