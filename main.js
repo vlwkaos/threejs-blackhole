@@ -67,7 +67,7 @@ const addControlGUI = ()=>{
 }
 
 let scene, camera, renderer;
-let observer;
+let observer, camControl;
 window.onload = ()=>{
   
   //
@@ -94,6 +94,8 @@ window.onload = ()=>{
   observer.direction = new THREE.Vector3();
   observer.getWorldDirection(observer.direction);
   
+  camControl = new THREE.CameraDragControls(observer, renderer.domElement);
+  
   scene.add(observer);
   
   addStatsGUI();
@@ -101,13 +103,18 @@ window.onload = ()=>{
 
 }
 
+let delta, lastframe;
 const update = ()=>{
-  
+  lastframe = Date.now();
   stats.update();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  
+  camControl.update(delta);
+  
   updateUniforms();
   render();
   requestAnimationFrame(update)
+  delta = Date.now()-lastframe;
 }
 
 const updateUniforms = ()=>{
