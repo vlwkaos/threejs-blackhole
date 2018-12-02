@@ -15,6 +15,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
   this.offsetY = 0;
   this.lastX = 0;
   this.lastY = 0;
+  
+  this.pitch = 0;
+  this.yaw = 0;
 
 	this.viewHalfX = 0;
 	this.viewHalfY = 0;
@@ -40,7 +43,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 			this.viewHalfY = this.domElement.offsetHeight / 2;
 
 		}
-
+    this.lastX = this.viewHalfX;
+    this.lastY = this.viewHalfY;
 	};
 
 	this.onMouseDown = function ( event ) {
@@ -50,7 +54,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 		}
   
-
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -65,37 +68,29 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		event.stopPropagation();
 
 		this.mouseDragOn = false;
-    this.deltaX = 0;
-    this.deltaY = 0;
 	};
 
 	this.onMouseMove = function ( event ) {
-    float xoffset = xpos - lastX;
-float yoffset = lastY - ypos; // reversed since y-coordinates range from bottom to top
-lastX = xpos;
-lastY = ypos;
-
-float sensitivity = 0.05f;
-xoffset *= sensitivity;
-yoffset *= sensitivity;
-    
     
     // calculate moved position
     if (this.mouseDragOn){
       let newX,newY;  
       if ( this.domElement === document ) {
 
-          this.newX = event.pageX - this.viewHalfX;
-          this.newY = event.pageY - this.viewHalfY;
+          newX = event.pageX - this.viewHalfX;
+          newY = event.pageY - this.viewHalfY;
 
       } else {
 
-          this.newX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-          this.newY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+          newX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+          newY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
 
       } 
-
       
+      this.offsetX = newX - this.lastX;
+      this.offsetY = this.lastY - newY;
+      this.lastX = newX;
+      this.lastY = newY;
       
     }
     
@@ -107,30 +102,21 @@ yoffset *= sensitivity;
 		if ( this.enabled === false ) return;
   
     if (this.mouseDragOn){
-      // last position
-      if ( this.domElement === document ) {
+      this.yaw += this.lookSpeed * this.offsetX;
+      this.pitch += this.lookSpeed * this.offsetY;
 
-        this.lastX = this.viewHalfX;
-        this.lastY = this.viewHalfY;
+      if (this.pitch > 89.0)
+        this.pitch = 89;
+      if (this.pitch < -89.0)
+        this.pitch = -89;
 
-      } else {
-
-        this.lastX = this.domElement.offsetLeft - this.viewHalfX;
-        this.lastY = this.domElement.offsetTop - this.viewHalfY;
-
-      } 
-      
-      this.deltaX = newX - this.mouseX;
-      this.deltaY = newY - this.mouseY;
-      
-      this.yaw += this.lookSpeed * delta * this.deltaX;
-      this.pitch += this.lookSpeed * delta * this.deltaY;
+      console.log(this.yaw);
 
       let newDirection = new THREE.Vector3(
-        Math.cos(this.pitch) * Math.cos(this.yaw),                          
-        Math.sin(this.pitch),
-        Math.cos(this.pitch) * Math.sin(this.yaw));
-
+          Math.cos(this.pitch) * Math.cos(this.yaw),                          
+          Math.sin(this.pitch),
+          Math.cos(this.pitch) * Math.sin(this.yaw));
+      newDirection.normalize();
       this.object.lookAt(newDirection);
     }
   
