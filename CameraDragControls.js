@@ -55,6 +55,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		event.stopPropagation();
 
 		this.mouseDragOn = true;
+    this.mouseX = this.viewHalfX;
+    this.mouseY = this.viewHalfY;
 
 	};
 
@@ -72,7 +74,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 			this.mouseX = event.pageX - this.viewHalfX;
 			this.mouseY = event.pageY - this.viewHalfY;
-
+      
+      
 		} else {
 
 			this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
