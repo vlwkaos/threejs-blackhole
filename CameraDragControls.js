@@ -3,7 +3,7 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-  this.direction = this.object.direction;
+
 
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
@@ -18,8 +18,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
   this.lastX = 0;
   this.lastY = 0;
   
-  this.pitch = 0;
-  this.yaw = 0;
+  this.pitch = Math.asin(this.object.direction.y) * 180 / Math.PI;
+  this.yaw = Math.atan2(this.object.direction.x,this.object.direction.z) * 180 / Math.PI;
 
 	this.viewHalfX = 0;
 	this.viewHalfY = 0;
