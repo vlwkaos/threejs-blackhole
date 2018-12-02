@@ -116,7 +116,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
-      newDirection.normalize();
+      newDirection = newDirection.normalize();
       this.object.lookAt(newDirection);
     }
   

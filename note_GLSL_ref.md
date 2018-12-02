@@ -9,7 +9,8 @@ Learn with examples
 -----------------
 - [basic sphere ray tracing (shader toy)](https://www.shadertoy.com/view/Xdj3zz)  
 - https://fabricecastel.github.io/blog
-- http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/
+- [Camera control](https://learnopengl.com/Getting-started/Camera)
+- [Spherical mapping](https://learnopengl.com/PBR/IBL/Diffuse-irradiance)
 
 https://github.com/rantonels/starless/blob/master/tracer.py  
 
