@@ -8,7 +8,8 @@ Three.js and GLSL
 Learn with examples
 -----------------
 - [basic sphere ray tracing (shader toy)](https://www.shadertoy.com/view/Xdj3zz)  
-https://fabricecastel.github.io/blog
+- https://fabricecastel.github.io/blog
+- http://www.opengl-tutorial.org/beginners-tutorials/tutorial-6-keyboard-and-mouse/
 
 https://github.com/rantonels/starless/blob/master/tracer.py  
 
