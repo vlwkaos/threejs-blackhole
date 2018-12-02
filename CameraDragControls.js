@@ -11,15 +11,10 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	this.lookSpeed = 0.005;
 	this.lookVertical = true;	
 
-	this.mouseX = 0;
-	this.mouseY = 0;
-  this.deltaX = 0;
-  this.deltaY = 0;
-  
-  this.horizontalAngle = 3.14;
-  this.verticalAngle = 0;
-
-	this.mouseDragOn = false;
+	this.offsetX = 0;
+  this.offsetY = 0;
+  this.lastX = 0;
+  this.lastY = 0;
 
 	this.viewHalfX = 0;
 	this.viewHalfY = 0;
@@ -54,25 +49,14 @@ THREE.CameraDragControls = function ( object, domElement ) {
 			this.domElement.focus();
 
 		}
+  
 
 		event.preventDefault();
 		event.stopPropagation();
 
-    if (!this.mouseDragOn){
-		  this.mouseDragOn = true;
+		this.mouseDragOn = true;
       // remember current mouse position
-      if ( this.domElement === document ) {
 
-        this.mouseX = event.pageX - this.viewHalfX;
-        this.mouseY = event.pageY - this.viewHalfY;
-
-      } else {
-
-        this.mouseX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-        this.mouseY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
-
-      } 
-    }    
 	};
 
 	this.onMouseUp = function ( event ) {
@@ -86,22 +70,33 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
 	this.onMouseMove = function ( event ) {
+    float xoffset = xpos - lastX;
+float yoffset = lastY - ypos; // reversed since y-coordinates range from bottom to top
+lastX = xpos;
+lastY = ypos;
+
+float sensitivity = 0.05f;
+xoffset *= sensitivity;
+yoffset *= sensitivity;
+    
+    
     // calculate moved position
     if (this.mouseDragOn){
       let newX,newY;  
       if ( this.domElement === document ) {
 
-          newX = event.pageX - this.viewHalfX;
-          newY = event.pageY - this.viewHalfY;
+          this.newX = event.pageX - this.viewHalfX;
+          this.newY = event.pageY - this.viewHalfY;
 
       } else {
 
-          newX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
-          newY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
+          this.newX = event.pageX - this.domElement.offsetLeft - this.viewHalfX;
+          this.newY = event.pageY - this.domElement.offsetTop - this.viewHalfY;
 
       } 
-      this.deltaX = newX - this.mouseX;
-      this.deltaY = newY - this.mouseY;
+
+      
+      
     }
     
 	};
@@ -112,10 +107,31 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		if ( this.enabled === false ) return;
   
     if (this.mouseDragOn){
-      this.horizontalAngle += this.lookSpeed * delta * this.deltaX;
-      this.verticalAngle += this.lookSpeed * delta * this.deltaY;
+      // last position
+      if ( this.domElement === document ) {
 
+        this.lastX = this.viewHalfX;
+        this.lastY = this.viewHalfY;
+
+      } else {
+
+        this.lastX = this.domElement.offsetLeft - this.viewHalfX;
+        this.lastY = this.domElement.offsetTop - this.viewHalfY;
+
+      } 
       
+      this.deltaX = newX - this.mouseX;
+      this.deltaY = newY - this.mouseY;
+      
+      this.yaw += this.lookSpeed * delta * this.deltaX;
+      this.pitch += this.lookSpeed * delta * this.deltaY;
+
+      let newDirection = new THREE.Vector3(
+        Math.cos(this.pitch) * Math.cos(this.yaw),                          
+        Math.sin(this.pitch),
+        Math.cos(this.pitch) * Math.sin(this.yaw));
+
+      this.object.lookAt(newDirection);
     }
   
   }
