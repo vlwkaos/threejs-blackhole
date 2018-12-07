@@ -9,8 +9,8 @@ const init = ()=>{
   textureLoader = new THREE.TextureLoader();
   loader = new THREE.FileLoader();
 
-  let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
-
+//  let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
+let bgTex = textureLoader.load('https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fimage.png?1543740754092');
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
