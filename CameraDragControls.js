@@ -3,6 +3,8 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
+  this.object.up.set(0,1,0);
+  
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
 	this.enabled = true;
@@ -16,7 +18,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
   this.lastY = 0;
   
   this.pitch = 0;
-  this.yaw = 4.68;
+  this.yaw = Math.PI*3/2;
 
 	this.viewHalfX = 0;
 	this.viewHalfY = 0;
@@ -116,9 +118,15 @@ THREE.CameraDragControls = function ( object, domElement ) {
       this.yaw += this.lookSpeed * this.offsetX;
       this.pitch += this.lookSpeed * this.offsetY;
       
+      
+      if (this.pitch > 1.57)
+        this.pitch = 1.56
+      if (this.pitch < -1.57)
+        this.pitch = -1.56
+      
       this.offsetX /= 2;
       this.offsetY /= 2;
-
+    
       console.log('pitch:' + this.pitch);
 
       this.object.direction = getNewDirection();
