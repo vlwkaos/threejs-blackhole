@@ -10,7 +10,7 @@ const init = ()=>{
   loader = new THREE.FileLoader();
 
 //  let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg');
-let bgTex = textureLoader.load('https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fimage.png?1543740754092');
+let bgTex = textureLoader.load('https://raw.githubusercontent.com/rantonels/starless/master/textures/bgedit.jpg');
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
