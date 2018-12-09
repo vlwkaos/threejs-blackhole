@@ -1,7 +1,7 @@
 #define PI 3.141592653589793238462643383279
 #define DEG_TO_RAD (PI/180.0)
-#define STEP 1.0
-#define NITER 10
+#define STEP 0.5
+#define NITER 20
 #define SPEED 1
 
 
