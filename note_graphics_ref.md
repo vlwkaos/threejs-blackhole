@@ -12,5 +12,6 @@ Learn with examples
 - [Camera control](https://learnopengl.com/Getting-started/Camera)
 - [Spherical mapping](http://paulbourke.net/geometry/transformationprojection/)
 - https://github.com/rantonels/starless/blob/master/tracer.py  
-
+- https://stackoverflow.com/questions/43741885/how-to-convert-spherical-coordinates-to-equirectangular-projection-coordinates
+- a
 
