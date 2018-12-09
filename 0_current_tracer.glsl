@@ -1,6 +1,7 @@
 #define PI 3.141592653589793238462643383279
 #define DEG_TO_RAD (PI/180.0)
-#define STEP 0.5
+#define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
+#define STEP 0.2
 #define NITER 20
 #define SPEED 1
 
@@ -66,7 +67,7 @@ void main()	{
     if (pointsqr < 1.) break; // ray is lost at rs
   }
   
-  vec2 tex_coord = sampleSphericalMap(normalize(point-oldpoint));
+  vec2 tex_coord = sampleSphericalMap(normalize(point-oldpoint)*ROT_Y(45.0*DEG_TO_RAD));
   color += texture2D(bg_texture, tex_coord);
   color /= 2.0;
  
