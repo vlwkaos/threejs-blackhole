@@ -10,8 +10,7 @@ Learn with examples
 - [basic sphere ray tracing (shader toy)](https://www.shadertoy.com/view/Xdj3zz)  
 - https://fabricecastel.github.io/blog
 - [Camera control](https://learnopengl.com/Getting-started/Camera)
-- [Spherical mapping](https://learnopengl.com/PBR/IBL/Diffuse-irradiance)
-- https://www.shadertoy.com/view/MtS3DD
-https://github.com/rantonels/starless/blob/master/tracer.py  
+- [Spherical mapping](http://paulbourke.net/geometry/transformationprojection/)
+- https://github.com/rantonels/starless/blob/master/tracer.py  
 
 

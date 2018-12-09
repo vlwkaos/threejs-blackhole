@@ -1,5 +1,4 @@
 #define PI 3.141592653589793238462643383279
-#define ROT_Y(a) mat3(0, cos(a), sin(a), 1, 0, 0, 0, sin(a), -cos(a))
 #define DEG_TO_RAD (PI/180.0)
 #define STEP 1.0
 #define NITER 10
@@ -16,17 +15,20 @@ uniform float fov;
 
 
 uniform sampler2D bg_texture;
-mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
   return position;
 }
 
-vec2 sphereMap(vec3 p){
-  return vec2(0.5+atan(p.x,p.y)/(PI*2.0), 0.5-asin(p.z)/PI);
+const vec2 invAtan = vec2(0.1591, 0.3183);
+vec2 sampleSphericalMap(vec3 direction)
+{
+    vec2 uv = vec2(atan(direction.z, direction.x), asin(direction.y));
+    uv *= invAtan;
+    uv += 0.5;
+    return uv;
 }
-
 
 
 void main()	{
@@ -64,7 +66,7 @@ void main()	{
     if (pointsqr < 1.) break; // ray is lost at rs
   }
   
-  vec2 tex_coord = sphereMap(normalize(point-oldpoint) * BG_COORDS);
+  vec2 tex_coord = sampleSphericalMap(normalize(point-oldpoint));
   color += texture2D(bg_texture, tex_coord);
   color /= 2.0;
  
