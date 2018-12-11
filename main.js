@@ -27,7 +27,7 @@ let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black
 			uniforms: uniforms,
 			vertexShader: document.getElementById( 'vertexShader' ).textContent
 		});
-  loader.load('0_current_tracer.glsl', (data)=>{
+  loader.load('1_bg_only.glsl', (data)=>{
     material.fragmentShader = data;
     material.fragmentShader.needsUpdate = true;
     material.needsUpdate = true;

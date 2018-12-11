@@ -5,6 +5,12 @@
 uniform float time;
 uniform vec2 resolution;
 
+uniform vec3 cam_pos;
+uniform vec3 cam_dir;
+uniform vec3 cam_up;
+uniform float fov;
+
+
 uniform sampler2D bg_texture;
 mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
@@ -21,22 +27,14 @@ vec2 sphereMap(vec3 p){
   return vec2(atan(p.x,p.y)/PI*0.5+0.5, asin(p.z)/PI+0.5);
 }
 
-// Ray represents a ray of light's origin and direction
-struct Ray {
-  vec3 origin; // Origin
-  vec3 direction; // Direction
-};
-
-
 void main()	{
-  vec2 uv = squareFrame(resolution);
-  vec3 pixel_pos = vec3(uv, 0.);
-  
-  // The eye position in this example is fixed.
-  vec3 eye_pos = vec3(0, 0, 1); // Some distance in front of the screen
 
+  vec2 uv = squareFrame(resolution); 
+
+  // generate ray
+  vec3 pixel_pos =vec3(uv,0.)
   // The ray for the raytrace - which is just intersectSphere in this tutorial
-  vec3 ray_dir = normalize(eye_pos-pixel_pos);
+  vec3 ray_dir = normalize(cam_pos-pixel_pos);
   vec2 tex_coord = sphereMap(ray_dir*BG_COORDS);
     
   gl_FragColor = texture2D(bg_texture, tex_coord);
