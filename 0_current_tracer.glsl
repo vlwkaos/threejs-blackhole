@@ -57,20 +57,17 @@ void main()	{
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
-    
-     pointsqr = dot(point,point);
-    if (pointsqr < 1.0) break; // ray is lost at rs
+
+    if (length(point) < 1.0) break; // ray is lost at rs
   }
   
   vec2 tex_coord = sphereMap(normalize(point-oldpoint) * BG_COORDS);
   color += texture2D(bg_texture, tex_coord);
- 
-  float oldpointsqr = dot(oldpoint,oldpoint);
-  
-  bool horizon_mask = pointsqr < 1. && oldpointsqr > 1.; // intersecting eventhorizon
+
+  bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
   // does it enter event horizon?
   if (horizon_mask) {
-    float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
+    //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     
     color = vec4(0.,0.,0.,1.0);
