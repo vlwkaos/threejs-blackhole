@@ -20,7 +20,6 @@ mat3 BG_COORDS = ROT_Y(90.0 * DEG_TO_RAD);
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
-  position += 
   return position;
 }
 
@@ -60,7 +59,7 @@ void main()	{
     velocity += accel * STEP;    
     
      pointsqr = dot(point,point);
-    if (pointsqr < 1.) break; // ray is lost at rs
+    if (pointsqr < 1.0) break; // ray is lost at rs
   }
   
   vec2 tex_coord = sphereMap(normalize(point-oldpoint) * BG_COORDS);
