@@ -14,3 +14,5 @@ https://physics.stackexchange.com/questions/39124/what-is-a-killing-vector-field
 https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)  
 http://www.ita.uni-heidelberg.de/~massimo/sub/Lectures/gl_all.pdf  
 https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html  
+https://en.wikipedia.org/wiki/Circular_orbit#Orbital_velocity_in_general_relativity  
+https://en.wikipedia.org/wiki/Aberration_of_light
