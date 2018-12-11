@@ -1,4 +1,4 @@
-/* globals THREE dat Stats*/
+/* globals THREE dat Stats Observer*/
 let s_console = {debugMode: true}
 s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text);}
 
@@ -86,7 +86,7 @@ window.onload = ()=>{
   
   init();
   
-  observer = new THREE.Camera();
+  observer = new Observer();
   observer.position.set(0,0,10);
   observer.fov = 90.0;
 
