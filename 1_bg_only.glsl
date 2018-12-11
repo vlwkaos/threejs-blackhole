@@ -32,9 +32,11 @@ void main()	{
   vec2 uv = squareFrame(resolution); 
 
   // generate ray
-  vec3 pixel_pos =vec3(uv,0.)
+  vec3 pixel_pos =vec3(uv,0.);
+  
+  vec3 eye_pos = vec3(0,0,0.5);
   // The ray for the raytrace - which is just intersectSphere in this tutorial
-  vec3 ray_dir = normalize(cam_pos-pixel_pos);
+  vec3 ray_dir = normalize(eye_pos-pixel_pos);
   vec2 tex_coord = sphereMap(ray_dir*BG_COORDS);
     
   gl_FragColor = texture2D(bg_texture, tex_coord);
