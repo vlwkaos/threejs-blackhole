@@ -16,21 +16,16 @@ uniform float fov;
 
 
 uniform sampler2D bg_texture;
+mat3 BG_COORDS = ROT_Y(45.0 * DEG_TO_RAD);
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0;
   return position;
 }
 
-const vec2 invAtan = vec2(0.1591, 0.3183);
-vec2 sampleSphericalMap(vec3 direction)
-{
-    vec2 uv = vec2(atan(direction.z, direction.x), asin(direction.y));
-    uv *= invAtan;
-    uv += 0.5;
-    return uv;
+vec2 sphereMap(vec3 p){
+  return vec2(atan(p.x,p.y)/PI*0.5+0.5, asin(p.z)/PI+0.5);
 }
-
 
 void main()	{
   float hfov = fov / 2. * DEG_TO_RAD;
@@ -67,7 +62,7 @@ void main()	{
     if (pointsqr < 1.) break; // ray is lost at rs
   }
   
-  vec2 tex_coord = sampleSphericalMap(normalize(point-oldpoint)*ROT_Y(0.*DEG_TO_RAD));
+  vec2 tex_coord = sampleSphericalMap(normalize(point-oldpoint)*ROT_Y(45.0*DEG_TO_RAD));
   color += texture2D(bg_texture, tex_coord);
   color /= 2.0;
  

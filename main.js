@@ -16,6 +16,7 @@ let bgTex = textureLoader.load('https://raw.githubusercontent.com/oseiskar/black
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2() },
     cam_pos: {type:"v3", value: new THREE.Vector3()},
+    cam_vel: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"f", value: 0.0},
@@ -120,6 +121,7 @@ const updateUniforms = ()=>{
   uniforms.cam_pos.value = observer.position;
   uniforms.cam_dir.value = observer.direction;
   uniforms.cam_up.value = observer.up;
+  uniforms.cam_vel.value = observer.velocity;
   uniforms.fov.value = observer.fov;
 
 }
