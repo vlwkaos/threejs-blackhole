@@ -1,13 +1,7 @@
 /* globals THREE dat Stats Observer*/
-let s_console = {debugMode: true}
-s_console.log = (text)=>{ if (s_console.debugMode)  console.log(text)}
+let dbg = {debugMode: true}
+dbg.log = (text)=>{ if (dbg.debugMode)  console.log(text)}
 
-
-
-// Scene drawing
-let material, mesh, uniforms
-let loader, textureLoader
-let textures
 
 let scene, camera, renderer
 let observer, camControl
@@ -21,8 +15,6 @@ window.onload = ()=>{
 
   camera = new THREE.Camera() 
   camera.position.z = 1
-  
-
   
   document.body.appendChild( renderer.domElement )
   
@@ -41,6 +33,10 @@ window.onload = ()=>{
   update()
   
 }
+// Scene drawing
+let material, mesh, uniforms
+let loader, textureLoader
+let textures
 
 const init = ()=>{
   textureLoader = new THREE.TextureLoader()
@@ -48,8 +44,8 @@ const init = ()=>{
 
   textures = {}
   
-  loadTexture('background','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
-//let bgTex = textureLoader.load('https://raw.githubusercontent.com/rantonels/starless/master/textures/bgedit.jpg')
+  loadTexture('bg1','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
+  loadTexture('bg2','https://raw.githubusercontent.com/rantonels/starless/master/textures/bgedit.jpg', THREE.LinearFilter)
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
@@ -59,7 +55,7 @@ const init = ()=>{
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"f", value: 0.0},
-    bg_texture: {type: "t", value: textures['background']}
+    bg_texture: {type: "t", value: textures['bg2']}
 	}
   
   material = new THREE.ShaderMaterial( {
@@ -77,10 +73,12 @@ const init = ()=>{
 }
 
 const loadTexture = (name, image, interpolation)=>{
+    textures[name]= null
     textureLoader.load(image, (texture)=> {
-      texture.magFilter = interpolation
-      texture.minFilter = interpolation
+      //texture.magFilter = interpolation
+      //texture.minFilter = interpolation
       textures[name] = texture
+      console.log(texture)
     })
 }
 
