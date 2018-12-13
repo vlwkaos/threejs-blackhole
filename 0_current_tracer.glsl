@@ -61,8 +61,9 @@ void main()	{
     if (length(point) < 1.0) break; // ray is lost at rs
   }
   
-  vec2 tex_coord = sphereMap(normalize(point-oldpoint) * BG_COORDS);
-  color += texture2D(bg_texture, tex_coord);
+
+  vec2 tex_coord = sphereMap(normalize(point-oldpoint));
+  color = texture2D(bg_texture, tex_coord);
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
   // does it enter event horizon?
