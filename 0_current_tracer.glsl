@@ -25,8 +25,9 @@ vec2 squareFrame(vec2 screen_size){
 
 vec2 sphereMap(vec3 direction){
   vec2 uv = vec2(atan(direction.z,direction.x), asin(direction.y));
-  uv *= vec2(1.0/(2*PI), )
-  return vec2(atan(p.x,p.y)/PI*0.5+0.5, asin(p.z)/PI+0.5);
+  uv *= vec2(1.0/(2.0*PI), 1.0/PI); //long, lat
+  uv += 0.5;
+  return uv;
 }
 
 void main()	{
@@ -64,7 +65,7 @@ void main()	{
   }
   
 
-  vec2 tex_coord = sphereMap(normalize(point-oldpoint));
+  vec2 tex_coord = sphereMap(normalize(ray_dir));
   color = texture2D(bg_texture, tex_coord);
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
