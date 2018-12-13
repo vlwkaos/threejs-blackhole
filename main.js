@@ -76,7 +76,7 @@ window.onload = ()=>{
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(0x000000, 1.0);
-  renderer.setSize(window.innerWidth/2, window.innerHeight/2); // res
+  renderer.setSize(window.innerWidth, window.innerHeight); // res
 
   camera = new THREE.Camera(); 
   camera.position.z = 1;
@@ -88,7 +88,7 @@ window.onload = ()=>{
   init();
   
   observer = new Observer();
-  observer.position.set(0,0,10.0);
+  observer.position.set(0.0,0.0,10.0);
   observer.fov = 90.0;
 
   camControl = new THREE.CameraDragControls(observer, renderer.domElement); // take care of camera view
