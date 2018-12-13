@@ -89,7 +89,7 @@ window.onload = ()=>{
   
   observer = new Observer();
   observer.position.set(0.0,0.0,10.0);
-  observer.fov = 90.0;
+  observer.fov = 60.0;
 
   camControl = new THREE.CameraDragControls(observer, renderer.domElement); // take care of camera view
   

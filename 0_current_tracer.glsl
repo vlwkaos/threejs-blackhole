@@ -26,7 +26,11 @@ vec2 squareFrame(vec2 screen_size){
 }
 
 vec2 sphereMap(vec3 direction){
-  vec2 uv = vec2(atan(direction.z,direction.x), asin(direction.y));
+  // spherical projection
+  // polar angles are directly used as horizontal and vertical coordinates
+  // here angle to y-axis mapped to latitude (looking vertically 180 degrees)
+  // xz plane to longitude (looking horizontally 360 degrees)
+  vec2 uv = vec2(atan(direction.z,direction.x), asin(direction.y)); 
   uv *= vec2(1.0/(2.0*PI), 1.0/PI); //long, lat
   uv += 0.5;
   return uv;
@@ -59,7 +63,7 @@ void main()	{
   vec3 oldpoint; 
   float pointsqr;
   for (int i=0; i<NITER;i++){ 
-    oldpoint = point; // for finding intersection
+    oldpoint = point; // remember previous point for finding intersection
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
