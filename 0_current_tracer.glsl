@@ -37,8 +37,9 @@ void main()	{
   float vlen = tan(vfov);
   
   vec2 uv = squareFrame(resolution); 
-  vec3 cam_ndir = normalize(cam_dir);
-  vec3 nright = normalize(cross(cam_up, cam_dir));
+  vec2 uv *= vec2(resolution.x/resolution.y, 1.0);
+  vec3 cam_ndir = normalize(cam_dir); // toward me?
+  vec3 nright = normalize(cross(cam_dir, cam_up));
   // generate ray
   vec3 pixel_pos =cam_pos + cam_ndir +
                  nright*uv.x*ulen + cam_up*uv.y*vlen;
@@ -65,7 +66,7 @@ void main()	{
   }
   
 
-  vec2 tex_coord = sphereMap(normalize(ray_dir));
+  vec2 tex_coord = sphereMap(normalize(point - oldpoint));
   color = texture2D(bg_texture, tex_coord);
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon

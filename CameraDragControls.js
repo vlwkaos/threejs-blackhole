@@ -3,7 +3,7 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-  this.object.up.set(0,1,0);
+  this.object.up.set(0,1.0,0);
   
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
@@ -115,7 +115,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		if ( this.enabled === false ) return;
   
     if (this.mouseDragOn){
-      this.yaw += this.lookSpeed * this.offsetX;
+      this.yaw -= this.lookSpeed * this.offsetX;
       
       if (this.lookVertical){
         this.pitch += this.lookSpeed * this.offsetY;
