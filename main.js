@@ -44,8 +44,9 @@ const init = ()=>{
 
   textures = {}
   
+  // Using NearestFilter ensures no black line happening with equirectangular image
   loadTexture('bg1','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
-  loadTexture('bg2','https://raw.githubusercontent.com/rantonels/starless/master/textures/bgedit.jpg', THREE.LinearFilter)
+  loadTexture('bg2','https://raw.githubusercontent.com/rantonels/starless/master/textures/bgedit.jpg', THREE.NearestFilter)
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
@@ -55,7 +56,7 @@ const init = ()=>{
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"f", value: 0.0},
-    bg_texture: {type: "t", value: textures['bg2']}
+    bg_texture: {type: "t", value: null}
 	}
   
   material = new THREE.ShaderMaterial( {
@@ -75,12 +76,13 @@ const init = ()=>{
 const loadTexture = (name, image, interpolation)=>{
     textures[name]= null
     textureLoader.load(image, (texture)=> {
-      //texture.magFilter = interpolation
-      //texture.minFilter = interpolation
+      texture.magFilter = interpolation
+      texture.minFilter = interpolation
       textures[name] = texture
       console.log(texture)
     })
 }
+
 
 
 // dat.gui
@@ -138,6 +140,7 @@ const updateUniforms = ()=>{
   uniforms.cam_up.value = observer.up
   uniforms.cam_vel.value = observer.velocity
   uniforms.fov.value = observer.fov
+  uniforms.bg_texture.value = textures['bg1']
 
 }
 
