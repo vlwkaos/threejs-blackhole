@@ -21,12 +21,10 @@ window.onload = ()=>{
   init()
   
   observer = new Observer(new THREE.Vector3())
+  camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
+  // camControl sets up vector
   observer.distance = 10
   observer.fov = 90.0
-  
-  
-
-  camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
   
   scene.add(observer)
   delta = 0
