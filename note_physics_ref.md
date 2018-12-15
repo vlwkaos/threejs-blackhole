@@ -14,8 +14,12 @@ https://en.wikipedia.org/wiki/Killing_vector_field
 https://www.physicsforums.com/threads/what-is-a-time-like-killing-vector.40565/  
 https://physics.stackexchange.com/questions/39124/what-is-a-killing-vector-field  
 https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)  
+
+# Circular Orbit
+https://en.wikipedia.org/wiki/Angular_momentum#Angular_momentum_in_orbital_mechanics  
 https://en.wikipedia.org/wiki/Circular_orbit#Orbital_velocity_in_general_relativity  
 https://en.wikipedia.org/wiki/Aberration_of_light
+https://en.wikipedia.org/wiki/Lorentz_transformation  
 
 # stellar color
 https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html  
