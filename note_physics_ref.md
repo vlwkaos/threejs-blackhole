@@ -3,7 +3,7 @@ Deriving simple geodesic
 http://spiro.fisica.unipd.it/~antonell/schwarzschild/  
 http://rantonels.github.io/starless/  
 
-Related the physics and maths
+Related physics and maths
 ------------------
 https://en.wikipedia.org/wiki/Schwarzschild_geodesics  
 https://en.wikipedia.org/wiki/Schwarzschild_metric#Singularities_and_black_holes  
@@ -16,3 +16,4 @@ http://www.ita.uni-heidelberg.de/~massimo/sub/Lectures/gl_all.pdf
 https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html  
 https://en.wikipedia.org/wiki/Circular_orbit#Orbital_velocity_in_general_relativity  
 https://en.wikipedia.org/wiki/Aberration_of_light
+http://paulbourke.net/geometry/transformationprojection/  
