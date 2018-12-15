@@ -104,12 +104,13 @@ const addControlGUI = ()=>{
   
   // define properties
   control = {
-  distance : 10.0
-
+  distance : 10.0,
+  orbit: false
   }
   
   let gui = new dat.GUI()
   gui.add(control, 'distance', 0, 12)
+  gui.add(control, 'orbit')
  //gui.addColor(control, 'color')
 
 }
@@ -128,6 +129,8 @@ const update = ()=>{
   camControl.update(delta)
   observer.update(delta)
   
+  
+    
   render()
   requestAnimationFrame(update)
   delta = Date.now()-lastframe
@@ -145,7 +148,8 @@ const updateUniforms = ()=>{
   
   // controls
   observer.distance = control.distance
-  
+  observer.move = control.orbit
+ 
 }
 
 const render = ()=>{

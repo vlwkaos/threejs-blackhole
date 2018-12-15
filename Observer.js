@@ -14,7 +14,7 @@ class Observer extends THREE.Camera {
     this.position.set(0,0,1)
     
     
-    this.move = true
+    this.move = false
   }
   
   update(delta){
@@ -36,7 +36,7 @@ class Observer extends THREE.Camera {
     // new theta
     this.theta = this.r.angleTo(this.position)
     // new velocity
-    this.angularVelocity = Math.sqrt(dist - 1)/Math.sqrt(2) 
+    this.angularVelocity = Math.sqrt(dist - 1)/Math.sqrt(2)
     
   }
 }
