@@ -8,6 +8,7 @@ class Observer extends THREE.Camera {
     this.barycenter = new THREE.Vector3()
     this.barycenter.copy(barycenter)
     this.r = new THREE.Vector3()
+    this.velocity = new THREE.Vector3()
     this.direction = new THREE.Vector3()
     this.position.set(0,0,1)
     
@@ -18,20 +19,19 @@ class Observer extends THREE.Camera {
   update(delta){
     if (this.move){
       this.time += delta
+      this.velocity =  
     }
   }
   
   // sets position, r vector, direction
   set distance(dist){
     this.r.subVectors(this.position, this.barycenter)
-    this.direction = this.direction.copy().cross(this.up).normalize()
-    
     let newPos = new THREE.Vector3().copy(this.r)
     newPos.normalize()
     newPos.multiplyScalar(dist)
     this.position.set(newPos.getComponent(0),newPos.getComponent(1),newPos.getComponent(2))
     
-    this.speed = Math.sqrt(dist-1)/Math.sqrt(2)
+    
     
   }
 }
