@@ -4,6 +4,7 @@ class Observer extends THREE.Camera {
   constructor(barycenter) {
     super()
     // sets initial values
+    this.time = 0
     this.barycenter = new THREE.Vector3()
     this.barycenter.copy(barycenter)
     this.r = new THREE.Vector3()
@@ -16,7 +17,7 @@ class Observer extends THREE.Camera {
   
   update(delta){
     if (this.move){
-      
+      this.time += delta
     }
   }
   

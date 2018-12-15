@@ -16,6 +16,7 @@ https://physics.stackexchange.com/questions/39124/what-is-a-killing-vector-field
 https://en.wikipedia.org/wiki/Metric_tensor_(general_relativity)  
 
 # Circular Orbit
+https://en.wikipedia.org/wiki/Angular_velocity#Particle_in_two_dimensions  
 https://en.wikipedia.org/wiki/Angular_momentum#Angular_momentum_in_orbital_mechanics  
 https://en.wikipedia.org/wiki/Circular_orbit#Orbital_velocity_in_general_relativity  
 https://en.wikipedia.org/wiki/Aberration_of_light
