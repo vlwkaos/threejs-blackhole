@@ -110,7 +110,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	};
 
   this.adjustMovement = function( angularVelocity, delta ){
-    this.yaw +=  angularVelocity*delta/1000
+    this.yaw -=  angularVelocity*delta/1000
     this.object.direction = getNewDirection();
   }
   

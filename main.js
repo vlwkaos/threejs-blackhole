@@ -120,7 +120,8 @@ const addControlGUI = ()=>{
 
 let delta, lastframe
 const update = ()=>{
-  lastframe = Date.now()
+  delta = Date.now()-lastframe
+  
   stats.update()
   updateUniforms()
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -128,12 +129,13 @@ const update = ()=>{
   // update what is drawn
   camControl.update(delta)
   observer.update(delta)
-  
+  if (control.orbit)
+  camControl.adjustMovement(observer.angularVelocity, delta)
   
     
   render()
   requestAnimationFrame(update)
-  delta = Date.now()-lastframe
+  lastframe = Date.now()
 }
 
 const updateUniforms = ()=>{

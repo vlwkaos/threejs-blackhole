@@ -2,7 +2,7 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define STEP 1.0
-#define NITER 10
+#define NITER 15
 #define SPEED 1
 
 

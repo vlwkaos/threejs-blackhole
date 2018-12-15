@@ -36,7 +36,7 @@ class Observer extends THREE.Camera {
     // new theta
     this.theta = this.r.angleTo(this.position)
     // new velocity
-    this.angularVelocity = Math.sqrt(dist - 1)/Math.sqrt(2)
+    this.angularVelocity = (Math.PI / 180) * Math.sqrt(dist - 1)/Math.sqrt(2)
     
   }
 }
