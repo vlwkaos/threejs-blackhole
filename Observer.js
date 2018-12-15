@@ -5,7 +5,10 @@ class Observer extends THREE.Camera {
     super()
     this.barycenter = new THREE.Vector3()
     this.barycenter.copy(barycenter)
-
+    this.position.set(0,0,1)
+    this.r
+    this.distance = 10
+    
     this.move = false
   }
   
@@ -17,18 +20,12 @@ class Observer extends THREE.Camera {
   
   set distance(dist){
     let newPos = new THREE.Vector3()
-    console.log('init: '+newPos.x)
     newPos.subVectors(this.position, this.barycenter)
-    console.log('subvec:'+newPos)
     newPos.normalize()
-    console.log('unit:' + newPos)
     newPos.multiplyScalar(dist)
-    console.log('multpi:' +newPos)
-    
-    //let newPos = (this.position.subVectors(this.barycenter,this.position).normalize()).multiplyScalar(dist)
     this.position.set(newPos.getComponent(0),newPos.getComponent(1),newPos.getComponent(2))
     
-    
+    this.speed = Math.sqrt(dist-1)/Math.sqrt(2)
     
   }
 }
