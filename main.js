@@ -22,13 +22,14 @@ window.onload = ()=>{
   
   observer = new Observer()
   observer.position.set(0.0,0.0,10.0)
-  observer.fov = 60.0
+  observer.fov = 90.0
 
   camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
   
   scene.add(observer)
   delta = 0
   
+  addControlGUI()
   addStatsGUI()
   update()
   
@@ -103,14 +104,12 @@ const addControlGUI = ()=>{
   
   // define properties
   control = {
-  rotationSpeed: 0.005,
-  opacity:0.6
+  distance : 10.0
 
   }
   
   let gui = new dat.GUI()
-  gui.add(control, 'rotationSpeed', -0.01, 0.01)
-  gui.add(control, 'opacity', 0.1, 1)
+  gui.add(control, 'distance', -10, 10)
  //gui.addColor(control, 'color')
 
 }
@@ -122,6 +121,7 @@ let delta, lastframe
 const update = ()=>{
   lastframe = Date.now()
   stats.update()
+
   renderer.setSize(window.innerWidth, window.innerHeight)
   
   camControl.update(delta)
@@ -142,6 +142,7 @@ const updateUniforms = ()=>{
   uniforms.fov.value = observer.fov
   uniforms.bg_texture.value = textures['bg1']
 
+  
 }
 
 const render = ()=>{

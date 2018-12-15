@@ -1,12 +1,17 @@
 
 /* global THREE */
-class Observer extends THREE.Camera{
-  constructor() {
-    super()
-    this.velocity = 0
+class Observer {
+  constructor(object) {
+    this.move = false
+    
+    
   }
   
   update(){
     
+  }
+  
+  set distance(dist){
+    this.distance = dist
   }
 }
