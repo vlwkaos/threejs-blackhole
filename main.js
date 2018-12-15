@@ -145,7 +145,7 @@ const updateUniforms = ()=>{
   uniforms.bg_texture.value = textures['bg1']
   
   // controls
-  observer.distance = control.distance
+  //observer.distance = control.distance
   
 }
 
