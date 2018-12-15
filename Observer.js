@@ -16,8 +16,11 @@ class Observer extends THREE.Camera {
   }
   
   set distance(dist){
-    this.position = new THREE.Vector3()
-    //this.position = this.position.subVectors(this.barycenter,this.position).normalize().multiplyScalar(dist)
+    let newPos = (this.position.subVectors(this.barycenter,this.position).normalize()).multiplyScalar(dist)
+    console.log(newPos)
+    this.position.set(newPos.getComponent(0),newPos.getComponent(1),newPos.getComponent(2))
+  
+    
     
   }
 }

@@ -21,7 +21,7 @@ window.onload = ()=>{
   init()
   
   observer = new Observer(new THREE.Vector3())
-  observer.position.set(0.0,0.0,10.0)
+  observer.distance = 10
   observer.fov = 90.0
   
   
@@ -111,7 +111,7 @@ const addControlGUI = ()=>{
   }
   
   let gui = new dat.GUI()
-  gui.add(control, 'distance', -10, 10)
+  gui.add(control, 'distance', 0, 12)
  //gui.addColor(control, 'color')
 
 }
@@ -145,7 +145,7 @@ const updateUniforms = ()=>{
   uniforms.bg_texture.value = textures['bg1']
   
   // controls
-  //observer.distance = control.distance
+  observer.distance = control.distance
   
 }
 
