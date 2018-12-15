@@ -20,9 +20,11 @@ window.onload = ()=>{
   
   init()
   
-  observer = new Observer()
+  observer = new Observer(new THREE.Vector3())
   observer.position.set(0.0,0.0,10.0)
   observer.fov = 90.0
+  
+  
 
   camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
   
@@ -141,7 +143,9 @@ const updateUniforms = ()=>{
   uniforms.cam_vel.value = observer.velocity
   uniforms.fov.value = observer.fov
   uniforms.bg_texture.value = textures['bg1']
-
+  
+  // controls
+  //observer.distance = control.distance
   
 }
 
