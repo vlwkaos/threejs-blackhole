@@ -22,43 +22,42 @@ class Observer extends THREE.Camera {
   
   update(delta){
     // time dilation
-    this.theta += this.angularVelocity*delta
+    this.delta = delta
+    
+    this.theta += this.angularVelocity*this.delta
     let cos = Math.cos(this.theta)
     let sin = Math.sin(this.theta)
-    
+    this.velocity.set(-this.angularVelocity*sin,0, this.angularVelocity*cos)
     if (this.moving){
       // accel
       
       if (this.angularVelocity < this.maxAngularVelocity)
-        this.angularVelocity += delta        
+        this.angularVelocity += this.delta        
       else
         this.angularVelocity = this.maxAngularVelocity
       
-      this.position.set(this.r*sin, 0, this.r*cos)
-      //this.velocity.set(-this.angularVelocity*sin,0, this.angularVelocity*cos)
+      //this.position.set(this.r*sin, 0, this.r*cos)
+      
     } else { 
       // deccel
       
-      if (this.angularVelocity > 0.0)
-        this.angularVelocity -= delta
-      else  
+      if (this.angularVelocity > 0.0){
+        this.angularVelocity -= this.delta
+        //this.position.set(this.r*sin, 0, this.r*cos)
+      }  
+      else
         this.angularVeloicty = 0
-        
-      
     }
     
     
-    this.time += delta
+    this.time += this.delta
   }
   
   // sets position, r vector, direction
   set distance(r){
     this.r = r
-    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/r 
+    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/r
     // new position
     this.position.normalize().multiplyScalar(r)
-    let temp = new THREE.Vector3()
-    temp.subVectors(this.position, temp)
-    this.theta = temp.angleTo(this.position)
   }
 }
