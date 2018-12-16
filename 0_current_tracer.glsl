@@ -54,9 +54,12 @@ void main()	{
   // from frame to camera
   vec3 ray_dir = normalize(pixel_pos - cam_pos);
   
+  if (moving){
   // aberration
+  vec3 ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
+  ray_angle += 
   
-  
+  }
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
 
