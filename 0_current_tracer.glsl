@@ -54,7 +54,14 @@ void main()	{
                  nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
 
   vec3 ray_dir = normalize(pixel_pos - cam_pos);
-  
+
+  // aberration
+  float ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
+  float phi = sin(ray_angle)*sqrt(1.0-cam_speed*cam_speed)/(cam_speed+cos(ray_angle));
+  ray_dir = vec3(
+          1.0 * Math.cos(phi),                          
+          0.0,
+          1.0 * Math.sin(phi));
 
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
@@ -78,12 +85,7 @@ void main()	{
   
   ray_dir = normalize(point - oldpoint);
   // angle of ray
-  if (moving){
-  // aberration
-    float ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
-    float phi = sin(ray_angle)*sqrt(1.0-cam_speed*cam_speed)/(cam_speed+cos(ray_angle));
-    ray_dir = vec3(1.0,0.0,0.0)/cos(phi);
-  }
+
   
   vec2 tex_coord = sphereMap(ray_dir);
   color = texture2D(bg_texture, tex_coord);
