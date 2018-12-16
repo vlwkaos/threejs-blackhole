@@ -2,7 +2,7 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define STEP 1.0
-#define NITER 10
+#define NITER 15
 #define SPEED 1
 
 
@@ -14,6 +14,8 @@ uniform vec3 cam_dir;
 uniform vec3 cam_up;
 uniform float fov;
 uniform bool moving;
+
+uniform float aberration;
 
 
 uniform sampler2D bg_texture;
@@ -56,9 +58,10 @@ void main()	{
   
   if (moving){
   // aberration
-  vec3 ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
-  ray_angle += 
-  
+    float ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
+    ray_angle += aberration;
+    
+   // ray_dir = 
   }
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
@@ -82,7 +85,6 @@ void main()	{
   
   ray_dir = normalize(point - oldpoint);
   // angle of ray
-  float theta = atan
 
   vec2 tex_coord = sphereMap(ray_dir);
   color = texture2D(bg_texture, tex_coord);

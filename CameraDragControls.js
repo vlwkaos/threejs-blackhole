@@ -114,7 +114,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
 		if ( this.enabled === false ) return;
   
-    if (this.object.move){
+    if (this.object.moving){
       this.yaw -=  this.object.angularVelocity*delta/1000
     }
     

@@ -57,6 +57,7 @@ const init = ()=>{
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"f", value: 0.0},
+    aberration: {type:"f", value: 0.0},
     bg_texture: {type: "t", value: null}
 	}
   
@@ -139,16 +140,20 @@ const update = ()=>{
 const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth
 	uniforms.resolution.value.y = window.innerHeight
+  
   uniforms.cam_pos.value = observer.position
   uniforms.cam_dir.value = observer.direction
   uniforms.cam_up.value = observer.up
   uniforms.cam_vel.value = observer.velocity
   uniforms.fov.value = observer.fov
+  
+  uniforms.aberration = observer.aberration
+  
   uniforms.bg_texture.value = textures['bg1']
   
   // controls
   observer.distance = control.distance
-  observer.move = control.orbit
+  observer.moving = control.orbit
  
 }
 
