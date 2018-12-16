@@ -7,6 +7,8 @@ let scene, camera, renderer
 let observer, camControl
 window.onload = ()=>{
   //
+  lastframe = Date.now()
+  
   scene = new THREE.Scene()
 
   renderer = new THREE.WebGLRenderer()
@@ -121,8 +123,7 @@ const addControlGUI = ()=>{
 
 let delta, lastframe
 const update = ()=>{
-  delta = Date.now()-lastframe
-  
+  delta = (Date.now()-lastframe)/1000  
   stats.update()
   updateUniforms()
   renderer.setSize(window.innerWidth, window.innerHeight)
@@ -134,6 +135,7 @@ const update = ()=>{
     
   render()
   requestAnimationFrame(update)
+  
   lastframe = Date.now()
 }
 
