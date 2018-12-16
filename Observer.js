@@ -23,7 +23,6 @@ class Observer extends THREE.Camera {
     this.time += delta
     this.theta += this.angularVelocity*delta
     this.speed = Math.sqrt(Math.pow(this.dist*Math.cos(this.angularVelocity),2)+Math.pow(this.dist*Math.sin(this.angularVelocity),2))  
-    
     if (this.moving){
       // accel
       if (this.angularVelocity < this.maxAngularVelocity){
@@ -32,14 +31,16 @@ class Observer extends THREE.Camera {
         this.angularVelocity = this.maxAngularVelocity
       }
       this.position.applyAxisAngle(this.up, this.theta)
-   
+      
     } else { 
       // deccel
       if (this.angularVelocity > 0.0){
          this.angularVelocity -= delta
+         
          this.position.applyAxisAngle(this.up, this.theta)
       } else { 
         this.angularVeloicty = 0
+        this.speed = 0
       }
     }
   }

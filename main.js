@@ -83,7 +83,6 @@ const loadTexture = (name, image, interpolation)=>{
       texture.magFilter = interpolation
       texture.minFilter = interpolation
       textures[name] = texture
-      console.log(texture)
     })
 }
 
@@ -148,7 +147,7 @@ const updateUniforms = ()=>{
   uniforms.cam_up.value = observer.up
   uniforms.fov.value = observer.fov
   
-  uniforms.cam_speed = observer.speed
+  uniforms.cam_speed.value = observer.speed
   
   uniforms.bg_texture.value = textures['bg1']
   

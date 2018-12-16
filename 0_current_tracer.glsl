@@ -79,14 +79,14 @@ void main()	{
   ray_dir = normalize(point - oldpoint);
   
   // aberration
- // if (cam_speed > 0.0) {
-    float ray_angle = acos(dot(vec3(0.0,0.0,-1.0),ray_dir));
+  if (cam_speed > 0.0) {
+    float ray_angle = acos(dot(vec3(0.0,0.0,0.0),ray_dir));
     float phi = atan(sin(ray_angle)*sqrt(1.0-cam_speed*cam_speed)/(cam_speed+cos(ray_angle)));
     ray_dir = normalize(vec3(
                   cos(ray_angle),                          
                   ray_dir.y,
                   sin(ray_angle)));
- // }
+  }
   
   
   vec2 tex_coord = sphereMap(ray_dir);
