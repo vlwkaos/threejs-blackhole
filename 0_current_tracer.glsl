@@ -2,7 +2,7 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define STEP 1.0
-#define NITER 15
+#define NITER 10
 #define SPEED 1
 
 
@@ -73,6 +73,8 @@ void main()	{
   }
   
   ray_dir = normalize(point - oldpoint);
+  // angle of ray
+  float theta = atan
 
   vec2 tex_coord = sphereMap(ray_dir);
   color = texture2D(bg_texture, tex_coord);

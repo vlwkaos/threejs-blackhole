@@ -127,8 +127,9 @@ const update = ()=>{
   renderer.setSize(window.innerWidth, window.innerHeight)
   
   // update what is drawn
-  camControl.update(delta)
   observer.update(delta)
+  camControl.update(delta)
+  
     
   render()
   requestAnimationFrame(update)

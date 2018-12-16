@@ -114,8 +114,10 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
 		if ( this.enabled === false ) return;
   
-    if (this.move)
-      this.yaw -=  this.angularVelocity*delta/1000
+    if (this.object.move){
+      this.yaw -=  this.object.angularVelocity*delta/1000
+    }
+    
     if (this.mouseDragOn){
       this.yaw -= this.lookSpeed * this.offsetX;
       
@@ -129,8 +131,10 @@ THREE.CameraDragControls = function ( object, domElement ) {
       this.offsetX /= 2;
       this.offsetY /= 2;
 
-      this.object.direction = getNewDirection();
+      
     }
+    
+    this.object.direction = getNewDirection();
   
   }
   

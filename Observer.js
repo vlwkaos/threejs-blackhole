@@ -34,7 +34,7 @@ class Observer extends THREE.Camera {
     // new position
     this.position.set(newPos.getComponent(0),newPos.getComponent(1),newPos.getComponent(2))
     // new theta
-    this.theta = this.r.angleTo(this.position)
+    this.theta = this.r.angleTo(this.position) // angle from observer to barycenter
     // new velocity
     this.angularVelocity = (Math.PI / 180) * Math.sqrt(dist - 1)/Math.sqrt(2)
     
