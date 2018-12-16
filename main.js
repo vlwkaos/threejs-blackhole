@@ -144,10 +144,9 @@ const updateUniforms = ()=>{
   uniforms.cam_pos.value = observer.position
   uniforms.cam_dir.value = observer.direction
   uniforms.cam_up.value = observer.up
-  uniforms.cam_vel.value = observer.velocity
   uniforms.fov.value = observer.fov
   
-  uniforms.aberration = observer.aberration
+  uniforms.cam_speed = observer.speed
   
   uniforms.bg_texture.value = textures['bg1']
   

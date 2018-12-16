@@ -9,8 +9,8 @@ class Observer extends THREE.Camera {
     this.barycenter.copy(barycenter)
     this.r = new THREE.Vector3()
     this.theta = 0
-    this.aberration = 0
     this.angularVelocity = 0
+    this.speed = 0
     this.direction = new THREE.Vector3()
     this.position.set(0,0,1)
     
@@ -38,9 +38,11 @@ class Observer extends THREE.Camera {
     this.theta = this.r.angleTo(this.position) // angle from observer to barycenter
     
     this.angularVelocity = (Math.PI / 180) * Math.sqrt(dist - 1)/Math.sqrt(2) // in radian
-    let velsqr = (Math.pow(dist*Math.cos(this.angularVelocity),2)+Math.pow(dist*Math.sin(this.angularVelocity),2))
-    let phi = Math.atan2(Math.sin(this.angularVelocity)*Math.sqrt(1-velsqr)/ // 
-                                 (Math.sqrt(velsqr)+Math.cos(this.angularVelocity)))
-    this.aberration = this.theta-phi
+    this.speed = Math.sqrt(Math.pow(dist*Math.cos(this.angularVelocity),2)+Math.pow(dist*Math.sin(this.angularVelocity),2))
+    console.log('velsqr:'+velsqr)
+    let phi = Math.atan2(Math.sin(this.theta)*Math.sqrt(1-velsqr)/ // 
+                                 (Math.sqrt(velsqr)+Math.cos(this.theta)))
+    console.log('phi:'+phi)
+    console.log(this.aberration)
   }
 }

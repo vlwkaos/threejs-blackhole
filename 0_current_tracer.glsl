@@ -15,7 +15,7 @@ uniform vec3 cam_up;
 uniform float fov;
 uniform bool moving;
 
-uniform float aberration;
+uniform float velsqr;
 
 
 uniform sampler2D bg_texture;
@@ -59,8 +59,8 @@ void main()	{
   if (moving){
   // aberration
     float ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
-    ray_angle += aberration;
-    
+    //ray_angle += 
+    //ray_dir = vec3(1.0,0.0,0.0)/cos(ray_angle);
    // ray_dir = 
   }
   // initial color
