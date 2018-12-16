@@ -36,6 +36,11 @@ window.onload = ()=>{
   update()
   
 }
+
+ window.onbeforeunload = ()=>{
+  for (let i= 0;i<textures.length;i++)
+    textures[i].dispose()
+ }
 // Scene drawing
 let material, mesh, uniforms
 let loader, textureLoader
