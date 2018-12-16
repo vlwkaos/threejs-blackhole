@@ -15,7 +15,7 @@ uniform vec3 cam_up;
 uniform float fov;
 uniform bool moving;
 
-uniform float cam_speed;
+uniform float cam_vel;
 
 
 uniform sampler2D bg_texture;
@@ -39,8 +39,17 @@ vec2 sphereMap(vec3 direction){
   return uv;
 }
 
-vec3 lightAberration(vec3 ray, vec3 frame_vel){
-  
+vec3 lorentzBoost(vec3 position, vec3 velocity){
+  float speed = length(v);
+  if (speed > 0.0){
+    vec3 n = velocity/speed;
+    float gamma = 1.0/sqrt(1-speed*speed);
+    
+    vec3 r_parallel = dot(position, n)*n;
+    vec3 r_perpendicular = position - r_parallel;
+    
+    
+  }
 }
 
 void main()	{
@@ -58,6 +67,8 @@ void main()	{
                  nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
 
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
+  
+  // aberration
 
   
   // initial color
@@ -81,17 +92,7 @@ void main()	{
   }
   
   ray_dir = normalize(point - oldpoint);
-  
-  // aberration
-  if (cam_speed > 0.0) {
-    float ray_angle = acos(dot(vec3(0.0,0.0,0.0),ray_dir));
-    float phi = atan(sin(ray_angle)*sqrt(1.0-cam_speed*cam_speed)/(cam_speed+cos(ray_angle)));
-    ray_dir = normalize(vec3(
-                  cos(ray_angle),                          
-                  ray_dir.y,
-                  sin(ray_angle)));
-  }
-  
+
   
   vec2 tex_coord = sphereMap(ray_dir);
   color += texture2D(bg_texture, tex_coord);

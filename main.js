@@ -59,7 +59,7 @@ const init = ()=>{
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"f", value: 0.0},
-    cam_speed: {type:"f", value: 0.0},
+    cam_vel: {type:"v3", value: new THREE.Vector3()},
     bg_texture: {type: "t", value: null}
 	}
   
@@ -147,7 +147,7 @@ const updateUniforms = ()=>{
   uniforms.cam_up.value = observer.up
   uniforms.fov.value = observer.fov
   
-  uniforms.cam_speed.value = observer.speed
+  uniforms.cam_vel.value = observer.velocity
   
   uniforms.bg_texture.value = textures['bg1']
   
