@@ -39,10 +39,5 @@ class Observer extends THREE.Camera {
     
     this.angularVelocity = (Math.PI / 180) * Math.sqrt(dist - 1)/Math.sqrt(2) // in radian
     this.speed = Math.sqrt(Math.pow(dist*Math.cos(this.angularVelocity),2)+Math.pow(dist*Math.sin(this.angularVelocity),2))
-    console.log('velsqr:'+velsqr)
-    let phi = Math.atan2(Math.sin(this.theta)*Math.sqrt(1-velsqr)/ // 
-                                 (Math.sqrt(velsqr)+Math.cos(this.theta)))
-    console.log('phi:'+phi)
-    console.log(this.aberration)
   }
 }

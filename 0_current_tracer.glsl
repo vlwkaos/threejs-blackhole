@@ -1,8 +1,8 @@
 #define PI 3.141592653589793238462643383279
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
-#define STEP 1.0
-#define NITER 15
+#define STEP 0.5
+#define NITER 30
 #define SPEED 1
 
 
@@ -15,7 +15,7 @@ uniform vec3 cam_up;
 uniform float fov;
 uniform bool moving;
 
-uniform float velsqr;
+uniform float cam_speed;
 
 
 uniform sampler2D bg_texture;
@@ -52,17 +52,10 @@ void main()	{
   // generate ray
   vec3 pixel_pos =cam_pos + cam_ndir +
                  nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
-  
-  // from frame to camera
+
   vec3 ray_dir = normalize(pixel_pos - cam_pos);
   
-  if (moving){
-  // aberration
-    float ray_angle = acos(dot(vec3(1.0,0.0,0.0),ray_dir));
-    //ray_angle += 
-    //ray_dir = vec3(1.0,0.0,0.0)/cos(ray_angle);
-   // ray_dir = 
-  }
+
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
 
@@ -85,7 +78,13 @@ void main()	{
   
   ray_dir = normalize(point - oldpoint);
   // angle of ray
-
+  if (moving){
+  // aberration
+    float ray_angle = acos(dot(ray_dir,vec3(1.0,0.0,0.0)));
+    float phi = sin(ray_angle)*sqrt(1.0-cam_speed*cam_speed)/(cam_speed+cos(ray_angle));
+    ray_dir = vec3(1.0,0.0,0.0)/cos(phi);
+  }
+  
   vec2 tex_coord = sphereMap(ray_dir);
   color = texture2D(bg_texture, tex_coord);
 

@@ -57,7 +57,7 @@ const init = ()=>{
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
     fov: {type:"f", value: 0.0},
-    aberration: {type:"f", value: 0.0},
+    cam_speed: {type:"f", value: 0.0},
     bg_texture: {type: "t", value: null}
 	}
   
