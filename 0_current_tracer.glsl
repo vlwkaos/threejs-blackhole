@@ -39,6 +39,10 @@ vec2 sphereMap(vec3 direction){
   return uv;
 }
 
+vec3 lightAberration(vec3 ray, vec3 frame_vel){
+  
+}
+
 void main()	{
   // z towards you, y towards up, x towards your left
   
