@@ -50,8 +50,13 @@ void main()	{
   // generate ray
   vec3 pixel_pos =cam_pos + cam_ndir +
                  nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
+  
+  // from frame to camera
   vec3 ray_dir = normalize(pixel_pos - cam_pos);
-
+  
+  // aberration
+  
+  
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
 
