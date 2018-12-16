@@ -15,7 +15,7 @@ class Observer extends THREE.Camera {
     this.angularVelocity = 0
     this.maxAngularVelocity = 0
     
-    this.direction = new THREE.Vector3()
+
     this.position.set(0,0,1)
     
     
@@ -23,13 +23,13 @@ class Observer extends THREE.Camera {
   }
   
   update(delta){
-    this.time += delta
+    
     this.theta += this.angularVelocity*delta
-    this.velocity.set(this.dist*Math.cos(this.angularVelocity), 0, this.dist*Math.sin(this.angularVelocity))
     if (this.moving){
       // accel
       if (this.angularVelocity < this.maxAngularVelocity){
         this.angularVelocity += delta        
+        this.velocity.set(this.dist*Math.cos(this.angularVelocity), 0, this.dist*Math.sin(this.angularVelocity))
       } else{
         this.angularVelocity = this.maxAngularVelocity
       }
@@ -38,14 +38,18 @@ class Observer extends THREE.Camera {
     } else { 
       // deccel
       if (this.angularVelocity > 0.0){
-         this.angularVelocity -= delta
+        this.angularVelocity -= delta
          
-         this.position.applyAxisAngle(this.up, this.theta)
+        this.position.applyAxisAngle(this.up, this.theta)
+        this.velocity.applyAxisAngle(this.up, this.theta)
       } else { 
         this.angularVeloicty = 0
         this.velocity.set(0,0,0)
       }
     }
+    
+    
+    this.time += delta
   }
   
   // sets position, r vector, direction
@@ -61,6 +65,6 @@ class Observer extends THREE.Camera {
     this.theta = this.r.angleTo(this.position) // angle from observer to barycenter
     
     this.maxAngularVelocity = 1/Math.sqrt(2.0*(dist-1)) // in radian
-    
+    this.velocity.set(this.dist*Math.cos(this.angularVelocity), 0, this.dist*Math.sin(this.angularVelocity))
   }
 }

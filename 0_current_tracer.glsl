@@ -46,7 +46,9 @@ vec3 lorentz_transform_velocity(vec3 u, vec3 v){
   if (speed > 0.0){
     float gamma = 1.0/sqrt(1.0-dot(v,v));
     
-    vec3 new_u = (u/gamma - v + gamma*dot(u,v)*v/(gamma+1.0))/(1.0-dot(v,u));
+    float denominator = 1.0 - dot(v,u);
+    
+    vec3 new_u = (u/gamma - v + (gamma/(gamma+1.0)) * dot(u,v)*v)/denominator;
     return new_u;
   }
   return u;
@@ -87,11 +89,13 @@ void main()	{
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
     
+    velocity = lorentz_transform_velocity(velocity, cam_vel);
+    
     if (length(point) < 1.0) break; // ray is lost at rs
   }
   // aberration
   ray_dir = normalize(point - oldpoint);
-  ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
+  
   
   vec2 tex_coord = sphereMap(ray_dir);
   color += texture2D(bg_texture, tex_coord);
