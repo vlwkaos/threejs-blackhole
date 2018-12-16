@@ -13,6 +13,7 @@ uniform vec3 cam_pos;
 uniform vec3 cam_dir;
 uniform vec3 cam_up;
 uniform float fov;
+uniform bool moving;
 
 
 uniform sampler2D bg_texture;
@@ -71,8 +72,9 @@ void main()	{
     if (length(point) < 1.0) break; // ray is lost at rs
   }
   
+  ray_dir = normalize(point - oldpoint);
 
-  vec2 tex_coord = sphereMap(normalize(point - oldpoint));
+  vec2 tex_coord = sphereMap(ray_dir);
   color = texture2D(bg_texture, tex_coord);
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon

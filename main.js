@@ -129,9 +129,6 @@ const update = ()=>{
   // update what is drawn
   camControl.update(delta)
   observer.update(delta)
-  if (control.orbit)
-  camControl.adjustMovement(observer.angularVelocity, delta)
-  
     
   render()
   requestAnimationFrame(update)
