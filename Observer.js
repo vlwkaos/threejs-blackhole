@@ -39,8 +39,7 @@ class Observer extends THREE.Camera {
          this.angularVelocity -= delta
          this.position.applyAxisAngle(this.up, this.theta)
       } else { 
-        this.angularVeloicty = (0).toFixed(0)
-        console.log('halt')
+        this.angularVeloicty = 0
       }
     }
   }

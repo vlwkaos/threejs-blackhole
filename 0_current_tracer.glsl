@@ -56,14 +56,13 @@ void main()	{
   vec3 ray_dir = normalize(pixel_pos - cam_pos);
 
   // aberration
-  /*
-  float ray_angle = acos(dot(normalize(vec3(1.0,0.0,0.0)),ray_dir));
+  float ray_angle = acos(dot(vec3(1.0,0.0,0.0),-1.0*ray_dir));
   float phi = sin(ray_angle)*sqrt(1.0-cam_speed*cam_speed)/(cam_speed+cos(ray_angle));
-  cam_dir = normalize(vec3(
-          cos(ray_angle),                          
+  ray_dir = -1.0* normalize(vec3(
+          cos(phi),                          
           0.0,
-          sin(ray_angle)));
-  */
+          sin(phi)));
+  
   
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
