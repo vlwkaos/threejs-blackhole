@@ -29,7 +29,7 @@ class Observer extends THREE.Camera {
     let sin = Math.sin(this.theta)
     
     this.position.set(this.r*sin, 0, this.r*cos)
-    this.velocity.set(-this.r*cos, 0, this.r*sin)
+    this.velocity.set(cos*this.angularVelocity, 0, -sin*this.angularVelocity) 
     
     if (this.moving){
       // accel
@@ -41,12 +41,11 @@ class Observer extends THREE.Camera {
     } else { 
       // deccel
       
-      if (this.angularVelocity > 0.0){
+      if (this.angularVelocity > 0.0)
         this.angularVelocity -= this.delta/this.r
-        //this.position.set(this.r*sin, 0, this.r*cos)
-      }  
-      else
+      else 
         this.angularVeloicty = 0
+      
     }
 
     this.time += this.delta
@@ -58,7 +57,6 @@ class Observer extends THREE.Camera {
     
     // w
     this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/r
-    
     // p
     this.position.normalize().multiplyScalar(r)
   }
