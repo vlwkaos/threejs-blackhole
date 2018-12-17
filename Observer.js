@@ -16,12 +16,17 @@ class Observer extends THREE.Camera {
 
     this.position.set(0,0,1)
   
+    // options
     this.moving = false
+    this.timeDilation = false
   }
   
   update(delta){
     // time dilation
-    this.delta = delta
+    if (this.timeDiltion){
+      //this.delta = Math.sqrt((delta*delta * (1.0 - this.angularVelocity*this.anuglularVelocity)) / (1-1.0/this.r));  
+    }
+    
   
     
     this.theta += this.angularVelocity*this.delta
@@ -34,7 +39,7 @@ class Observer extends THREE.Camera {
     if (this.moving){
       // accel
       if (this.angularVelocity < this.maxAngularVelocity)
-        this.angularVelocity += this.delta/this.r        
+        this.angularVelocity += this.delta/this.r      
       else
         this.angularVelocity = this.maxAngularVelocity
       
