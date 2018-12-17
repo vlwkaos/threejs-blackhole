@@ -89,7 +89,7 @@ void main()	{
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
     
-    velocity = lorentz_transform_velocity(velocity, cam_vel);
+    //velocity = lorentz_transform_velocity(velocity, cam_vel);
     
     if (length(point) < 1.0) break; // ray is lost at rs
   }
