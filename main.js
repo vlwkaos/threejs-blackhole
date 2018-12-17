@@ -25,6 +25,7 @@ window.onload = ()=>{
   observer = new Observer(new THREE.Vector3())
   camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
   // camControl sets up vector
+  observer.distance=  8
   observer.fov = 90.0
   
   scene.add(observer)
@@ -111,15 +112,14 @@ const addControlGUI = ()=>{
   // define properties
   control = {
   distance : 8.0,
-  orbit: false
-//  time_dilation: false
+  orbit: false,
+  time_dilation: true
   }
   
   let gui = new dat.GUI()
   gui.add(control, 'distance', 0, 12)
   gui.add(control, 'orbit')
-  //gui.add(control, 'time_dilation')
- //gui.addColor(control, 'color')
+  gui.add(control, 'time_dilation')
 
 }
 
@@ -160,7 +160,7 @@ const updateUniforms = ()=>{
   // controls
   observer.distance = control.distance
   observer.moving = control.orbit
-  //observer.timeDilation = control.time_dilation
+  observer.timeDilation = control.time_dilation
 }
 
 const render = ()=>{

@@ -56,8 +56,6 @@ vec3 lorentz_transform_velocity(vec3 u, vec3 v){
 
 void main()	{
   // z towards you, y towards up, x towards your left
-  
-  
   float uvfov = fov / 2.0 * DEG_TO_RAD;
   
   vec2 uv = squareFrame(resolution); 
@@ -70,6 +68,7 @@ void main()	{
 
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
+  // light aberration alters ray path 
   ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
   // initial color
@@ -93,9 +92,8 @@ void main()	{
     
     if (length(point) < 1.0) break; // ray is lost at rs
   }
-  // aberration
+
   ray_dir = normalize(point - oldpoint);
-  
   
   vec2 tex_coord = sphereMap(ray_dir);
   color += texture2D(bg_texture, tex_coord);

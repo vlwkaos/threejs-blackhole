@@ -3,15 +3,13 @@
 class Observer extends THREE.Camera {
   constructor() {
     super()
-    // sets initial values
-    this.time = 0
-    
-    this.velocity = new THREE.Vector3()
-    
+
     // for orbit
+    this.time = 0
     this.theta = 0
     this.angularVelocity = 0
     this.maxAngularVelocity = 0
+    this.velocity = new THREE.Vector3()
     
 
     this.position.set(0,0,1)
@@ -24,7 +22,9 @@ class Observer extends THREE.Camera {
   update(delta){
     // time dilation
     if (this.timeDiltion){
-      //this.delta = Math.sqrt((delta*delta * (1.0 - this.angularVelocity*this.anuglularVelocity)) / (1-1.0/this.r));  
+      this.delta = Math.sqrt((delta*delta * (1.0 - this.angularVelocity*this.anuglularVelocity)) / (1-1.0/this.r));  
+    } else {
+      this.delta = delta 
     }
     
   
@@ -49,7 +49,7 @@ class Observer extends THREE.Camera {
       if (this.angularVelocity > 0.0)
         this.angularVelocity -= this.delta/this.r
       else 
-        this.angularVeloicty = 0
+        this.angularVelocity = 0
       
     }
 
@@ -61,7 +61,7 @@ class Observer extends THREE.Camera {
     this.r = r
     
     // w
-    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/r
+    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/this.r
     // p
     this.position.normalize().multiplyScalar(r)
   }
