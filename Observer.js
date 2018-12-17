@@ -15,29 +15,28 @@ class Observer extends THREE.Camera {
     
 
     this.position.set(0,0,1)
-    
-    
+  
     this.moving = false
   }
   
   update(delta){
     // time dilation
     this.delta = delta
-    
+  
     this.theta += this.angularVelocity*this.delta
     let cos = Math.cos(this.theta)
     let sin = Math.sin(this.theta)
-    this.velocity.set(-this.angularVelocity*sin,0, this.angularVelocity*cos)
+    
     if (this.moving){
       // accel
-      
       if (this.angularVelocity < this.maxAngularVelocity)
         this.angularVelocity += this.delta        
       else
         this.angularVelocity = this.maxAngularVelocity
       
-      //this.position.set(this.r*sin, 0, this.r*cos)
-      
+     // this.position.set(this.r*sin, 0, this.r*cos)
+    //this.velocity.set(-Math.cos(this.angularVelocity), 0, Math.sin(this.angulrVelocity))
+    
     } else { 
       // deccel
       
@@ -47,8 +46,9 @@ class Observer extends THREE.Camera {
       }  
       else
         this.angularVeloicty = 0
+        this.velocity.set(0,0,0)
     }
-    
+    this.velocity.set(-1.0*Math.cos(this.angularVelocity), 0, Math.sin(this.angulrVelocity))
     
     this.time += this.delta
   }
