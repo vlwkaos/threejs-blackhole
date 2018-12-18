@@ -59,8 +59,6 @@ const init = ()=>{
   uniforms = {
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2() },
-    steps: { type: "f", value: 1.0},
-    nsteps: { type: "i", value: 1},
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
@@ -149,7 +147,7 @@ const update = ()=>{
 const updateUniforms = ()=>{
   uniforms.resolution.value.x = window.innerWidth
 	uniforms.resolution.value.y = window.innerHeight
-  
+
   uniforms.cam_pos.value = observer.position
   uniforms.cam_dir.value = observer.direction
   uniforms.cam_up.value = observer.up

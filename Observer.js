@@ -65,4 +65,6 @@ class Observer extends THREE.Camera {
     // p
     this.position.normalize().multiplyScalar(r)
   }
+  
+  get distance(){return this.r}
 }
