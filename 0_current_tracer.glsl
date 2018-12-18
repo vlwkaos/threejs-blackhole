@@ -1,13 +1,10 @@
 #define PI 3.141592653589793238462643383279
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
-#define STEP 1.0
-#define NITER 10
-#define SPEED 1
-
-
 uniform float time;
 uniform vec2 resolution;
+uniform float step;
+uniform int nsteps;
 
 uniform vec3 cam_pos;
 uniform vec3 cam_dir;
@@ -16,6 +13,7 @@ uniform float fov;
 uniform bool moving;
 
 uniform vec3 cam_vel;
+
 
 
 uniform sampler2D bg_texture;
@@ -55,6 +53,7 @@ vec3 lorentz_transform_velocity(vec3 u, vec3 v){
 }
 
 void main()	{
+  
   // z towards you, y towards up, x towards your left
   float uvfov = fov / 2.0 * DEG_TO_RAD;
   
@@ -68,13 +67,14 @@ void main()	{
 
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
-  // light aberration alters ray path 
+  // light aberration 
   ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
 
   // geodesic by leapfrog integration
+
   vec3 point = cam_pos;
   vec3 velocity = ray_dir;
   vec3 c = cross(point,velocity);
@@ -82,11 +82,11 @@ void main()	{
   
   vec3 oldpoint; 
   float pointsqr;
-  for (int i=0; i<NITER;i++){ 
+  for (int i=0; i<nsteps;i++){ 
     oldpoint = point; // remember previous point for finding intersection
-    point += velocity * STEP;
+    point += velocity * step;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
-    velocity += accel * STEP;    
+    velocity += accel * step;    
     
     
     
