@@ -1,4 +1,4 @@
-Deriving simple geodesic
+Source reference
 ---------------------
 http://spiro.fisica.unipd.it/~antonell/schwarzschild/  
 http://rantonels.github.io/starless/  
@@ -24,7 +24,14 @@ https://en.wikipedia.org/wiki/Aberration_of_light
 https://en.wikipedia.org/wiki/Lorentz_transformation  
 
 # stellar color
+https://en.wikipedia.org/wiki/Gravitational_redshift  
+https://en.wikipedia.org/wiki/Relativistic_Doppler_effect#math_5  
+https://en.wikipedia.org/wiki/Relativistic_beaming  
+https://physics.stackexchange.com/questions/227738/time-dilation-equals-red-shift-looking-in-or-blue-shift-looking-out  
 https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html  
+
+beaming - luminosity  
+doppler - wavelength change
 
 # Projection
 http://paulbourke.net/geometry/transformationprojection/  
