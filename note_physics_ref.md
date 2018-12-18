@@ -31,7 +31,11 @@ https://physics.stackexchange.com/questions/227738/time-dilation-equals-red-shif
 https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html  
 
 beaming - luminosity  
-doppler - wavelength change
+doppler - wavelength change  
+
+blueshift from observer movement  
+redshift from stellar movement  
+they cancel out?
 
 # Projection
 http://paulbourke.net/geometry/transformationprojection/  
