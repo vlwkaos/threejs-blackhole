@@ -54,6 +54,13 @@ vec3 lorentz_transform_velocity(vec3 u, vec3 v){
   return u;
 }
 
+vec3 temp_to_color(float temp_kelvin){
+  vec3 color;
+  // 1k ~ 40k rescale by deviding 100
+  temperatureInKelvins = clamp(temperatureInKelvins, 1000.0, 40000.0) / 100.0;
+  
+}
+
 void main()	{
   // z towards you, y towards up, x towards your left
   float uvfov = fov / 2.0 * DEG_TO_RAD;
