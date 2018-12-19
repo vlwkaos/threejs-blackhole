@@ -10,7 +10,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	this.enabled = true;
 
 	this.lookSpeed = 0.005;
-	this.lookVertical = false;	
+	this.lookVertical = true;	
 
 	this.offsetX = 0;
   this.offsetY = 0;
@@ -139,6 +139,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
   }
   
   const getNewDirection =() => {
+    
+    // x, z are flat 
+    // y is lat
     let newDir = new THREE.Vector3(
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),

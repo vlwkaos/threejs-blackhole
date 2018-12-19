@@ -86,7 +86,7 @@ vec3 temp_to_color(float temp_kelvin){
     if (color.b < 0.0) color.b = 0.0;
     if (color.b > 255.0) color.b = 255.0;
   }
-  color /= 255.0;
+  color /= 255.0; // make it 0..1
   return color;
 }
 

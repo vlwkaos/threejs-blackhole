@@ -115,11 +115,11 @@ const addControlGUI = ()=>{
   control = {
   distance : 8.0,
   orbit: false,
-  time_dilation: true
+  time_dilation: false
   }
   
   let gui = new dat.GUI()
-  gui.add(control, 'distance', 0, 12)
+  gui.add(control, 'distance', 3, 14)
   gui.add(control, 'orbit')
   gui.add(control, 'time_dilation')
 
