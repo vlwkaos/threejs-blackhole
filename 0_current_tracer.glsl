@@ -93,7 +93,7 @@ vec3 temp_to_color(float temp_kelvin){
 
 void main()	{
   // z towards you, y towards up, x towards your left
-  float uvfov = fov / 2.0 * DEG_TO_RAD;
+  float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   
   vec2 uv = squareFrame(resolution); 
   uv *= vec2(resolution.x/resolution.y, 1.0);

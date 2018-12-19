@@ -144,7 +144,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
     // y is lat
     let newDir = new THREE.Vector3(
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
-          -Math.sin(this.pitch),
+          Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
     return newDir.normalize();
   }
