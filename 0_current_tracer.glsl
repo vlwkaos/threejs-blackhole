@@ -95,14 +95,16 @@ void main()	{
   // z towards you, y towards up, x towards your left
   float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   
+  
   vec2 uv = squareFrame(resolution); 
   uv *= vec2(resolution.x/resolution.y, 1.0);
+
   vec3 cam_ndir = normalize(cam_dir); // 
   vec3 nright = normalize(cross(cam_dir, cam_up));
   // generate ray
   vec3 pixel_pos =cam_pos + cam_ndir +
                  nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
-
+  
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
   // light aberration alters ray path 
