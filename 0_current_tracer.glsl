@@ -132,10 +132,12 @@ void main()	{
   
   float t_coord;
   // taken from source
+  // red = luminance
+  // green = temperature
   vec4 star_color = texture2D(star_texture, tex_coord);
   if (star_color.r > 0.0){
     t_coord = (1000.0 + 39000.0*star_color.g);
-    color+= temp_to_color(t_coord) * star_color.r 
+    color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
   }
   
   
