@@ -23,12 +23,11 @@ https://en.wikipedia.org/wiki/Circular_orbit#Orbital_velocity_in_general_relativ
 https://en.wikipedia.org/wiki/Aberration_of_light
 https://en.wikipedia.org/wiki/Lorentz_transformation  
 
-# stellar color
+# stellar color change
 https://en.wikipedia.org/wiki/Gravitational_redshift  
 https://en.wikipedia.org/wiki/Relativistic_Doppler_effect#math_5  
 https://en.wikipedia.org/wiki/Relativistic_beaming  
 https://physics.stackexchange.com/questions/227738/time-dilation-equals-red-shift-looking-in-or-blue-shift-looking-out  
-https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html  
 
 beaming - luminosity  
 doppler - wavelength change  
@@ -36,6 +35,13 @@ doppler - wavelength change
 blueshift from observer movement  
 redshift from stellar movement  
 they cancel out?
+
+the thing is, we don't know any information from static background texture, so applying doppler effect does not make any sense.  
+
+# temperature to color
+https://docs.kde.org/trunk5/en/extragear-edu/kstars/ai-colorandtemp.html   
+http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/  
+
 
 # Projection
 http://paulbourke.net/geometry/transformationprojection/  

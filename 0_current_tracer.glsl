@@ -1,8 +1,8 @@
 #define PI 3.141592653589793238462643383279
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
-#define STEP 1.0
-#define NSTEPS 15
+#define STEP 0.5
+#define NSTEPS 20
 #define SPEED 1
 
 
@@ -69,6 +69,7 @@ vec3 temp_to_color(float temp_kelvin){
     color.r = temp_kelvin - 60.0;
     if (color.r < 0.0) color.r = 0.0;
     color.r = 329.698727446 * pow(color.r, -0.1332047592);
+    if (color.r < 0.0) color.r = 0.0;
     if (color.g > 255.0) color.r = 255.0;
     color.g = temp_kelvin - 60.0;
     if (color.g < 0.0) color.g = 0.0;
@@ -76,6 +77,8 @@ vec3 temp_to_color(float temp_kelvin){
     if (color.g > 255.0)  color.g = 255.0;  
   }
   if (temp_kelvin >= 66.0){
+    color.b = 255.0;
+  } else if (temp_kelvin <= 19.0){
     color.b = 0.0;
   } else {
     color.b = temp_kelvin - 10.0;
@@ -128,7 +131,7 @@ void main()	{
   }
 
   ray_dir = normalize(point - oldpoint);
-  vec2 tex_coord = sphereMap(ray_dir);
+  vec2 tex_coord = sphereMap(ray_dir* ROT_Y(45.0 * DEG_TO_RAD));
   
   float t_coord;
   // taken from source
@@ -141,7 +144,7 @@ void main()	{
   }
   
   
-  color += texture2D(bg_texture, tex_coord) * 0.4;;
+  color += texture2D(bg_texture, tex_coord) * 0.4;
   
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
