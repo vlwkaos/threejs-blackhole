@@ -1,8 +1,8 @@
 
 /* global THREE */
-class Observer extends THREE.Camera {
-  constructor() {
-    super()
+class Observer extends THREE.PerspectiveCamera {
+  constructor(fov, ratio, near, far) {
+    super(fov, ratio, near, far)
 
     // for orbit
     this.time = 0
