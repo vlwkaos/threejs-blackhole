@@ -19,6 +19,7 @@ uniform vec3 cam_vel;
 
 
 uniform sampler2D bg_texture;
+uniform sampler2D star_texture;
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0; 
@@ -66,12 +67,12 @@ vec3 temp_to_color(float temp_kelvin){
     if (color.g > 255.0)  color.g = 255.0;
   } else {
     color.r = temp_kelvin - 60.0;
-    color.r = 329.698727446 * pow(color.r, -0.1332047592);
     if (color.r < 0.0) color.r = 0.0;
+    color.r = 329.698727446 * pow(color.r, -0.1332047592);
     if (color.g > 255.0) color.r = 255.0;
     color.g = temp_kelvin - 60.0;
-    color.g = 288.1221695283 * pow(color.g, -0.0755148492);
     if (color.g < 0.0) color.g = 0.0;
+    color.g = 288.1221695283 * pow(color.g, -0.0755148492);
     if (color.g > 255.0)  color.g = 255.0;  
   }
   if (temp_kelvin >= 66.0){
@@ -127,9 +128,19 @@ void main()	{
   }
 
   ray_dir = normalize(point - oldpoint);
-  
   vec2 tex_coord = sphereMap(ray_dir);
-  color += texture2D(bg_texture, tex_coord);
+  
+  float t_coord;
+  // taken from source
+  vec4 star_color = texture2D(star_texture, tex_coord);
+  if (star_color.r > 0.0){
+    t_coord = (1000.0 + 39000.0*star_color.g);
+    color+= temp_to_color(t_coord) * star_color.r 
+  }
+  
+  
+  color += texture2D(bg_texture, tex_coord) * 0.4;;
+  
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
   // does it enter event horizon?
