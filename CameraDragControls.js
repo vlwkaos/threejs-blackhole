@@ -134,7 +134,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
       
     }
     
-    this.object.direction = getNewDirection();
+    getNewDirection();
   
   }
   
@@ -142,13 +142,15 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
     // x, z are flat 
     // y is lat
-
+    
     let newDir = new THREE.Vector3(
       
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
-    return newDir.normalize();
+    this.object.direction = newDir.normalize();
+    
+    
   }
   
 	function contextmenu( event ) {
