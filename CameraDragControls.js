@@ -3,7 +3,6 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-  this.object.up.set(0,1.0,0);
   
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
@@ -143,13 +142,16 @@ THREE.CameraDragControls = function ( object, domElement ) {
     // x, z are flat 
     // y is lat
     
+    /*
     let newDir = new THREE.Vector3(
       
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
     this.object.direction = newDir.normalize();
-    
+    */
+    this.object.rotateY(this.yaw)
+    this.object.rotateX(this.pitch)
     
   }
   
