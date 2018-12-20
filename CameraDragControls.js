@@ -16,12 +16,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
   this.lastX = 0;
   this.lastY = 0;
   
-  
-  this.pitchObject = new THREE.Object3D()
-  this.pitchObject.add(this.object)
-  this.yawObject = new THREE.Object3D()
-  this.yawObject.add(this.pitchObject)
-  
   this.pitch = 0;
   this.yaw = Math.PI*3/2;
 
@@ -124,11 +118,10 @@ THREE.CameraDragControls = function ( object, domElement ) {
       
     if (this.mouseDragOn){
       this.yaw -= this.lookSpeed * this.offsetX;
-      this.yawObject.rotation.y += this.lookSpeed * this.offsetX
     
       if (this.lookVertical){
         this.pitch += this.lookSpeed * this.offsetY;
-        this.pitchObject.rotation.x += this.lookSpeed * this.offsetY
+
         if (this.pitch > 1.57)
           this.pitch = 1.56
         if (this.pitch < -1.57)
@@ -136,8 +129,6 @@ THREE.CameraDragControls = function ( object, domElement ) {
       }
       this.offsetX /= 2;
       this.offsetY /= 2;
-
-      
     }
     
     getNewDirection();
@@ -148,25 +139,14 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
     // x, z are flat 
     // y is lat
-    let odir = new THREE.Vector3(0,0,-1)
-    let rotation = new THREE.Euler(0,0,0, 'YXZ')
-    
-    rotation.set(this.pitchObject.rotation.x,
-                  this.yawObject.rotation.y,
-                  0)
-    let newdir = new THREE.Vector3()
-    newdir.copy(odir).applyEuler(rotation)
-    this.object.direction = newdir.normalize()
-    
-    
-    /*
+
     let newDir = new THREE.Vector3(
       
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
     this.object.direction = newDir.normalize();
-    */
+    
   }
   
 	function contextmenu( event ) {
