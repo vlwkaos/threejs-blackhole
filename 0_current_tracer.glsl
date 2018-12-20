@@ -92,6 +92,7 @@ vec3 temp_to_color(float temp_kelvin){
 }
 
 // https://gist.github.com/fieldOfView/5106319
+// https://gamedev.stackexchange.com/questions/93032/what-causes-this-distortion-in-my-perspective-projection-at-steep-view-angles
 // for reference
 void main()	{
   // z towards you, y towards up, x towards your left
@@ -100,8 +101,9 @@ void main()	{
   
   vec2 uv = squareFrame(resolution); 
   uv.x *= resolution.x/resolution.y;
-  vec3 cam_ndir = normalize(cam_dir); // 
-  vec3 nright = normalize(cross(cam_up, cam_ndir));
+  vec3 forward = normalize(cam_dir - cam_pos); // 
+  vec3 up = normalize(cam_up)
+  vec3 nright = normalize(cross(forward, up));
 
   // generate ray
   vec3 pixel_pos =cam_pos + cam_ndir +
@@ -136,7 +138,7 @@ void main()	{
   }
 
   ray_dir = normalize(point - oldpoint);
-  vec2 tex_coord = to_spherical(ray_dir* ROT_Z(45.0 * DEG_TO_RAD));
+  vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
   
   
   // taken from source
