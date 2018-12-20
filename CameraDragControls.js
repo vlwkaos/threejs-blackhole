@@ -3,24 +3,24 @@
 THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
-	this.domElement = ( domElement !== undefined ) ? domElement : document
+  
+	this.domElement = ( domElement !== undefined ) ? domElement : document;
+
 	this.enabled = true;
 
 	this.lookSpeed = 0.005;
 	this.lookVertical = true;	
 
-  // for dragging
 	this.offsetX = 0;
   this.offsetY = 0;
   this.lastX = 0;
   this.lastY = 0;
   
-  this.object.rotation.set(0, 0, 0)
+  
   this.pitchObject = new THREE.Object3D()
   this.pitchObject.add(this.object)
   this.yawObject = new THREE.Object3D()
   this.yawObject.add(this.pitchObject)
-  
   
   this.pitch = 0;
   this.yaw = Math.PI*3/2;
@@ -121,7 +121,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
   
     if (this.object.angularVelocity > 0)
       this.yaw -=  this.object.angularVelocity*delta
-    
+      this.
     
     if (this.mouseDragOn){
       this.yaw -= this.lookSpeed * this.offsetX;
@@ -147,10 +147,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
     // x, z are flat 
     // y is lat
-    let qt = new THREE.Quaternion()
-    this.object.getWorldQuaternion(qt)
-    
-    
+
     let newDir = new THREE.Vector3(
       
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
