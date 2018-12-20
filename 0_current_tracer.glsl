@@ -30,12 +30,12 @@ vec2 squareFrame(vec2 screen_size){
   return position;
 }
 
-vec2 sphereMap(vec3 direction){
+vec2 toSpherical(vec3 cartesian_coord){
   // spherical projection
   // polar angles are directly used as horizontal and vertical coordinates
   // here angle to y-axis mapped to latitude (looking vertically 180 degrees)
   // xz plane to longitude (looking horizontally 360 degrees)
-  vec2 uv = vec2(atan(direction.z,direction.x), asin(direction.y)); 
+  vec2 uv = vec2(atan(cartesian_coord.z,cartesian_coord.x), asin(direction.y)); 
   uv *= vec2(1.0/(2.0*PI), 1.0/PI); //long, lat
   uv += 0.5;
   return uv;
@@ -91,6 +91,8 @@ vec3 temp_to_color(float temp_kelvin){
   return color;
 }
 
+// https://gist.github.com/fieldOfView/5106319
+// for reference
 void main()	{
   // z towards you, y towards up, x towards your left
   float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
@@ -137,18 +139,19 @@ void main()	{
   ray_dir = normalize(point - oldpoint);
   vec2 tex_coord = sphereMap(ray_dir* ROT_Z(45.0 * DEG_TO_RAD));
   
-  float t_coord;
+  
   // taken from source
   // red = luminance
   // green = temperature
+  float t_coord;
   vec4 star_color = texture2D(star_texture, tex_coord);
   if (star_color.r > 0.0){
     t_coord = (1000.0 + 39000.0*star_color.g);
-    color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
+    //color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
   }
   
   
-  color += texture2D(bg_texture, tex_coord) * 0.4;
+  color += texture2D(bg_texture, tex_coord) * 1.0;
   
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon

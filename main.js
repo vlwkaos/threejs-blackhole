@@ -52,9 +52,9 @@ const init = ()=>{
 
   textures = {}
   
-  // Using NearestFilter ensures no black line happening with equirectangular image
+  
   loadTexture('bg1','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
-  loadTexture('bg2','https://i.stack.imgur.com/m0o6j.jpg', THREE.NearestFilter)
+  loadTexture('bg2','https://cdn-images-1.medium.com/max/2000/1*i53XJF3x04oq3BUJHy4TQQ.png', THREE.NearestFilter)
   loadTexture('star','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/stars.png', THREE.NearestFilter)
   // screen frame
   uniforms = {
