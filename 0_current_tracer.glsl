@@ -98,9 +98,9 @@ void main()	{
   
   vec2 uv = squareFrame(resolution); 
   uv *= vec2(resolution.x/resolution.y, 1.0);
-
+  
   vec3 cam_ndir = normalize(cam_dir); // 
-  vec3 nright = normalize(cross(cam_ndir, cam_up));
+  vec3 nright = normalize(cross(cam_up, cam_ndir));
   // generate ray
   vec3 pixel_pos =cam_pos + cam_ndir +
                  nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
@@ -133,7 +133,7 @@ void main()	{
     if (length(point) < 1.0) break; // ray is lost at rs
   }
 
-  ray_dir = normalize(point - oldpoint);
+  ray_dir = normalize(oldpoint - point);
   vec2 tex_coord = sphereMap(ray_dir* ROT_Z(45.0 * DEG_TO_RAD));
   
   float t_coord;
