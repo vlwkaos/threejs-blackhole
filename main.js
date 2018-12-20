@@ -54,7 +54,7 @@ const init = ()=>{
   
   // Using NearestFilter ensures no black line happening with equirectangular image
   loadTexture('bg1','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
-  loadTexture('bg2','https://raw.githubusercontent.com/rantonels/starless/master/textures/bgedit.jpg', THREE.NearestFilter)
+  loadTexture('bg2','https://i.stack.imgur.com/m0o6j.jpg', THREE.NearestFilter)
   loadTexture('star','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/stars.png', THREE.NearestFilter)
   // screen frame
   uniforms = {
@@ -157,7 +157,7 @@ const updateUniforms = ()=>{
   
   uniforms.cam_vel.value = observer.velocity
 
-  uniforms.bg_texture.value = textures['bg1']
+  uniforms.bg_texture.value = textures['bg2']
   uniforms.star_texture.value = textures['star']
   // controls
   observer.distance = control.distance
