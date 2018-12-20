@@ -30,12 +30,12 @@ vec2 squareFrame(vec2 screen_size){
   return position;
 }
 
-vec2 toSpherical(vec3 cartesian_coord){
+vec2 to_spherical(vec3 cartesian_coord){
   // spherical projection
   // polar angles are directly used as horizontal and vertical coordinates
   // here angle to y-axis mapped to latitude (looking vertically 180 degrees)
   // xz plane to longitude (looking horizontally 360 degrees)
-  vec2 uv = vec2(atan(cartesian_coord.z,cartesian_coord.x), asin(direction.y)); 
+  vec2 uv = vec2(atan(cartesian_coord.z,cartesian_coord.x), asin(cartesian_coord.y)); 
   uv *= vec2(1.0/(2.0*PI), 1.0/PI); //long, lat
   uv += 0.5;
   return uv;
@@ -99,8 +99,7 @@ void main()	{
   
   
   vec2 uv = squareFrame(resolution); 
-  uv *= vec2(resolution.x/resolution.y, 1.0);
-  vec3 uvw = vec3(uv,0.0);
+  uv.x *= resolution.x/resolution.y;
   vec3 cam_ndir = normalize(cam_dir); // 
   vec3 nright = normalize(cross(cam_up, cam_ndir));
 
@@ -137,7 +136,7 @@ void main()	{
   }
 
   ray_dir = normalize(point - oldpoint);
-  vec2 tex_coord = sphereMap(ray_dir* ROT_Z(45.0 * DEG_TO_RAD));
+  vec2 tex_coord = to_spherical(ray_dir* ROT_Z(45.0 * DEG_TO_RAD));
   
   
   // taken from source
