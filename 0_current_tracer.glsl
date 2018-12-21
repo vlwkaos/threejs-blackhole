@@ -27,7 +27,7 @@ struct Disk{
   vec3 center;
   vec3 normal;
   float radius;
-}
+};
 
 
 vec2 square_frame(vec2 screen_size){
@@ -137,7 +137,7 @@ void main()	{
   float pointsqr;
   
   //disk
-  Disk disk = Disk(vec3(0.0,0.0,0.0), vec3(0.0, 1.0, 0.0), 3.0); 
+  Disk disk = Disk(vec3(0.0,0.0,0.0), vec3(1.0, 1.0, 0.0), 3.0); 
   
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
@@ -151,13 +151,17 @@ void main()	{
     // intersect accretion disk
     
     if (accretion_disk){
-      ray_dir = normalize(point - oldpoint);
-      float denom = dot(disk.normal, diskray_dir);
+      float denom = dot(normalize(disk.normal), point);
       if (denom > exp(-6.0)){
         vec3 shared_point = disk.center - ray_dir;
-        float det = dot(shared_point, disk.normal);
-        if (det == 0.0)
-          color += vec4(1.0,0.0,0.0,0.5); 
+        float det = dot(shared_point, disk.normal)/denom;
+        if (det >= 0.0){
+          vec3 v = point - disk.center;
+          float d2 = dot(v, v);
+          if (sqrt(d2) <= disk.radius){
+            color += vec4(1.0,1.0,1.0,0.5); 
+          }
+        }
       }
     }
     
