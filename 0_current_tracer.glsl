@@ -26,10 +26,10 @@ uniform sampler2D disk_texture;
 struct Disk{
   vec3 center;
   float min_radius;
-  
-}
+  float radius;
+};
 
-vec2 squareFrame(vec2 screen_size){
+vec2 square_frame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0; 
   // first make pixels arranged in 0..1
   // then by multiplying by 2 and subtracting 1, put them in -1..1
@@ -106,7 +106,7 @@ void main()	{
   float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   
   
-  vec2 uv = squareFrame(resolution); 
+  vec2 uv = square_frame(resolution); 
   uv *= vec2(resolution.x/resolution.y, 1.0);
   vec3 forward = normalize(cam_dir); // 
   vec3 up = normalize(cam_up);
@@ -134,20 +134,32 @@ void main()	{
   
   vec3 oldpoint; 
   float pointsqr;
+  
+  Disk disk = Disk(vec3(0,0,0), 3, 4); 
+  
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
     
+    // distance from origin
+    float distance = length(point);
+    
     // intersect accretion disk
+    
     if (accretion_disk){
-      
+       if (distance > disk.min_radius){
+         ray_dir = normalize(point - oldpoint);
+         vec2 tex_coord = vec2((distance-disk.min_radius)/disk.radius,
+                            atan(ray_dir.x, ray_dir.y)/PI*0.5+0.5);
+         color += (
+       }
     }
     
     
     
-    if (length(point) < 1.0) break; // ray is lost at rs
+    if (distance < 1.0) break; // ray is lost at rs
   }
 
   ray_dir = normalize(point - oldpoint);
