@@ -164,9 +164,6 @@ void main()	{
       }
     }
     
-    
-    
-    if (distance < 1.0) break; // ray is lost at rs
   }
 
 
@@ -188,7 +185,7 @@ void main()	{
   color += texture2D(bg_texture, tex_coord) * 0.4;
   
 
-  bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
+  bool horizon_mask = dot(point,point) < 1.0; // intersecting eventhorizon
   // does it enter event horizon?
   if (horizon_mask) {
     //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
