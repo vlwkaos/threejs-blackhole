@@ -151,10 +151,15 @@ void main()	{
     // intersect accretion disk
     
     if (accretion_disk){
-      bool mask_crossing = oldpoint.y > 0.0 ^ point.y > 0.0;
-      
-      if (mask_crossing){
-        color += vec4(1.0,0.0,0.0,0.5);
+      if (oldpoint.z * point.z < 0.0){
+        float lambda = - point.z/velocity.z;
+        vec3 intersection = point + lambda*velocity;
+        float r = length(intersection);
+        if (r > 1.0){
+          vec2 tex_coord = vec2((r-1.0)/3.0,atan(intersection.x, intersection.z)/PI*0.5 +0.5);
+          color += texture2D(disk_texture,tex_coord);
+        
+        }
         
       
       }
