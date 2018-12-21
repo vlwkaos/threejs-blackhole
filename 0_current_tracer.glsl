@@ -136,7 +136,8 @@ void main()	{
   vec3 oldpoint; 
   float pointsqr;
   
-  Disk disk = Disk(vec3(0.0,0.0,0.0), 1.0, 1.0); 
+  //disk
+  Disk disk = Disk(vec3(0.0,0.0,0.0), vec3(0.0, 1.0, 0.0), 3.0); 
   
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
@@ -150,12 +151,14 @@ void main()	{
     // intersect accretion disk
     
     if (accretion_disk){
-       if (distance disk.center+disk.radius_in){
-         ray_dir = normalize(point - oldpoint);
-         vec2 tex_coord = vec2((distance-disk.radius_in)/disk.radius_out,
-                            atan(ray_dir.x, ray_dir.y)/PI*0.5+0.5);
-         color += texture2D(disk_texture, tex_coord)*0.1;
-       }
+      ray_dir = normalize(point - oldpoint);
+      float denom = dot(disk.normal, diskray_dir);
+      if (denom > exp(-6.0)){
+        vec3 shared_point = disk.center - ray_dir;
+        float det = dot(shared_point, disk.normal);
+        if (det == 0.0)
+          color += vec4(1.0,0.0,0.0,0.5); 
+      }
     }
     
     
