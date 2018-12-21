@@ -149,16 +149,15 @@ void main()	{
     float distance = length(point);
     
     // intersect accretion disk
-    
     if (accretion_disk){
       if (oldpoint.z * point.z < 0.0){
         float lambda = - point.z/velocity.z;
         vec3 intersection = point + lambda*velocity;
         float r = length(intersection);
-        if (r > 1.0){
-          vec2 tex_coord = vec2((r-1.0)/3.0,atan(intersection.x, intersection.z)/PI*0.5 +0.5);
+        if (r > 2.0){
+          vec2 tex_coord = vec2((r-2.0)/3.0,atan(intersection.x, intersection.y)/PI*0.5 +0.5);
           color += texture2D(disk_texture,tex_coord);
-        
+          
         }
         
       
@@ -170,6 +169,8 @@ void main()	{
     if (distance < 1.0) break; // ray is lost at rs
   }
 
+
+  
   ray_dir = normalize(point - oldpoint);
   vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
   
