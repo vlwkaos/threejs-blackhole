@@ -13,5 +13,6 @@ Learn with examples
 - [Spherical mapping](http://paulbourke.net/geometry/transformationprojection/)
 - https://github.com/rantonels/starless/blob/master/tracer.py  
 - https://stackoverflow.com/questions/43741885/how-to-convert-spherical-coordinates-to-equirectangular-projection-coordinates
-- a
+- https://gamedev.stackexchange.com/questions/93032/what-causes-this-distortion-in-my-perspective-projection-at-steep-view-angles  
+
 

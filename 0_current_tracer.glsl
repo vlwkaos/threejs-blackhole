@@ -104,7 +104,8 @@ void main()	{
   vec3 forward = normalize(cam_dir); // 
   vec3 up = normalize(cam_up);
   vec3 nright = normalize(cross(forward, up));
-  
+  // this was the missing piece! I doubted it the other day
+  up = cross(nright, forward);
   // generate ray
   vec3 pixel_pos =cam_pos + forward +
                  nright*uv.x*uvfov+ up*uv.y*uvfov;
@@ -148,11 +149,11 @@ void main()	{
   vec4 star_color = texture2D(star_texture, tex_coord);
   if (star_color.r > 0.0){
     t_coord = (1000.0 + 39000.0*star_color.g);
-    //color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
+    color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
   }
   
   
-  color += texture2D(bg_texture, tex_coord) * 1.0;
+  color += texture2D(bg_texture, tex_coord) * 0.4;
   
 
   bool horizon_mask = length(point) < 1. ; // intersecting eventhorizon
