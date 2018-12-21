@@ -25,9 +25,10 @@ uniform sampler2D disk_texture;
 
 struct Disk{
   vec3 center;
-  float min_radius;
+  vec3 normal;
   float radius;
-};
+}
+
 
 vec2 square_frame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0; 
@@ -135,7 +136,7 @@ void main()	{
   vec3 oldpoint; 
   float pointsqr;
   
-  Disk disk = Disk(vec3(0,0,0), 3, 4); 
+  Disk disk = Disk(vec3(0.0,0.0,0.0), 1.0, 1.0); 
   
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
@@ -149,11 +150,11 @@ void main()	{
     // intersect accretion disk
     
     if (accretion_disk){
-       if (distance > disk.min_radius){
+       if (distance disk.center+disk.radius_in){
          ray_dir = normalize(point - oldpoint);
-         vec2 tex_coord = vec2((distance-disk.min_radius)/disk.radius,
+         vec2 tex_coord = vec2((distance-disk.radius_in)/disk.radius_out,
                             atan(ray_dir.x, ray_dir.y)/PI*0.5+0.5);
-         color += (
+         color += texture2D(disk_texture, tex_coord)*0.1;
        }
     }
     
