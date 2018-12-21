@@ -14,13 +14,20 @@ uniform vec3 cam_pos;
 uniform vec3 cam_dir;
 uniform vec3 cam_up;
 uniform float fov;
-uniform bool moving;
+
+uniform bool accretion_disk;
 
 uniform vec3 cam_vel;
 
-
 uniform sampler2D bg_texture;
 uniform sampler2D star_texture;
+uniform sampler2D disk_texture;
+
+struct Disk{
+  vec3 center;
+  float min_radius;
+  
+}
 
 vec2 squareFrame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0; 
@@ -132,6 +139,11 @@ void main()	{
     point += velocity * STEP;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
     velocity += accel * STEP;    
+    
+    // intersect accretion disk
+    if (accretion_disk){
+      
+    }
     
     
     

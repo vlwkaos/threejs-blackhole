@@ -58,7 +58,8 @@ const init = ()=>{
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
-		resolution: { type: "v2", value: new THREE.Vector2() },
+		resolution: { type: "v2", value: new THREE.Vector2()},
+    accretion_disk: {type: "b", value: false},
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
@@ -164,7 +165,7 @@ const updateUniforms = ()=>{
   // controls
   observer.distance = control.distance
   observer.moving = control.orbit
-  
+  uniforms.accretion_disk.value = control.accretion_disk
   
 }
 
