@@ -151,25 +151,12 @@ void main()	{
     // intersect accretion disk
     
     if (accretion_disk){
-      vec3 ray = point - oldpoint;
-      float intersect = -oldpoint.z / ray;
-      if (intersect < 2.0){
-        vec3 isec = oldpoint + ray*intersect;
-        float r = length(isec);
-        if (r > disk.
-      }
-      ray_dir = normalize(point - oldpoint);
-      float denom = dot(normalize(disk.normal), ray_dir);
-      if (denom > exp(-6.0)){
-        vec3 shared_point = disk.center - oldpoint;
-        float det = dot(shared_point, disk.normal)/denom;
-        if (det >= 0.0){
-          vec3 v = point - disk.center;
-          float d2 = dot(v, v);
-          if (sqrt(d2) <= disk.radius){
-            color += vec4(1.0,1.0,1.0,0.5); 
-          }
-        }
+      bool mask_crossing = oldpoint.y > 0.0 ^ point.y > 0.0;
+      
+      if (mask_crossing){
+        color += vec4(1.0,0.0,0.0,0.5);
+        
+      
       }
     }
     
