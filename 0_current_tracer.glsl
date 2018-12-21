@@ -152,7 +152,6 @@ void main()	{
     color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
   }
   
-  
   color += texture2D(bg_texture, tex_coord) * 0.4;
   
 

@@ -1,7 +1,4 @@
 /* globals THREE dat Stats Observer*/
-let dbg = {debugMode: true}
-dbg.log = (text)=>{ if (dbg.debugMode)  console.log(text)}
-
 
 let scene, camera, renderer
 let observer, camControl
@@ -55,7 +52,9 @@ const init = ()=>{
   
   loadTexture('bg1','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
   loadTexture('bg2','https://cdn-images-1.medium.com/max/2000/1*i53XJF3x04oq3BUJHy4TQQ.png', THREE.NearestFilter)
-  loadTexture('star','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/stars.png', THREE.NearestFilter)
+  loadTexture('star','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/stars.png', THREE.LinearFilter)
+  loadTexture('disk','https://raw.githubusercontent.com/rantonels/starless/master/textures/adisk.jpg', THREE.LinearFilter)
+  
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
@@ -67,7 +66,8 @@ const init = ()=>{
     fov: {type:"f", value: 0.0},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
     bg_texture: {type: "t", value: null},
-    star_texture: {type: "t", value: null}
+    star_texture: {type: "t", value: null},
+    disk_texture: {type: "t", value:null}
 	}
   
   material = new THREE.ShaderMaterial( {
@@ -115,13 +115,13 @@ const addControlGUI = ()=>{
   control = {
   distance : 8.0,
   orbit: false,
-  time_dilation: false
+  accretion_disk: false
   }
   
   let gui = new dat.GUI()
   gui.add(control, 'distance', 3, 14)
   gui.add(control, 'orbit')
-  gui.add(control, 'time_dilation')
+  gui.add(control, 'accretion_disk')
 
 }
 
@@ -159,10 +159,13 @@ const updateUniforms = ()=>{
 
   uniforms.bg_texture.value = textures['bg1']
   uniforms.star_texture.value = textures['star']
+  uniforms.disk_texture.value = textures['disk']
+  
   // controls
   observer.distance = control.distance
   observer.moving = control.orbit
-  observer.timeDilation = control.time_dilation
+  
+  
 }
 
 const render = ()=>{
