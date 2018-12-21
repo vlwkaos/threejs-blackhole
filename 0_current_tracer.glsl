@@ -100,14 +100,14 @@ void main()	{
   
   
   vec2 uv = squareFrame(resolution); 
-  uv.x *= resolution.x/resolution.y;
-  vec3 forward = normalize(cam_dir - cam_pos); // 
-  vec3 up = normalize(cam_up)
+  uv *= vec2(resolution.x/resolution.y, 1.0);
+  vec3 forward = normalize(cam_dir); // 
+  vec3 up = normalize(cam_up);
   vec3 nright = normalize(cross(forward, up));
-
+  
   // generate ray
-  vec3 pixel_pos =cam_pos + cam_ndir +
-                 nright*uv.x*uvfov+ cam_up*uv.y*uvfov;
+  vec3 pixel_pos =cam_pos + forward +
+                 nright*uv.x*uvfov+ up*uv.y*uvfov;
   
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
