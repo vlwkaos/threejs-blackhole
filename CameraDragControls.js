@@ -136,7 +136,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
     // x, z are flat 
     // y is lat
-
+    
     let newDir = new THREE.Vector3(
       
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
