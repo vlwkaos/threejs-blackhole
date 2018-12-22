@@ -18,7 +18,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
   
   this.pitch = 0
   this.yaw = 0
-  this.roll = -10
+  this.roll = -1
 
 	this.viewHalfX = 0
 	this.viewHalfY = 0
@@ -137,14 +137,18 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
     // x, z are flat 
     // y is lat
+    
+    // original up
+
+    // original direction
     let odir = new THREE.Vector3(0, 0, -1)
     let rotation = new THREE.Euler(0,0,0, 'YXZ')
     rotation.set(this.pitch, this.yaw, 0)
     let newDir = new THREE.Vector3()
     newDir.copy(odir).applyEuler(rotation)
-    this.object.direction = newDir.normalize();
+    this.object.direction = newDir.normalize()
     
-    
+
     
     /*  
           Math.cos(this.pitch) * Math.cos(this.yaw),                          

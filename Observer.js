@@ -35,9 +35,16 @@ class Observer extends THREE.PerspectiveCamera {
     let cos = Math.cos(this.theta)
     let sin = Math.sin(this.theta)
     
-    this.position.set(this.r*sin, 1 , this.r*cos)
     
+    
+    this.position.set(this.r*sin, 0.5 , this.r*cos)
     this.velocity.set(cos*this.angularVelocity, 0 ,-sin*this.angularVelocity) 
+    
+    //incline
+    let phi = -10 * Math.PI / 180;
+    let orbit_coords = (new THREE.Matrix4()).makeRotationY(phi);
+
+    
     
     if (this.moving){
       // accel
