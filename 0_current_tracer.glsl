@@ -125,7 +125,7 @@ void main()	{
   ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
   // initial color
-  vec4 color = vec4(0.0,0.0,0.0,0.0);
+  vec4 color = vec4(0.0,0.0,0.0,1.0);
 
   // geodesic by leapfrog integration
 
@@ -137,7 +137,8 @@ void main()	{
   vec3 oldpoint; 
   float pointsqr;
   
- 
+  float distance = length(point);
+    
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * STEP;
@@ -145,13 +146,11 @@ void main()	{
     velocity += accel * STEP;    
     
     // distance from origin
-    float distance = length(point);
+    distance = length(point);
     
     if (distance < 0.0) break;
     
-    float pointsqr = dot(point,point);
-    float oldpointsqr = dot(point,point);
-
+    
     // intersect accretion disk
     if (accretion_disk){
       if (oldpoint.y * point.y < 0.0){
@@ -168,8 +167,8 @@ void main()	{
         }
       }
     }
-    
-    bool horizon_mask = pointsqr < 1.0 && oldpointsqr > 1.0;// intersecting eventhorizon
+    /*
+    bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
     if (horizon_mask) {
       //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
@@ -178,29 +177,24 @@ void main()	{
       color += black;
 
     }
-    
-    if (pointsqr > 1.0){
-      ray_dir = normalize(point - oldpoint);
-      vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
-      // taken from source
-      // red = luminance
-      // green = temperature
-      float t_coord;
-      vec4 star_color = texture2D(star_texture, tex_coord);
-      if (star_color.r > 0.0){
-        t_coord = (1000.0 + 39000.0*star_color.g);
-        color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
-      }
-
-      color += texture2D(bg_texture, tex_coord) * 0.4;
-      
-    }
+    */
   }
-
-
-gl_FragColor = color;
   
-  
-  
+  if (distance > 1.0){
+    ray_dir = normalize(point - oldpoint);
+    vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
+    // taken from source
+    // red = luminance
+    // green = temperature
+    float t_coord;
+    vec4 star_color = texture2D(star_texture, tex_coord);
+    if (star_color.r > 0.0){
+      t_coord = (1000.0 + 39000.0*star_color.g);
+      color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
+    }
 
+    color += texture2D(bg_texture, tex_coord) * 0.4;
+// gl_FragColor = color;
+  }
+  gl_FragColor = color;
 }
