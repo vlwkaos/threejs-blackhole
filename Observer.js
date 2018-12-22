@@ -38,7 +38,7 @@ class Observer extends THREE.PerspectiveCamera {
     
     this.position.set(this.r*sin, this.r*tan , this.r*cos)
     
-    this.velocity.set(cos*this.angularVelocity, sec2*cos ,-sin*this.angularVelocity) 
+    this.velocity.set(cos*this.angularVelocity, this.angularVelocity*sec2*cos ,-sin*this.angularVelocity) 
     
     if (this.moving){
       // accel
@@ -65,7 +65,7 @@ class Observer extends THREE.PerspectiveCamera {
     this.r = r
     
     // w
-    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/this.r
+    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))//this.r
     // p
     this.position.normalize().multiplyScalar(r)
   }
