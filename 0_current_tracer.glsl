@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 0.2
-#define NSTEPS 100
+#define STEP 1.0
+#define NSTEPS 20
 #define SPEED 1
 
 
@@ -149,6 +149,8 @@ void main()	{
     
     if (distance < 0.0) break;
     
+    float pointsqr = dot(point,point);
+    float oldpointsqr = dot(point,point);
 
     // intersect accretion disk
     if (accretion_disk){
@@ -167,7 +169,7 @@ void main()	{
       }
     }
     
-    bool horizon_mask = dot(point,point) < 1.0;// intersecting eventhorizon
+    bool horizon_mask = pointsqr < 1.0 && oldpointsqr > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
     if (horizon_mask) {
       //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
@@ -177,29 +179,28 @@ void main()	{
 
     }
     
+    if (pointsqr > 1.0){
+      ray_dir = normalize(point - oldpoint);
+      vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
+      // taken from source
+      // red = luminance
+      // green = temperature
+      float t_coord;
+      vec4 star_color = texture2D(star_texture, tex_coord);
+      if (star_color.r > 0.0){
+        t_coord = (1000.0 + 39000.0*star_color.g);
+        color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
+      }
+
+      color += texture2D(bg_texture, tex_coord) * 0.4;
+      
+    }
   }
 
 
+gl_FragColor = color;
   
-  ray_dir = normalize(point - oldpoint);
-  vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
   
-  // taken from source
-  // red = luminance
-  // green = temperature
-  float t_coord;
-  vec4 star_color = texture2D(star_texture, tex_coord);
-  if (star_color.r > 0.0){
-    t_coord = (1000.0 + 39000.0*star_color.g);
-    color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
-  }
   
-  color += texture2D(bg_texture, tex_coord) * 0.4;
-  
-
-
-  
-
-  gl_FragColor = color;
 
 }
