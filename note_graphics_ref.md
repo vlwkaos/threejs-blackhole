@@ -14,5 +14,6 @@ Learn with examples
 - https://github.com/rantonels/starless/blob/master/tracer.py  
 - https://stackoverflow.com/questions/43741885/how-to-convert-spherical-coordinates-to-equirectangular-projection-coordinates
 - https://gamedev.stackexchange.com/questions/93032/what-causes-this-distortion-in-my-perspective-projection-at-steep-view-angles  
+- https://stackoverflow.com/questions/5532595/how-do-opengl-texture-coordinates-work
 
 

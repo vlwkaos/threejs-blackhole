@@ -14,10 +14,11 @@ uniform vec3 cam_pos;
 uniform vec3 cam_dir;
 uniform vec3 cam_up;
 uniform float fov;
+uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
+const 
 
-uniform vec3 cam_vel;
 
 uniform sampler2D bg_texture;
 uniform sampler2D star_texture;
@@ -157,7 +158,7 @@ void main()	{
           vec3 intersection = oldpoint + lambda*velocity;
           float r = length(intersection);
           if (r > 3.0){
-            vec2 tex_coord = vec2((r-3.0)/3.0,atan(intersection.x, intersection.z)/PI*0.5+0.5);
+            vec2 tex_coord = vec2(atan(intersection.x, intersection.z)/PI*0.5+0.5,(r-3.0)/3.0);
             color += texture2D(disk_texture,tex_coord);
           }
         }

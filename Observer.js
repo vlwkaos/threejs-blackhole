@@ -12,13 +12,12 @@ class Observer extends THREE.PerspectiveCamera {
     this.maxAngularVelocity = 0
     this.velocity = new THREE.Vector3()
     
-    
-    
     this.position.set(0,0,1)
   
     // options
     this.moving = false
     this.timeDilation = false
+    this.incline = -10 * Math.PI / 180
   }
   
   update(delta){
@@ -37,14 +36,14 @@ class Observer extends THREE.PerspectiveCamera {
     
     
     
-    this.position.set(this.r*sin, 0.5 , this.r*cos)
+    this.position.set(this.r*sin, 0 , this.r*cos)
     this.velocity.set(cos*this.angularVelocity, 0 ,-sin*this.angularVelocity) 
     
     //incline
-    let phi = -10 * Math.PI / 180;
-    let orbit_coords = (new THREE.Matrix4()).makeRotationY(phi);
+    let inclineMatrix = (new THREE.Matrix4()).makeRotationX(this.incline)
 
-    
+    this.position.applyMatrix4(inclineMatrix)
+    this.velocity.applyMatrix4(inclineMatrix)
     
     if (this.moving){
       // accel
