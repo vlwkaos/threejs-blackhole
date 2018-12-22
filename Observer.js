@@ -7,7 +7,7 @@ class Observer extends THREE.PerspectiveCamera {
     // for orbit
     this.time = 0
     this.theta = 0
-    this.phi = 10
+    this.phi = Math.PI/9
     this.angularVelocity = 0
     this.maxAngularVelocity = 0
     this.velocity = new THREE.Vector3()
@@ -34,10 +34,11 @@ class Observer extends THREE.PerspectiveCamera {
     let cos = Math.cos(this.theta)
     let sin = Math.sin(this.theta)
     let tan = Math.tan(this.phi*cos)
+    let sec2 = 1/Math.pow(Math.cos(this.phi*cos),2)
     
     this.position.set(this.r*sin, this.r*tan , this.r*cos)
     
-    this.velocity.set(cos*this.angularVelocity, 0.0, -sin*this.angularVelocity) 
+    this.velocity.set(cos*this.angularVelocity, sec2*cos ,-sin*this.angularVelocity) 
     
     if (this.moving){
       // accel
