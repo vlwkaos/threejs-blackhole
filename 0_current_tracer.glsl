@@ -2,7 +2,7 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 0.5
+#define STEP 1.0
 #define NSTEPS 20
 #define SPEED 1
 
@@ -17,8 +17,8 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float disk_min_radius = 3.0;
-const float disk_width = 1.0;
+const float disk_in = 3.0;
+const float disk_width = 3.0;
 
 
 uniform sampler2D bg_texture;
@@ -150,20 +150,24 @@ void main()	{
     // distance from origin
     float distance = length(point);
     
+    if (distance < 0.0) break;
+    
     // intersect accretion disk
     if (accretion_disk){
       if (oldpoint.y * point.y < 0.0){
         float lambda = - oldpoint.y/velocity.y;
         vec3 intersection = oldpoint + lambda*velocity;
         float r = length(intersection);
-        if (r > disk_min_radius){
+        if (r < disk_in+disk_width){
           float phi = atan(intersection.x, intersection.z);
-          vec2 tex_coord = vec2(((phi+2.0*PI)%(2.0*PI))/(2.0*PI), (r-disk_min_radius)/disk_width);
+          vec2 tex_coord = vec2(mod((phi+2.0*PI),(2.0*PI))/(2.0*PI), (r-disk_in)/disk_width);
           color += texture2D(disk_texture,tex_coord);
+          
         }
       }
     }
-    
+    if (distance < 1.0) break;
+      //color += vec4(0.0,0.0,0.0,1.0);
   }
 
 
@@ -191,7 +195,7 @@ void main()	{
     //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
     
-    color = vec4(0.,0.,0.,1.0);
+    color += vec4(0.,0.,0.,1.0);
   
   }
   
