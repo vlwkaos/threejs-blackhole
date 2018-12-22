@@ -18,19 +18,18 @@ uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
 const float disk_in = 3.0;
-const float disk_width = 3.0;
+const float disk_width = 2.0;
 
 
 uniform sampler2D bg_texture;
 uniform sampler2D star_texture;
 uniform sampler2D disk_texture;
 
-struct Disk{
-  vec3 center;
-  vec3 normal;
-  float radius;
-};
-
+vec4 blend_color(vec4 front, vec4 back){
+  vec4 ret = vec4(front.xyz + back.xyz*back.w*(1.0-front.w),back.w*(1.0-front.w));
+  
+  return ret;
+}
 
 vec2 square_frame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0; 
@@ -126,7 +125,7 @@ void main()	{
   ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
   // initial color
-  vec4 color = vec4(0.0,0.0,0.0,1.0);
+  vec4 color = vec4(0.0,0.0,0.0,0.0);
 
   // geodesic by leapfrog integration
 
@@ -138,9 +137,7 @@ void main()	{
   vec3 oldpoint; 
   float pointsqr;
   
-  //disk
-  Disk disk = Disk(vec3(0.0,0.0,0.0), vec3(1.0, 1.0, 0.0), 1.0); 
-  
+ 
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * STEP;
@@ -152,6 +149,7 @@ void main()	{
     
     if (distance < 0.0) break;
     
+
     // intersect accretion disk
     if (accretion_disk){
       if (oldpoint.y * point.y < 0.0){
@@ -161,13 +159,15 @@ void main()	{
         if (r < disk_in+disk_width){
           float phi = atan(intersection.x, intersection.z);
           vec2 tex_coord = vec2(mod((phi+2.0*PI),(2.0*PI))/(2.0*PI), (r-disk_in)/disk_width);
-          color += texture2D(disk_texture,tex_coord);
+          vec4 disk_color = texture2D(disk_texture,tex_coord);
+          color = blend_color(disk_color, color);
           
         }
       }
     }
+    
     if (distance < 1.0) break;
-      //color += vec4(0.0,0.0,0.0,1.0);
+    
   }
 
 
@@ -194,8 +194,8 @@ void main()	{
   if (horizon_mask) {
     //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
     //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
-    
-    color += vec4(0.,0.,0.,1.0);
+    vec4 black = vec4(0.0,0.0,0.0,1.0)
+    color = blend_color(black, color)
   
   }
   
