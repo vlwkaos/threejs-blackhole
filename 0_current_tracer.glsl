@@ -157,7 +157,8 @@ void main()	{
         vec3 intersection = oldpoint + lambda*velocity;
         float r = length(intersection);
         if (r > disk_min_radius){
-          vec2 tex_coord = vec2(atan(intersection.x, intersection.z)/PI*0.5+0.5, disk_width/(r-disk_min_radius));
+          float phi = atan(intersection.x, intersection.z);
+          vec2 tex_coord = vec2(((phi+2.0*PI)%(2.0*PI))/(2.0*PI), (r-disk_min_radius)/disk_width);
           color += texture2D(disk_texture,tex_coord);
         }
       }
