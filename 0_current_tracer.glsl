@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 1.0
-#define NSTEPS 20
+#define STEP 0.2
+#define NSTEPS 100
 #define SPEED 1
 
 
@@ -159,14 +159,23 @@ void main()	{
         if (r < disk_in+disk_width){
           float phi = atan(intersection.x, intersection.z);
           vec2 tex_coord = vec2(mod((phi+2.0*PI),(2.0*PI))/(2.0*PI), (r-disk_in)/disk_width);
-          vec4 disk_color = texture2D(disk_texture,tex_coord);
-          color = blend_color(disk_color, color);
+          vec4 disk_color = texture2D(disk_texture, tex_coord);
+          color += disk_color;
+          //blend_color(disk_color, color);
           
         }
       }
     }
     
-    if (distance < 1.0) break;
+    bool horizon_mask = dot(point,point) < 1.0;// intersecting eventhorizon
+    // does it enter event horizon?
+    if (horizon_mask) {
+      //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
+      //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
+      vec4 black = vec4(0.0,0.0,0.0,1.0);
+      color += black;
+
+    }
     
   }
 
@@ -174,7 +183,6 @@ void main()	{
   
   ray_dir = normalize(point - oldpoint);
   vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
-  
   
   // taken from source
   // red = luminance
@@ -189,18 +197,9 @@ void main()	{
   color += texture2D(bg_texture, tex_coord) * 0.4;
   
 
-  bool horizon_mask = dot(point,point) < 1.0; // intersecting eventhorizon
-  // does it enter event horizon?
-  if (horizon_mask) {
-    //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
-    //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
-    vec4 black = vec4(0.0,0.0,0.0,1.0)
-    color = blend_color(black, color)
-  
-  }
+
   
 
   gl_FragColor = color;
-  //color intesection
-  
+
 }
