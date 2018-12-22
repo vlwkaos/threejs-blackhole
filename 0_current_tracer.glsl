@@ -3,7 +3,7 @@
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
 #define STEP 0.5
-#define NSTEPS 30
+#define NSTEPS 20
 #define SPEED 1
 
 
@@ -17,7 +17,8 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const 
+const float disk_min_radius = 3.0;
+const float disk_width = 1.0;
 
 
 uniform sampler2D bg_texture;
@@ -154,11 +155,11 @@ void main()	{
       if (oldpoint.y * point.y < 0.0){
         float lambda = - oldpoint.y/velocity.y;
         
-        if (lambda < 2.0){
+        if (lambda < 1.0){
           vec3 intersection = oldpoint + lambda*velocity;
           float r = length(intersection);
-          if (r > 3.0){
-            vec2 tex_coord = vec2(atan(intersection.x, intersection.z)/PI*0.5+0.5,(r-3.0)/3.0);
+          if (r > disk_min_radius){
+            vec2 tex_coord = vec2(atan(intersection.x, intersection.z)/PI*0.5+0.5,disk_width/(r-disk_min_radius));
             color += texture2D(disk_texture,tex_coord);
           }
         }

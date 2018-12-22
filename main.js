@@ -116,7 +116,7 @@ const addControlGUI = ()=>{
   control = {
   distance : 8.0,
   orbit: false,
-  accretion_disk: false
+  accretion_disk: true
   }
   
   let gui = new dat.GUI()
