@@ -150,14 +150,14 @@ void main()	{
     
     // intersect accretion disk
     if (accretion_disk){
-      if (oldpoint.x * point.x < 0.0){
-        float lambda = - oldpoint.x/velocity.x;
+      if (oldpoint.y * point.y < 0.0){
+        float lambda = - oldpoint.y/velocity.y;
         
         if (lambda < 2.0){
           vec3 intersection = oldpoint + lambda*velocity;
           float r = length(intersection);
           if (r > 3.0){
-            vec2 tex_coord = vec2((r-3.0)/3.0,atan(intersection.x, intersection.y)/PI*0.5+0.5);
+            vec2 tex_coord = vec2((r-3.0)/3.0,atan(intersection.x, intersection.z)/PI*0.5+0.5);
             color += texture2D(disk_texture,tex_coord);
           }
         }
