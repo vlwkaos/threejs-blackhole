@@ -3,7 +3,7 @@
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
 #define STEP 0.5
-#define NSTEPS 20
+#define NSTEPS 30
 #define SPEED 1
 
 
@@ -157,7 +157,7 @@ void main()	{
           vec3 intersection = oldpoint + lambda*velocity;
           float r = length(intersection);
           if (r > 2.0){
-            vec2 tex_coord = vec2((r-2.0)/3.0,atan(intersection.x, intersection.y)/PI*0.5 +0.5);
+            vec2 tex_coord = vec2((r-2.0)/3.0,atan(intersection.x, intersection.y)/PI*0.5+0.5);
             color += texture2D(disk_texture,tex_coord);
           }
         }
