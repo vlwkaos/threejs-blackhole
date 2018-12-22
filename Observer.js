@@ -12,7 +12,7 @@ class Observer extends THREE.PerspectiveCamera {
     this.velocity = new THREE.Vector3()
     
 
-    this.position.set(0,4,1)
+    this.position.set(0,0,1)
   
     // options
     this.moving = false
