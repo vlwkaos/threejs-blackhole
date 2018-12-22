@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 1.0
-#define NSTEPS 20
+#define STEP 0.1
+#define NSTEPS 100
 #define SPEED 1
 
 
@@ -17,8 +17,8 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float disk_in = 3.0;
-const float disk_width = 2.0;
+const float disk_in = 1.0;
+const float disk_width = 3.0;
 
 
 uniform sampler2D bg_texture;
@@ -150,6 +150,15 @@ void main()	{
     
     if (distance < 0.0) break;
     
+    bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
+    // does it enter event horizon?
+    if (horizon_mask) {
+      //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
+      //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
+      vec4 black = vec4(0.0,0.0,0.0,1.0);
+      color += black;
+      break;
+    }
     
     // intersect accretion disk
     if (accretion_disk){
@@ -159,7 +168,7 @@ void main()	{
         float r = length(intersection);
         if (r < disk_in+disk_width){
           float phi = atan(intersection.x, intersection.z);
-          vec2 tex_coord = vec2(mod((phi+2.0*PI),(2.0*PI))/(2.0*PI), (r-disk_in)/disk_width);
+          vec2 tex_coord = vec2(phi/PI*0.5 + 0.5, 1.0-(r-disk_in)/disk_width);
           vec4 disk_color = texture2D(disk_texture, tex_coord);
           color += disk_color;
           //blend_color(disk_color, color);
@@ -167,17 +176,9 @@ void main()	{
         }
       }
     }
-    /*
-    bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
-    // does it enter event horizon?
-    if (horizon_mask) {
-      //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
-      //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
-      vec4 black = vec4(0.0,0.0,0.0,1.0);
-      color += black;
+    
 
-    }
-    */
+    
   }
   
   if (distance > 1.0){
