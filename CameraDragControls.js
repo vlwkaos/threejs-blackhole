@@ -11,16 +11,17 @@ THREE.CameraDragControls = function ( object, domElement ) {
 	this.lookSpeed = 0.005;
 	this.lookVertical = true;	
 
-	this.offsetX = 0;
-  this.offsetY = 0;
-  this.lastX = 0;
-  this.lastY = 0;
+	this.offsetX = 0
+  this.offsetY = 0
+  this.lastX = 0
+  this.lastY = 0
   
-  this.pitch = 0;
-  this.yaw = Math.PI*3/2;
+  this.pitch = 0
+  this.yaw = 0
+  this.roll = -10
 
-	this.viewHalfX = 0;
-	this.viewHalfY = 0;
+	this.viewHalfX = 0
+	this.viewHalfY = 0
 
 	if ( this.domElement !== document ) {
 
@@ -114,10 +115,10 @@ THREE.CameraDragControls = function ( object, domElement ) {
 		if ( this.enabled === false ) return;
   
     if (this.object.angularVelocity > 0)
-      this.yaw -=  this.object.angularVelocity*delta
+      this.yaw +=  this.object.angularVelocity*delta
       
     if (this.mouseDragOn){
-      this.yaw -= this.lookSpeed * this.offsetX;
+      this.yaw += this.lookSpeed * this.offsetX;
     
       if (this.lookVertical){
         this.pitch += this.lookSpeed * this.offsetY;
@@ -136,13 +137,20 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
     // x, z are flat 
     // y is lat
+    let odir = new THREE.Vector3(0, 0, -1)
+    let rotation = new THREE.Euler(0,0,0, 'YXZ')
+    rotation.set(this.pitch, this.yaw, 0)
+    let newDir = new THREE.Vector3()
+    newDir.copy(odir).applyEuler(rotation)
+    this.object.direction = newDir.normalize();
     
-    let newDir = new THREE.Vector3(
-      
+    
+    
+    /*  
           Math.cos(this.pitch) * Math.cos(this.yaw),                          
           Math.sin(this.pitch),
           Math.cos(this.pitch) * Math.sin(this.yaw));
-    this.object.direction = newDir.normalize();
+     */
     
   }
   

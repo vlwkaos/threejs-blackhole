@@ -12,7 +12,8 @@ class Observer extends THREE.PerspectiveCamera {
     this.maxAngularVelocity = 0
     this.velocity = new THREE.Vector3()
     
-
+    
+    
     this.position.set(0,0,1)
   
     // options
@@ -34,7 +35,7 @@ class Observer extends THREE.PerspectiveCamera {
     let cos = Math.cos(this.theta)
     let sin = Math.sin(this.theta)
     
-    this.position.set(this.r*sin, 0 , this.r*cos)
+    this.position.set(this.r*sin, 1 , this.r*cos)
     
     this.velocity.set(cos*this.angularVelocity, 0 ,-sin*this.angularVelocity) 
     
