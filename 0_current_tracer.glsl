@@ -154,14 +154,11 @@ void main()	{
     if (accretion_disk){
       if (oldpoint.y * point.y < 0.0){
         float lambda = - oldpoint.y/velocity.y;
-        
-        if (lambda < 1.0){
-          vec3 intersection = oldpoint + lambda*velocity;
-          float r = length(intersection);
-          if (r > disk_min_radius){
-            vec2 tex_coord = vec2(atan(intersection.x, intersection.z)/PI*0.5+0.5,disk_width/(r-disk_min_radius));
-            color += texture2D(disk_texture,tex_coord);
-          }
+        vec3 intersection = oldpoint + lambda*velocity;
+        float r = length(intersection);
+        if (r > disk_min_radius){
+          vec2 tex_coord = vec2(atan(intersection.x, intersection.z)/PI*0.5+0.5, disk_width/(r-disk_min_radius));
+          color += texture2D(disk_texture,tex_coord);
         }
       }
     }
