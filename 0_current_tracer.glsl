@@ -17,9 +17,10 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float disk_in = 1.0;
+const float DISC_IN = 1.0;
 const float disk_width = 3.0;
 
+uniform bool lorentz_transform;
 
 uniform sampler2D bg_texture;
 uniform sampler2D star_texture;
@@ -122,6 +123,7 @@ void main()	{
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
   // light aberration alters ray path 
+  if (
   ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
   // initial color

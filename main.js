@@ -60,6 +60,7 @@ const init = ()=>{
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2()},
     accretion_disk: {type: "b", value: false},
+    lorentz_transform: {type: "b", value: false},
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
@@ -97,7 +98,7 @@ const loadTexture = (name, image, interpolation)=>{
 
 
 // dat.gui
-let control
+let camconf,effectconf
 let stats
 const addStatsGUI = ()=>{
      
@@ -113,16 +114,26 @@ const addStatsGUI = ()=>{
 const addControlGUI = ()=>{
   
   // define properties
-  control = {
-  distance : 8.0,
-  orbit: false,
-  accretion_disk: true
+  camconf = {
+    distance : 8.0,
+    orbit: true,
+    fov: 90.0
+  }
+  
+  effectconf = {
+    lorentz_transform: true,
+    accretion_disk : true 
   }
   
   let gui = new dat.GUI()
-  gui.add(control, 'distance', 3, 14)
-  gui.add(control, 'orbit')
-  gui.add(control, 'accretion_disk')
+  let observerFolder = gui.addFoler('Observer')
+  observerFolder.add(camconf, 'distance', 3, 14)
+  observerFolder.add(camconf, 'fov', 30, 90)
+  observerFolder.add(camconf, 'orbit')
+  
+  let effectFolder = gui.addFolder('Effects')
+  effectFolder.add(effectconf, 'lorentz_transform')
+  effectFolder.add(effectconf, 'accretion_disk')
 
 }
 
@@ -163,9 +174,11 @@ const updateUniforms = ()=>{
   uniforms.disk_texture.value = textures['disk']
   
   // controls
-  observer.distance = control.distance
-  observer.moving = control.orbit
-  uniforms.accretion_disk.value = control.accretion_disk
+  observer.distance = camconf.distance
+  observer.moving = camconf.orbit
+  
+  uniforms.lorentz_transform.value = effectconf.lorentz_transform
+  uniforms.accretion_disk.value = effectconf.accretion_disk
   
 }
 
