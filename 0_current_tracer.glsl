@@ -17,8 +17,11 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float DISK_IN = 1.0;
-const float DISK_WIDTH = 3.0;
+const float DISK_IN = 1.5;
+const float DISK_WIDTH = 4.0;
+
+const float MIN_TEMPERATURE = 1000.0;
+const float TEMPERATURE_RANGE = 39000.0;
 
 uniform bool lorentz_transform;
 
@@ -172,6 +175,7 @@ void main()	{
           float phi = atan(intersection.x, intersection.z);
           vec2 tex_coord = vec2(phi/PI*0.5 + 0.5, 1.0-(r-DISK_IN)/DISK_WIDTH);
           vec4 disk_color = texture2D(disk_texture, tex_coord);
+          
           color += disk_color;
           //blend_color(disk_color, color);
           
@@ -192,7 +196,7 @@ void main()	{
     float t_coord;
     vec4 star_color = texture2D(star_texture, tex_coord);
     if (star_color.r > 0.0){
-      t_coord = (1000.0 + 39000.0*star_color.g);
+      t_coord = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.g);
       color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
     }
 
