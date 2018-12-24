@@ -40,7 +40,7 @@ class Observer extends THREE.PerspectiveCamera {
     this.velocity.set(cos*this.angularVelocity, 0 ,-sin*this.angularVelocity) 
     
     //incline
-    let inclineMatrix = (new THREE.Matrix4()).makeRotationX(this.incline)
+    let inclineMatrix = (new THREE.Matrix4()).makeRotationZ(this.incline)
 
     this.position.applyMatrix4(inclineMatrix)
     this.velocity.applyMatrix4(inclineMatrix)
@@ -70,7 +70,7 @@ class Observer extends THREE.PerspectiveCamera {
     this.r = r
     
     // w
-    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/this.r
+    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))//this.r
     // p
     this.position.normalize().multiplyScalar(r)
   }
