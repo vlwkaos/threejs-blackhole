@@ -17,8 +17,8 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float DISC_IN = 1.0;
-const float disk_width = 3.0;
+const float DISK_IN = 1.0;
+const float DISK_WIDTH = 3.0;
 
 uniform bool lorentz_transform;
 
@@ -123,8 +123,8 @@ void main()	{
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
   // light aberration alters ray path 
-  if (
-  ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
+  if (lorentz_transform)
+    ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
@@ -168,9 +168,9 @@ void main()	{
         float lambda = - oldpoint.y/velocity.y;
         vec3 intersection = oldpoint + lambda*velocity;
         float r = length(intersection);
-        if (r < disk_in+disk_width){
+        if (r < DISK_IN+DISK_WIDTH){
           float phi = atan(intersection.x, intersection.z);
-          vec2 tex_coord = vec2(phi/PI*0.5 + 0.5, 1.0-(r-disk_in)/disk_width);
+          vec2 tex_coord = vec2(phi/PI*0.5 + 0.5, 1.0-(r-DISK_IN)/DISK_WIDTH);
           vec4 disk_color = texture2D(disk_texture, tex_coord);
           color += disk_color;
           //blend_color(disk_color, color);

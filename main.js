@@ -115,9 +115,9 @@ const addControlGUI = ()=>{
   
   // define properties
   camconf = {
-    distance : 8.0,
-    orbit: true,
-    fov: 90.0
+    distance : 7.0,
+    orbit: false,
+    fov: 60.0
   }
   
   effectconf = {
@@ -126,7 +126,7 @@ const addControlGUI = ()=>{
   }
   
   let gui = new dat.GUI()
-  let observerFolder = gui.addFoler('Observer')
+  let observerFolder = gui.addFolder('Observer')
   observerFolder.add(camconf, 'distance', 3, 14)
   observerFolder.add(camconf, 'fov', 30, 90)
   observerFolder.add(camconf, 'orbit')
@@ -166,7 +166,7 @@ const updateUniforms = ()=>{
   uniforms.cam_dir.value = observer.direction
   uniforms.cam_up.value = observer.up
   uniforms.fov.value = observer.fov
-  
+
   uniforms.cam_vel.value = observer.velocity
 
   uniforms.bg_texture.value = textures['bg1']
@@ -176,7 +176,7 @@ const updateUniforms = ()=>{
   // controls
   observer.distance = camconf.distance
   observer.moving = camconf.orbit
-  
+  observer.fov = camconf.fov  
   uniforms.lorentz_transform.value = effectconf.lorentz_transform
   uniforms.accretion_disk.value = effectconf.accretion_disk
   
