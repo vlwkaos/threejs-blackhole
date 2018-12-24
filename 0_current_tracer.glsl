@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 1.0
-#define NSTEPS 20
+#define STEP 0.2
+#define NSTEPS 50
 #define SPEED 1
 
 
@@ -174,7 +174,7 @@ void main()	{
         float r = length(intersection);
         if (r < DISK_IN+DISK_WIDTH){
           float phi = atan(intersection.x, intersection.z);
-          vec2 tex_coord = vec2(phi/PI*0.5+0.5, (DISK_IN-r)/(DISK_WIDTH));
+          vec2 tex_coord = vec2(phi/PI*0.5+0.5, 1.0-(r-DISK_IN)/(DISK_WIDTH));
           
           vec4 disk_color = texture2D(disk_texture, tex_coord);
           //float disk_temperature = MIN_TEMPERATURE+9000.0*pow(r/3.0, -3.0/4.0);

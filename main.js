@@ -144,13 +144,13 @@ let delta, lastframe
 const update = ()=>{
   delta = (Date.now()-lastframe)/1000  
   stats.update()
-  updateUniforms()
+  
   renderer.setSize(window.innerWidth, window.innerHeight)
   
   // update what is drawn
   observer.update(delta)
   camControl.update(delta)
-  
+  updateUniforms()
     
   render()
   requestAnimationFrame(update)
