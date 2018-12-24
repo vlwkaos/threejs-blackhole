@@ -173,11 +173,11 @@ void main()	{
         float r = length(intersection);
         if (r < DISK_IN+DISK_WIDTH){
           float phi = atan(intersection.x, intersection.z);
-          vec2 tex_coord = vec2(mod(phi+2.0*PI,2.0*PI)/(2.0*PI) 1.0-(r-DISK_IN)/DISK_WIDTH);
+          vec2 tex_coord = vec2(mod(phi+2.0*PI,2.0*PI)/(2.0*PI), 1.0-(r-DISK_IN)/DISK_WIDTH);
           
           vec4 disk_color = texture2D(disk_texture, tex_coord);
-          float disk_temperature = MIN_TEMPERATURE+9000.0*pow(r, -3.0/4.0);
-          color += vec4(disk_color.xyz*(temp_to_color(disk_temperature)),disk_color.w);
+          float disk_temperature = MIN_TEMPERATURE+*pow(r/3.0, -3.0/4.0);
+          color += vec4(disk_color.xyz*(temp_to_color(disk_temperature)),1.0);
           //blend_color(disk_color, color);
           
         }
