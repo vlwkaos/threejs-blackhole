@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 0.2
-#define NSTEPS 50
+#define STEP 0.02
+#define NSTEPS 1000
 #define SPEED 1
 
 
@@ -18,7 +18,7 @@ uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
 const float DISK_IN = 1.5;
-const float DISK_WIDTH = 4.0;
+const float DISK_WIDTH = 3.0;
 
 const float MIN_TEMPERATURE = 1000.0;
 const float TEMPERATURE_RANGE = 39000.0;
@@ -137,13 +137,14 @@ void main()	{
   vec3 point = cam_pos;
   vec3 velocity = ray_dir;
   vec3 c = cross(point,velocity);
-  float h2 = normalize(dot(c,c));
+  float h2 = dot(c,c);
   
   vec3 oldpoint; 
   float pointsqr;
   
   float distance = length(point);
     
+  // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * STEP;

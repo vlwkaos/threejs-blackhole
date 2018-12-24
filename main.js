@@ -115,9 +115,9 @@ const addControlGUI = ()=>{
   
   // define properties
   camconf = {
-    distance : 7.0,
+    distance : 8.0,
     orbit: false,
-    fov: 60.0
+    fov: 90.0
   }
   
   effectconf = {
