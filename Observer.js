@@ -72,7 +72,7 @@ class Observer extends THREE.PerspectiveCamera {
     this.r = r
     
     // w
-    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))//this.r
+    this.maxAngularVelocity = 1/Math.sqrt(2.0*(r-1.0))/this.r
     // p
     this.position.normalize().multiplyScalar(r)
   }

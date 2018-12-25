@@ -27,7 +27,7 @@ window.onload = ()=>{
   // sigma for blur width
   // then choose kernel size ( 6 times sigma)
   
-  let effectBloom = new THREE.BloomPass(0.6,32,5)
+  let effectBloom = new THREE.BloomPass(0.6,36,6)
   let scenePass = new THREE.RenderPass(scene, camera)
   let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
   effectCopy.renderToScreen  =true
@@ -153,16 +153,15 @@ const addControlGUI = ()=>{
   
   let gui = new dat.GUI()
   let observerFolder = gui.addFolder('Observer')
-  observerFolder.add(camconf, 'distance', 3, 14)
+  observerFolder.add(camconf, 'distance', 3, 16)
   observerFolder.add(camconf, 'fov', 30, 90)
   observerFolder.add(camconf, 'orbit')
   
   let effectFolder = gui.addFolder('Effects')
   effectFolder.add(effectconf, 'lorentz_transform')
-  effectFolder.add(effectconf, 'accretion_disk')
-  effectFolder.add(effectconf, 'use_disk_texture')
   effectFolder.add(effectconf, 'doppler_shift')
-  
+  effectFolder.add(effectconf, 'accretion_disk')
+  effectFolder.add(effectconf, 'use_disk_texture')  
   observerFolder.open()
   effectFolder.open()
 }

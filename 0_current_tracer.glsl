@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 0.05
-#define NSTEPS 500
+#define STEP 0.02
+#define NSTEPS 1000
 #define SPEED 1
 
 
@@ -155,7 +155,7 @@ void main()	{
   float pointsqr;
   
   float distance = length(point);
-    
+  
   // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
