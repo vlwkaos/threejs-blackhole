@@ -245,7 +245,7 @@ void main()	{
       if (doppler_shift)
         star_temperature /= ray_doppler_factor*star_doppler_factor;
       
-      color += vec4(temp_to_color(star_temperature) * star_color.g, 1.0);
+      color += vec4(temp_to_color(star_temperature),1.0)* star_color.g;
     }
 
     color += texture2D(bg_texture, tex_coord) * 0.25;
