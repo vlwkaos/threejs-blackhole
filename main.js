@@ -1,6 +1,6 @@
 /* globals THREE dat Stats Observer*/
 
-let scene, camera, renderer
+let scene, camera, renderer, composer
 let observer, camControl
 window.onload = ()=>{
   //
@@ -12,6 +12,8 @@ window.onload = ()=>{
   renderer.setClearColor(0x000000, 1.0)
   renderer.setSize(window.innerWidth, window.innerHeight) // res
 
+  composer = new THREE.EffectComposer(renderer)
+  
   camera = new THREE.Camera() 
   camera.position.z = 1
   
@@ -23,8 +25,6 @@ window.onload = ()=>{
   observer.distance=8
   camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
   // camControl sets up vector
-  
-  
   scene.add(observer)
   delta = 0
   
