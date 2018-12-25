@@ -161,12 +161,10 @@ void main()	{
   float distance = length(point);
   
   float step = 0.02;
-  float limit = NSTEPS;
+  float limit = min(float(NSTEPS),2.0*(DISK_IN+DISK_WIDTH)/step)+1.0;
   if (distance > DISK_IN+DISK_WIDTH) {
-    step = DISK_IN+DISK_WIDTH;
-  } else {
-    limit = (DISK_IN+DISK_WIDTH)/step;
-  }
+    step = DISK_IN+DISK_WIDTH-1.0;
+  } 
   // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
