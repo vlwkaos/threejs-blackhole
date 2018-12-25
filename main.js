@@ -12,7 +12,7 @@ window.onload = ()=>{
   renderer = new THREE.WebGLRenderer()
   renderer.setClearColor(0x000000, 1.0)
   renderer.setSize(window.innerWidth, window.innerHeight) // res
-
+  renderer.autoClear = false
 
   camera = new THREE.Camera() 
   camera.position.z = 1
@@ -21,14 +21,17 @@ window.onload = ()=>{
   
   
   composer = new THREE.EffectComposer(renderer)
-  composer.addPass(new THREE.RenderPass(scene, camera))
-  bloomPass = new THREE.BloomBlendPass(
-    2.0, // blur amount
-    1.0, // interpolation
-    new THREE.Vector2(window.innerWidth,window.innerHeight) // image res
-    )
-  bloomPass.renderToScreen = true
-  composer.addPass(bloomPass)
+  let renderPass = new THREE.RenderPass(scene, camera)
+  let effectBloom = new THREE.BloomPass(0.5,25,4) // strength, kernelSize, sigma, res
+  let scenePass = new THREE.RenderPass(scene, camera)
+  let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
+  effectCopy.renderToScreen  =true
+  composer.addPass(renderPass)
+  composer.addPass(effectBloom)
+  composer.addPass(effectCopy)
+  
+
+
   
   init()
   
