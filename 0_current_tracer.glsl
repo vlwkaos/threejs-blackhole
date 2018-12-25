@@ -154,6 +154,7 @@ void main()	{
   if (beaming)
     ray_intensity /= pow(ray_doppler_factor , 3.0);
   
+  
   vec3 oldpoint; 
   float pointsqr;
   
