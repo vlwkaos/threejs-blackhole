@@ -17,8 +17,12 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
+uniform int disk_type;
+const int TEXTURE = 0;
+const int BLACKBODY = 1;
 const float DISK_IN = 2.0;
-const float DISK_WIDTH = 4.0;
+const float DISK_WIDTH = 4.0;\
+
 
 const float MIN_TEMPERATURE = 1000.0;
 const float TEMPERATURE_RANGE = 39000.0;
@@ -177,6 +181,7 @@ void main()	{
           
           
           // texture
+          if (di
           vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
           vec4 disk_color = texture2D(disk_texture, tex_coord);
          

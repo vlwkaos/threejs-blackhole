@@ -60,6 +60,7 @@ const init = ()=>{
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2()},
     accretion_disk: {type: "b", value: false},
+    disk_type: { type: "i", value: 0},
     lorentz_transform: {type: "b", value: false},
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
@@ -70,6 +71,7 @@ const init = ()=>{
     bg_texture: {type: "t", value: null},
     star_texture: {type: "t", value: null},
     disk_texture: {type: "t", value:null}
+    
 	}
   
   material = new THREE.ShaderMaterial( {
