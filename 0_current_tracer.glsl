@@ -147,9 +147,9 @@ void main()	{
   
   // for doppler effect
   float observer_gamma = 1.0/sqrt(1.0-dot(cam_vel,cam_vel));
-  float ray_doppler_factor = observer_gamma * (1.0 + dot(point, -cam_vel));
+  float observer_doppler_factor = observer_gamma * (1.0 + dot(point, -cam_vel));
     
-  
+  float  
   
   vec3 oldpoint; 
   float pointsqr;
