@@ -173,6 +173,7 @@ const update = ()=>{
   stats.update()
   
   renderer.setSize(window.innerWidth, window.innerHeight)
+  composer.setSize(window.innerWidth, window.innerHeight)
   
   // update what is drawn
   observer.update(delta)

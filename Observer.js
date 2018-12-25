@@ -59,7 +59,7 @@ class Observer extends THREE.PerspectiveCamera {
         this.angularVelocity -= this.delta/this.r
       else {
         this.angularVelocity = 0
-        
+        this.velocity.set(0.0,0.0,0.0)
       }
       
     }

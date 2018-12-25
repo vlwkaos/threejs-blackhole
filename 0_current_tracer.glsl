@@ -227,10 +227,10 @@ void main()	{
     vec4 star_color = texture2D(star_texture, tex_coord);
     if (star_color.g > 0.0){
       float star_temperature = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.r);
-      // arbitrarily decide background stars' velocity with a simple sigmoid curve 
-      float star_velocity = 0.5/(1.0+exp(star_color.b-0.5)); 
+      // arbitrarily decide background stars'
+      float star_velocity = star_color.b - 0.5;
       float star_gamma = 1.0/sqrt(1.0-star_velocity*star_velocity);
-      float star_doppler_factor = star_gamma*(1.0+length(cam_pos)*star_velocity);
+      float star_doppler_factor = star_gamma*(1.0+10.0*star_velocity);
       star_temperature /= ray_doppler_factor*star_doppler_factor;
       
       color += vec4(temp_to_color(star_temperature) * star_color.g, 1.0);
