@@ -11,6 +11,7 @@ window.onload = ()=>{
 
   renderer = new THREE.WebGLRenderer()
   renderer.setClearColor(0x000000, 1.0)
+ 
   renderer.setSize(window.innerWidth, window.innerHeight) // res
   renderer.autoClear = false
   
@@ -121,7 +122,7 @@ const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrappin
 
 
 // dat.gui
-let camconf,effectconf
+let camconf,effectconf,perfconf
 let stats
 const addStatsGUI = ()=>{
      
@@ -137,6 +138,10 @@ const addStatsGUI = ()=>{
 const addControlGUI = ()=>{
   
   // define properties
+  perfconf = {
+    resolution : 1.0 
+  }
+  
   camconf = {
     distance : 10.0,
     orbit: true,
@@ -152,6 +157,8 @@ const addControlGUI = ()=>{
   }
   
   let gui = new dat.GUI()
+  let perfFolder = gui.addFolder('Performance')
+  perfFolder.add(perfconf, 'resolution', 0.5, 2.0)
   let observerFolder = gui.addFolder('Observer')
   observerFolder.add(camconf, 'distance', 3, 12)
   observerFolder.add(camconf, 'fov', 30, 90)
@@ -163,6 +170,7 @@ const addControlGUI = ()=>{
   effectFolder.add(effectconf, 'beaming')
   effectFolder.add(effectconf, 'accretion_disk')
   effectFolder.add(effectconf, 'use_disk_texture')  
+  perfFolder.open()
   observerFolder.open()
   effectFolder.open()
 }
@@ -175,8 +183,9 @@ const update = ()=>{
   delta = (Date.now()-lastframe)/1000  
   stats.update()
   
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  composer.setSize(window.innerWidth, window.innerHeight)
+  
+  renderer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
+  composer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
   
   // update what is drawn
   observer.update(delta)
@@ -190,8 +199,8 @@ const update = ()=>{
 }
 
 const updateUniforms = ()=>{
-  uniforms.resolution.value.x = window.innerWidth
-	uniforms.resolution.value.y = window.innerHeight
+  uniforms.resolution.value.x = window.innerWidth*perfconf.resolution
+	uniforms.resolution.value.y = window.innerHeight*perfconf.resolution
 
   uniforms.cam_pos.value = observer.position
   uniforms.cam_dir.value = observer.direction
