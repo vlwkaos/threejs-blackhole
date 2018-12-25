@@ -17,7 +17,7 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float DISK_IN = 3.0;
+const float DISK_IN = 2.0;
 const float DISK_WIDTH = 4.0;
 
 const float MIN_TEMPERATURE = 1000.0;
@@ -175,13 +175,18 @@ void main()	{
         if (DISK_IN <= r&&r <= DISK_IN+DISK_WIDTH ){
           float phi = atan(intersection.x, intersection.z);
           
+          
+          // texture
           vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
-          //  vec2 tex_coord = vec2((r-DISK_IN)/DISK_WIDTH,phi/PI*0.5+0.5);
           vec4 disk_color = texture2D(disk_texture, tex_coord);
-          float disk_temperature = MIN_TEMPERATURE+9000.0*clamp(pow(r, -3.0/4.0),0.0,1.0);
+         
           float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
-          color += vec4(disk_color.xyz*(temp_to_color(disk_temperature)),1.0);
+          color += vec4(disk_color.xyz,disk_alpha);
           //color += disk_color;
+          
+          // use blackbody 
+          float disk_temperature = MIN_TEMPERATURE+9000.0*(pow(r/3.0, -3.0/4.0));
+          vec3 disk_color = 
         }
       }
     }

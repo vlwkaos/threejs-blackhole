@@ -124,7 +124,8 @@ const addControlGUI = ()=>{
   
   effectconf = {
     lorentz_transform: true,
-    accretion_disk : true 
+    accretion_disk : true,
+    disk_type: 'texture'
   }
   
   let gui = new dat.GUI()
@@ -136,7 +137,10 @@ const addControlGUI = ()=>{
   let effectFolder = gui.addFolder('Effects')
   effectFolder.add(effectconf, 'lorentz_transform')
   effectFolder.add(effectconf, 'accretion_disk')
-
+  effectFolder.add(effectconf, 'disk_type', ['texture','blackbody'])
+  
+  observerFolder.open()
+  effectFolder.open()
 }
 
 
