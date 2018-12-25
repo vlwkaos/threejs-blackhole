@@ -45,6 +45,7 @@ window.onload = ()=>{
   // camControl sets up vector
   scene.add(observer)
   delta = 0
+  time = 0
   
   addControlGUI()
   addStatsGUI()
@@ -75,7 +76,7 @@ const init = ()=>{
   loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FeUR6ytQ.jpg?1545708629824', THREE.LinearFilter)
   // screen frame
   uniforms = {
-		time: { type: "f", value: 1.0 },
+		time: { type: "f", value: 0.0 },
 		resolution: { type: "v2", value: new THREE.Vector2()},
     accretion_disk: {type: "b", value: false},
     use_disk_texture: {type: "b", value: true},
@@ -139,7 +140,7 @@ const addControlGUI = ()=>{
   
   // define properties
   perfconf = {
-    resolution : 0.5 
+    resolution : 1.0 
   }
   
   camconf = {
@@ -179,8 +180,10 @@ const addControlGUI = ()=>{
 // UPDATING
 
 let delta, lastframe
+let time
 const update = ()=>{
   delta = (Date.now()-lastframe)/1000  
+  time += delta
   stats.update()
   
   renderer.setPixelRatio( window.devicePixelRatio*perfconf.resolution)
@@ -199,6 +202,7 @@ const update = ()=>{
 }
 
 const updateUniforms = ()=>{
+  uniforms.time.value = time
   uniforms.resolution.value.x = window.innerWidth*perfconf.resolution
 	uniforms.resolution.value.y = window.innerHeight*perfconf.resolution
 

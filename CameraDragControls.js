@@ -4,6 +4,9 @@ THREE.CameraDragControls = function ( object, domElement ) {
 
 	this.object = object;
   
+  let inclineMatrix = (new THREE.Matrix4()).makeRotationZ(this.object.incline)
+  this.object.up.applyMatrix4(inclineMatrix)
+  
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
 	this.enabled = true;
@@ -146,6 +149,8 @@ THREE.CameraDragControls = function ( object, domElement ) {
     rotation.set(this.pitch, this.yaw, 0)
     let newDir = new THREE.Vector3()
     newDir.copy(odir).applyEuler(rotation)
+    
+
     this.object.direction = newDir.normalize()
     
 

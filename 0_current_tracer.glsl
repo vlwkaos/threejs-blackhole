@@ -189,6 +189,7 @@ void main()	{
         float r = length(intersection);//dot(intersection,intersection);
         if (DISK_IN <= r&&r <= DISK_IN+DISK_WIDTH ){
           float phi = atan(intersection.x, intersection.z);
+          phi += time;
           vec3 disk_velocity = vec3(-intersection.x, 0.0, intersection.z)/sqrt(2.0*(r-1.0))/(r*r); 
           
           float disk_gamma = 1.0/sqrt(1.0-dot(disk_velocity, disk_velocity));
