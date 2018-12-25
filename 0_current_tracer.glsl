@@ -162,7 +162,7 @@ void main()	{
 
   float step = 0.02;
   
-  float limit = min(float(NSTEPS),2.0*(DISK_IN+DISK_WIDTH)/step)+1.0;
+  float limit = min(float(NSTEPS),2.0*(DISK_IN+DISK_WIDTH)/step);
   point = ray_dir*(DISK_IN+DISK_WIDTH);
   
   // Leapfrog
