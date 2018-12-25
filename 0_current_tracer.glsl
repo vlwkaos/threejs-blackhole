@@ -176,7 +176,7 @@ void main()	{
       step = 0.02;
     }
     
-    if ( distance < 0.0) break;
+    if ( distance < 0.0 || length(cam_pos ) break;
     
     bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
