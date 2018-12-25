@@ -24,7 +24,7 @@ https://en.wikipedia.org/wiki/Aberration_of_light
 https://en.wikipedia.org/wiki/Lorentz_transformation  
 
 # stellar color change
-Relativistically moving objects are beamed due to a variety of physical effects. **Light aberration** causes most of the photons to be emitted along the object's direction of motion. The **Doppler effect** changes the energy of the photons by red- or blueshifting them. Finally, time intervals as measured by clocks moving alongside the emitting object are different from those measured by an observer on Earth due to **time dilation** and photon arrival time effects. How all of these effects modify the brightness, or apparent luminosity, of a moving object is determined by the equation describing the relativistic Doppler effect (which is why relativistic beaming is also known as Doppler beaming)  
+"Relativistically moving objects are beamed due to a variety of physical effects. **Light aberration** causes most of the photons to be emitted along the object's direction of motion. The **Doppler effect** changes the energy of the photons by red- or blueshifting them. Finally, time intervals as measured by clocks moving alongside the emitting object are different from those measured by an observer on Earth due to **time dilation** and photon arrival time effects. How all of these effects modify the brightness, or apparent luminosity, of a moving object is determined by the equation describing the relativistic Doppler effect (which is why relativistic beaming is also known as Doppler beaming)"
 
 https://en.wikipedia.org/wiki/Gravitational_redshift  
 https://en.wikipedia.org/wiki/Relativistic_Doppler_effect#math_5  
@@ -36,9 +36,9 @@ doppler - wavelength change
 
 blueshift from observer movement  
 redshift from stellar movement  
-they cancel out?
 
-the thing is, we don't know any information from static background texture, so applying doppler effect does not make any sense.  
+the thing is, we don't know any information from static background texture, 
+so applying doppler effect does not make any sense.  
 
 
 
