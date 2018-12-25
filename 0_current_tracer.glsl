@@ -146,10 +146,11 @@ void main()	{
 
   
   // for doppler effect
-  float observer_gamma = 1.0/sqrt(1.0-dot(cam_vel,cam_vel));
-  float observer_doppler_factor = observer_gamma * (1.0 + dot(point, -cam_vel));
+  float ray_gamma = 1.0/sqrt(1.0-dot(cam_vel,cam_vel));
+  float ray_doppler_factor = ray_gamma * (1.0 + dot(point, -cam_vel));
     
-  float  
+  float ray_intensity = 1.0;
+  ray_intensity /= pow(ray_doppler_factor , 3.0);
   
   vec3 oldpoint; 
   float pointsqr;
@@ -171,8 +172,6 @@ void main()	{
     bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
     if (horizon_mask) {
-      //float lambda = 1. - ((1.-oldpointsqr)/((pointsqr - oldpointsqr)));
-      //vec3 colPoint = lambda * point + (1-lambda)*oldPoint; // for drawing grid
       vec4 black = vec4(0.0,0.0,0.0,1.0);
       color += black;
       break;
@@ -196,9 +195,9 @@ void main()	{
           // texture
             vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord) / (ray_doppler_factor * disk_doppler_factor);
-            
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
-            color += vec4(disk_color.xyz,disk_alpha);
+            
+            color += vec4(disk_color)*disk_alpha;
           } else {
           
           // use blackbody 
@@ -241,5 +240,5 @@ void main()	{
     color += texture2D(bg_texture, tex_coord) * 0.2;
 // gl_FragColor = color;
   }
-  gl_FragColor = color;
+  gl_FragColor = color*ray_intensity;
 }
