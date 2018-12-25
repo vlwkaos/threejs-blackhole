@@ -115,6 +115,7 @@ void main()	{
   // z towards you, y towards up, x towards your left
   float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   
+  
   vec2 uv = square_frame(resolution); 
   uv *= vec2(resolution.x/resolution.y, 1.0);
   vec3 forward = normalize(cam_dir); // 

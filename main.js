@@ -28,7 +28,7 @@ window.onload = ()=>{
   // sigma for blur width
   // then choose kernel size ( 6 times sigma)
   
-  let effectBloom = new THREE.BloomPass(1.0,40,6, 512)
+  let effectBloom = new THREE.BloomPass(0.6,40,6, 512)
   let scenePass = new THREE.RenderPass(scene, camera)
   let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
   effectCopy.renderToScreen  =true
@@ -139,7 +139,7 @@ const addControlGUI = ()=>{
   
   // define properties
   perfconf = {
-    resolution : 1.0 
+    resolution : 0.5 
   }
   
   camconf = {
@@ -158,7 +158,7 @@ const addControlGUI = ()=>{
   
   let gui = new dat.GUI()
   let perfFolder = gui.addFolder('Performance')
-  perfFolder.add(perfconf, 'resolution', 0.5, 2.0)
+  perfFolder.add(perfconf, 'resolution', 0.25, 4.0)
   let observerFolder = gui.addFolder('Observer')
   observerFolder.add(camconf, 'distance', 3, 12)
   observerFolder.add(camconf, 'fov', 30, 90)
@@ -183,8 +183,8 @@ const update = ()=>{
   delta = (Date.now()-lastframe)/1000  
   stats.update()
   
-  
-  renderer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
+  renderer.setPixelRatio( window.devicePixelRatio*perfconf.resolution)
+  renderer.setSize(window.innerWidth, window.innerHeight)
   composer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
   
   // update what is drawn
