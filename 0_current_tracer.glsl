@@ -6,7 +6,6 @@
 #define NSTEPS 1000
 #define SPEED 1
 
-
 uniform float time;
 uniform vec2 resolution;
 
@@ -19,11 +18,10 @@ uniform vec3 cam_vel;
 const float MIN_TEMPERATURE = 1000.0;
 const float TEMPERATURE_RANGE = 39000.0;
 
-
 uniform bool accretion_disk;
 uniform bool use_disk_texture;
 const float DISK_IN = 2.0;
-const float DISK_WIDTH = 5.0;
+const float DISK_WIDTH = 4.0;
 
 uniform bool doppler_shift;
 uniform bool lorentz_transform;
@@ -198,7 +196,6 @@ void main()	{
           
           if (use_disk_texture){
           // texture
-            
             vec2 tex_coord = vec2(mod(phi,2.0*PI)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord) / (ray_doppler_factor * disk_doppler_factor);
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
@@ -211,14 +208,18 @@ void main()	{
           
           // use blackbody 
           float disk_temperature = 10000.0*(pow(r/DISK_IN, -3.0/4.0));
-          float disk_alpha = 1.0;
+          
             //doppler effect
           if (doppler_shift)
             disk_temperature /= ray_doppler_factor*disk_doppler_factor;
+
+          vec3 disk_color = temp_to_color(disk_temperature);
+          float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
+          
           if (beaming)
             disk_alpha /= pow(disk_doppler_factor,3.0);
             
-          vec3 disk_color = temp_to_color(disk_temperature);
+          
           color += vec4(disk_color, 1.0)*disk_alpha;
           
           }
