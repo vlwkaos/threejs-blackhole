@@ -159,12 +159,12 @@ void main()	{
   float pointsqr;
   
   float distance = length(point);
-  
+
   float step = 0.02;
+  
   float limit = min(float(NSTEPS),2.0*(DISK_IN+DISK_WIDTH)/step)+1.0;
-  if (distance > DISK_IN+DISK_WIDTH) {
-    step = DISK_IN+DISK_WIDTH-1.0;
-  } 
+  point = ray_dir*(DISK_IN+DISK_WIDTH);
+  
   // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
@@ -177,7 +177,7 @@ void main()	{
     distance = length(point);
 
     
-    if ( distance < 0.0) break;
+    if ( distance < 0.0 || float(i) > limit) break;
     
     bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
@@ -229,8 +229,6 @@ void main()	{
         }
       }
     }
-    
-
     
   }
   
