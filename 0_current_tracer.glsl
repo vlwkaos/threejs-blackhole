@@ -16,14 +16,16 @@ uniform vec3 cam_up;
 uniform float fov;
 uniform vec3 cam_vel;
 
+const float MIN_TEMPERATURE = 1000.0;
+const float TEMPERATURE_RANGE = 39000.0;
+
+
 uniform bool accretion_disk;
 uniform bool use_disk_texture;
 const float DISK_IN = 2.0;
 const float DISK_WIDTH = 4.0;
 
-const float MIN_TEMPERATURE = 1000.0;
-const float TEMPERATURE_RANGE = 39000.0;
-
+uniform bool doppler_shift;
 uniform bool lorentz_transform;
 
 uniform sampler2D bg_texture;
@@ -112,13 +114,12 @@ void main()	{
   // z towards you, y towards up, x towards your left
   float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   
-  
   vec2 uv = square_frame(resolution); 
   uv *= vec2(resolution.x/resolution.y, 1.0);
   vec3 forward = normalize(cam_dir); // 
   vec3 up = normalize(cam_up);
   vec3 nright = normalize(cross(forward, up));
-  // this was the missing piece! I doubted it the other day
+  // don't forget
   up = cross(nright, forward);
   // generate ray
   vec3 pixel_pos =cam_pos + forward +
@@ -203,7 +204,8 @@ void main()	{
           // use blackbody 
           float disk_temperature = 10000.0*(pow(r/3.0, -3.0/4.0));
           //doppler effect
-          disk_temperature /= ray_doppler_factor*disk_doppler_factor;
+          if (doppler_shift)
+            disk_temperature /= ray_doppler_factor*disk_doppler_factor;
             
           vec3 disk_color = temp_to_color(disk_temperature);
           color += vec4(disk_color, 1.0);
@@ -230,7 +232,8 @@ void main()	{
       // arbitrarily decide background stars'
       float star_velocity = star_color.b - 0.5;
       float star_doppler_factor = sqrt((1.0+star_velocity)/(1.0-star_velocity));
-      star_temperature /= ray_doppler_factor*star_doppler_factor;
+      if (doppler_shift)
+        star_temperature /= ray_doppler_factor*star_doppler_factor;
       
       color += vec4(temp_to_color(star_temperature) * star_color.g, 1.0);
     }
