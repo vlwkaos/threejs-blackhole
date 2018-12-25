@@ -1,6 +1,7 @@
 /* globals THREE dat Stats Observer*/
 
-let scene, camera, renderer, composer
+let scene, camera, renderer 
+let composer, bloomPass
 let observer, camControl
 window.onload = ()=>{
   //
@@ -12,12 +13,22 @@ window.onload = ()=>{
   renderer.setClearColor(0x000000, 1.0)
   renderer.setSize(window.innerWidth, window.innerHeight) // res
 
-  composer = new THREE.EffectComposer(renderer)
-  
+
   camera = new THREE.Camera() 
   camera.position.z = 1
   
   document.body.appendChild( renderer.domElement )
+  
+  
+  composer = new THREE.EffectComposer(renderer)
+  composer.addPass(new THREE.RenderPass(scene, camera))
+  bloomPass = new THREE.BloomBlendPass(
+    2.0, // blur amount
+    1.0, // interpolation
+    new THREE.Vector2(window.innerWidth,window.innerHeight) // image res
+    )
+  bloomPass.renderToScreen = true
+  composer.addPass(bloomPass)
   
   init()
   
@@ -162,7 +173,7 @@ const update = ()=>{
     
   render()
   requestAnimationFrame(update)
-  
+
   lastframe = Date.now()
 }
 
@@ -193,5 +204,6 @@ const updateUniforms = ()=>{
 
 const render = ()=>{
   
-  renderer.render( scene, camera )
+  //renderer.render( scene, camera )
+  composer.render()
 }
