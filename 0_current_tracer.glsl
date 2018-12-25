@@ -148,7 +148,7 @@ void main()	{
   
   // for doppler effect
   float ray_gamma = 1.0/sqrt(1.0-dot(cam_vel,cam_vel));
-  float ray_doppler_factor = ray_gamma * (1.0 + dot(point, -cam_vel));
+  float ray_doppler_factor = ray_gamma * (1.0 + dot(ray_dir, -cam_vel));
     
   float ray_intensity = 1.0;
   if (beaming)
@@ -191,7 +191,7 @@ void main()	{
           vec3 disk_velocity = vec3(-intersection.x, 0.0, intersection.z)/sqrt(2.0*(r-1.0))/(r*r); 
           
           float disk_gamma = 1.0/sqrt(1.0-dot(disk_velocity, disk_velocity));
-          float disk_doppler_factor = disk_gamma*(1.0+dot(point/distance, disk_velocity)); // from source 
+          float disk_doppler_factor = disk_gamma*(1.0+dot(ray_dir/distance, disk_velocity)); // from source 
           
           if (use_disk_texture){
           // texture
@@ -206,7 +206,7 @@ void main()	{
           } else {
           
           // use blackbody 
-          float disk_temperature = 10000.0*(pow(r/3.0, -3.0/4.0));
+          float disk_temperature = 10000.0*(pow(r/DISK_IN, -3.0/4.0));
           //doppler effect
           if (doppler_shift)
             disk_temperature /= ray_doppler_factor*disk_doppler_factor;
