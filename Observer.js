@@ -17,7 +17,7 @@ class Observer extends THREE.PerspectiveCamera {
     // options
     this.moving = false
     this.timeDilation = false
-    this.incline = -10 * Math.PI / 180
+    this.incline = -5 * Math.PI / 180
   }
   
   update(delta){
