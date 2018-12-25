@@ -189,15 +189,17 @@ void main()	{
         float r = length(intersection);//dot(intersection,intersection);
         if (DISK_IN <= r&&r <= DISK_IN+DISK_WIDTH ){
           float phi = atan(intersection.x, intersection.z);
-          phi += time;
+          
           vec3 disk_velocity = vec3(-intersection.x, 0.0, intersection.z)/sqrt(2.0*(r-1.0))/(r*r); 
+          phi -= time*length(disk_velocity)/length(r);
           
           float disk_gamma = 1.0/sqrt(1.0-dot(disk_velocity, disk_velocity));
           float disk_doppler_factor = disk_gamma*(1.0+dot(ray_dir/distance, disk_velocity)); // from source 
           
           if (use_disk_texture){
           // texture
-            vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
+            
+            vec2 tex_coord = vec2(mod(phi,2.0*PI)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord) / (ray_doppler_factor * disk_doppler_factor);
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
             

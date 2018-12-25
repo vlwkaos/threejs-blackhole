@@ -28,7 +28,7 @@ window.onload = ()=>{
   // sigma for blur width
   // then choose kernel size ( 6 times sigma)
   
-  let effectBloom = new THREE.BloomPass(0.6,40,6, 512)
+  let effectBloom = new THREE.BloomPass(0.60,40,6, 512)
   let scenePass = new THREE.RenderPass(scene, camera)
   let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
   effectCopy.renderToScreen  =true
