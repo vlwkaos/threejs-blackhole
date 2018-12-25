@@ -60,6 +60,7 @@ const init = ()=>{
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2()},
     accretion_disk: {type: "b", value: false},
+    use_disk_texture: {type: "b", value: true},
     lorentz_transform: {type: "b", value: false},
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
@@ -126,7 +127,7 @@ const addControlGUI = ()=>{
   effectconf = {
     lorentz_transform: true,
     accretion_disk : true,
-    disk_type: 'texture'
+    use_disk_texture : true
   }
   
   let gui = new dat.GUI()
@@ -138,7 +139,7 @@ const addControlGUI = ()=>{
   let effectFolder = gui.addFolder('Effects')
   effectFolder.add(effectconf, 'lorentz_transform')
   effectFolder.add(effectconf, 'accretion_disk')
-  effectFolder.add(effectconf, 'disk_type', ['texture','blackbody'])
+  effectFolder.add(effectconf, 'use_disk_texture')
   
   observerFolder.open()
   effectFolder.open()
@@ -187,6 +188,7 @@ const updateUniforms = ()=>{
   observer.fov = camconf.fov  
   uniforms.lorentz_transform.value = effectconf.lorentz_transform
   uniforms.accretion_disk.value = effectconf.accretion_disk
+  uniforms.use_disk_texture.value = effectconf.use_disk_texture
 }
 
 const render = ()=>{

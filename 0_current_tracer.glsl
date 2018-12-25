@@ -17,12 +17,9 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-uniform int disk_type = 0;
-const int USE_TEXTURE = 0;
-const int USE_BLACKBODY = 1;
+uniform bool use_disk_texture;
 const float DISK_IN = 2.0;
-const float DISK_WIDTH = 4.0;\
-
+const float DISK_WIDTH = 4.0;
 
 const float MIN_TEMPERATURE = 1000.0;
 const float TEMPERATURE_RANGE = 39000.0;
@@ -179,22 +176,20 @@ void main()	{
         if (DISK_IN <= r&&r <= DISK_IN+DISK_WIDTH ){
           float phi = atan(intersection.x, intersection.z);
           
-          
-          //if (disk_type == USE_TEXTURE){
+          if (use_disk_texture){
           // texture
             vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord);
 
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
             color += vec4(disk_color.xyz,disk_alpha);
-            //color += disk_color;
-          /*
-          } else if (disk_type == USE_BLACKBODY){
+          } else {
+          
           // use blackbody 
-            
-            float disk_temperature = MIN_TEMPERATURE+9000.0*(pow(r/3.0, -3.0/4.0));
-           // vec3 disk_ = 
-          }*/
+          float disk_temperature = MIN_TEMPERATURE+9000.0*(pow(r/3.0, -3.0/4.0));
+         // disk_color = 
+        
+          }
         }
       }
     }
@@ -207,15 +202,13 @@ void main()	{
     ray_dir = normalize(point - oldpoint);
     vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
     // taken from source
-    // red = temperature
-    // green = alpha
-    // blue = shift
+    // red = luminance
+    // green = temperature
     float t_coord;
     vec4 star_color = texture2D(star_texture, tex_coord);
     if (star_color.r > 0.0){
       t_coord = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.r);
-      color += vec4(temp_to_color(t_coord) * star_color.g, 1.0);
-      // 
+      color += vec4(temp_to_color(t_coord) * star_color.g, star_color.b);
     }
 
     color += texture2D(bg_texture, tex_coord) * 0.4;
