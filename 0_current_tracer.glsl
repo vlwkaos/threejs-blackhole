@@ -21,7 +21,7 @@ const float TEMPERATURE_RANGE = 39000.0;
 uniform bool accretion_disk;
 uniform bool use_disk_texture;
 const float DISK_IN = 2.0;
-const float DISK_WIDTH = 4.0;
+const float DISK_WIDTH = 5.0;
 
 uniform bool doppler_shift;
 uniform bool lorentz_transform;
