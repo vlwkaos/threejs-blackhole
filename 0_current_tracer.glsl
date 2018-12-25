@@ -158,18 +158,24 @@ void main()	{
   float pointsqr;
   
   float distance = length(point);
-  
+  float step = 0.5;
   // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
-    point += velocity * STEP;
+    point += velocity * step;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
-    velocity += accel * STEP;    
+    velocity += accel * step;    
     
     // distance from origin
     distance = length(point);
     
-    if ( distance < 0.0 || distance < float(-NSTEPS)*STEP) break;
+    if (distance > DISK_IN+DISK_WIDTH+1.0)
+      step = 0.5;
+    else {
+      step = 0.02;
+    }
+    
+    if ( distance < 0.0) break;
     
     bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
