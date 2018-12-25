@@ -126,10 +126,13 @@ void main()	{
   
   vec3 ray_dir = normalize(pixel_pos - cam_pos); // 
   
+  
+
   // light aberration alters ray path 
   if (lorentz_transform)
     ray_dir = lorentz_transform_velocity(ray_dir, cam_vel);
 
+  
   // initial color
   vec4 color = vec4(0.0,0.0,0.0,1.0);
 
@@ -139,6 +142,13 @@ void main()	{
   vec3 velocity = ray_dir;
   vec3 c = cross(point,velocity);
   float h2 = dot(c,c);
+
+  
+  // for doppler effect
+  float gamma = 1.0/sqrt(1.0-dot(cam_vel,cam_vel));
+  float ray_doppler_factor = gamma * (1.0 + dot(point, -cam_vel));
+    
+  
   
   vec3 oldpoint; 
   float pointsqr;
@@ -177,7 +187,9 @@ void main()	{
         if (DISK_IN <= r&&r <= DISK_IN+DISK_WIDTH ){
           float phi = atan(intersection.x, intersection.z);
           vec3 disk_velocity = vec3(-intersection.x, 0.0, intersection.z)/sqrt(2.0*(r-1.0))/(r*r); 
-          float gamma = 1.0
+          float gamma = 1.0/sqrt(1.0-dot(disk_velocity, disk_velocity));
+          float doppler_factor = gamma*(1.0+dot(point/distance, disk_velocity)); 
+          
           if (use_disk_texture){
           // texture
             vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
@@ -188,6 +200,7 @@ void main()	{
           
           // use blackbody 
           float disk_temperature = 10000.0*(pow(r/3.0, -3.0/4.0));
+          disk_temperature /= ray_doppler_factor*doppler_factor;
           vec3 disk_color = temp_to_color(disk_temperature);
           color += vec4(disk_color, 1.0);
           
