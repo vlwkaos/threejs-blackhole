@@ -26,7 +26,7 @@ window.onload = ()=>{
   // strength, kernelSize, sigma, res
   //
   // resolution, strength, radius, threshold
-  let effectBloom = new THREE.UnrealBloomPass(128, 0.2, 0.0, 0.0)
+  let effectBloom = new THREE.UnrealBloomPass(128, 0.8, 2.0, 0.0)
   let scenePass = new THREE.RenderPass(scene, camera)
   let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
   effectCopy.renderToScreen  =true
