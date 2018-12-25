@@ -54,7 +54,7 @@ const init = ()=>{
   loadTexture('bg2','https://cdn-images-1.medium.com/max/2000/1*i53XJF3x04oq3BUJHy4TQQ.png', THREE.NearestFilter)
   loadTexture('star','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/stars.png', THREE.LinearFilter)
   //loadTexture('disk','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/accretion-disk.png', THREE.LinearFilter)
-  loadTexture('disk','https://raw.githubusercontent.com/rantonels/starless/master/textures/adisk.jpg', THREE.LinearFilter)
+  loadTexture('disk','http://i.imgur.com/eUR6ytQ.jpg', THREE.LinearFilter)
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
@@ -86,11 +86,13 @@ const init = ()=>{
   
 }
 
-const loadTexture = (name, image, interpolation)=>{
+const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrapping)=>{
     textures[name]= null
     textureLoader.load(image, (texture)=> {
       texture.magFilter = interpolation
       texture.minFilter = interpolation
+      texture.wrapT = wrap
+      texture.wrapS = wrap
       textures[name] = texture
     })
 }
