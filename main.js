@@ -1,7 +1,7 @@
 /* globals THREE dat Stats Observer*/
 
 let scene, camera, renderer 
-let composer, bloomPass
+let composer, effectBloom
 let observer, camControl
 window.onload = ()=>{
   //
@@ -11,7 +11,7 @@ window.onload = ()=>{
 
   renderer = new THREE.WebGLRenderer()
   renderer.setClearColor(0x000000, 1.0)
- 
+  renderer.toneMapping = THREE.ReinhardToneMapping
   renderer.setSize(window.innerWidth, window.innerHeight) // res
   renderer.autoClear = false
   
@@ -26,7 +26,7 @@ window.onload = ()=>{
   // strength, kernelSize, sigma, res
   //
   // resolution, strength, radius, threshold
-  let effectBloom = new THREE.UnrealBloomPass(128, 0.8, 2.0, 0.0)
+  effectBloom = new THREE.UnrealBloomPass(128, 0.8, 2.0, 0.0)
   let scenePass = new THREE.RenderPass(scene, camera)
   let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
   effectCopy.renderToScreen  =true
@@ -119,7 +119,7 @@ const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrappin
 
 
 // dat.gui
-let camconf,effectconf,perfconf
+let camconf,effectconf,perfconf,bloomconf
 let stats
 const addStatsGUI = ()=>{
      
@@ -139,6 +139,13 @@ const addControlGUI = ()=>{
     resolution : 1.0 
   }
   
+  bloomconf = {
+    exposure: 1.0,
+    strength :1.0, 
+	  radius :0.0,
+    threshold:0.0 
+  }
+  
   camconf = {
     distance : 10.0,
     orbit: false,
@@ -155,7 +162,14 @@ const addControlGUI = ()=>{
   
   let gui = new dat.GUI()
   let perfFolder = gui.addFolder('Performance')
-  perfFolder.add(perfconf, 'resolution', 0.25, 4.0)
+  perfFolder.add(perfconf, 'resolution', [0.25,0.5,1.0,2.0,4.0])
+  let bloomFolder = gui.addFolder('Bloom')
+  bloomFolder.add(bloomconf, 'exposure', 0.0, 2.0)
+  bloomFolder.add(bloomconf, 'strength', 0.0, 3.0)
+  bloomFolder.add(bloomconf, 'radius', 0.0, 1.0)
+  bloomFolder.add(bloomconf, 'threshold', 0.0, 1.0)
+  
+  
   let observerFolder = gui.addFolder('Observer')
   observerFolder.add(camconf, 'distance', 3, 12)
   observerFolder.add(camconf, 'fov', 30, 90)
@@ -168,6 +182,7 @@ const addControlGUI = ()=>{
   effectFolder.add(effectconf, 'accretion_disk')
   effectFolder.add(effectconf, 'use_disk_texture')  
   perfFolder.open()
+  bloomFolder.open()
   observerFolder.open()
   effectFolder.open()
 }
@@ -215,6 +230,14 @@ const updateUniforms = ()=>{
   
   
   // controls
+  renderer.tonMapping = 
+  effectBloom.strength = bloomconf.strength
+  effectBloom.radius = bloomconf.radius
+  effectBloom.threshold = bloomconf.threshold
+  
+  
+  
+  
   observer.distance = camconf.distance
   observer.moving = camconf.orbit
   observer.fov = camconf.fov  
@@ -223,6 +246,8 @@ const updateUniforms = ()=>{
   uniforms.use_disk_texture.value = effectconf.use_disk_texture
   uniforms.doppler_shift.value = effectconf.doppler_shift
   uniforms.beaming.value = effectconf.beaming
+  
+  
 }
 
 const render = ()=>{
