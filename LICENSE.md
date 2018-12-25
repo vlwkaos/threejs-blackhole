@@ -3,19 +3,11 @@ Apache License, Version2.0
      
 MIT license
  - stats.js
- - three.js + other extra js files
+ - three.js + other extra js files (Shader, Camera, etc.)
  - [https://github.com/oseiskar/black-hole](https://github.com/oseiskar/black-hole)
- - 
+  
+GNU General Public License v3.0
+ - [https://github.com/rantonels/starless](https://github.com/rantonels/starless)
+  
+Background image [assets/milkyway.jpg](https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fmilkyway.jpg?1545745139132) is from Stellarium and "based on Nick Risinger's Photopic Sky Survey image under CC-BY-NC 2.0."  as stated in [https://github.com/oseiskar/black-hole/blob/master/COPYRIGHT.md](https://github.com/oseiskar/black-hole/blob/master/COPYRIGHT.md)
 
-stats.js 
-Other JavaScript libraries in js-libs/ are licensed under the MIT license
-
-    jQuery
-    three.js + components Detector.js and OrbitControls.js
-    stats.js
-    mustache.js
-    ShaderLoader.js
-
-The Milky Way image img/milkyway.jpg is from Stellarium and "based on Nick Risinger's Photopic Sky Survey image under CC-BY-NC 2.0."
-
-All other files in this repository, https://github.com/oseiskar/black-hole, are hereby licensed under the MIT license:
