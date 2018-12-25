@@ -221,22 +221,21 @@ void main()	{
     ray_dir = normalize(point - oldpoint);
     vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
     // taken from source
-    // red = luminance
-    // green = temperature
-    
+    // red = temp
+    // green = lum
+    // blue = vel
     vec4 star_color = texture2D(star_texture, tex_coord);
     if (star_color.g > 0.0){
       float star_temperature = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.r);
       // arbitrarily decide background stars'
       float star_velocity = star_color.b - 0.5;
-      float star_gamma = 1.0/sqrt(1.0-star_velocity*star_velocity);
-      float star_doppler_factor = star_gamma*(1.0+10.0*star_velocity);
+      float star_doppler_factor = sqrt((1.0+star_velocity)/(1.0-star_velocity));
       star_temperature /= ray_doppler_factor*star_doppler_factor;
       
       color += vec4(temp_to_color(star_temperature) * star_color.g, 1.0);
     }
 
-    color += texture2D(bg_texture, tex_coord) * 0.4;
+    color += texture2D(bg_texture, tex_coord) * 0.2;
 // gl_FragColor = color;
   }
   gl_FragColor = color;
