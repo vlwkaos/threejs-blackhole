@@ -153,7 +153,7 @@ const addControlGUI = ()=>{
   
   let gui = new dat.GUI()
   let observerFolder = gui.addFolder('Observer')
-  observerFolder.add(camconf, 'distance', 3, 16)
+  observerFolder.add(camconf, 'distance', 3, 12)
   observerFolder.add(camconf, 'fov', 30, 90)
   observerFolder.add(camconf, 'orbit')
   

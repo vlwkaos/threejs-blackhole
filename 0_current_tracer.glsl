@@ -169,7 +169,7 @@ void main()	{
     // distance from origin
     distance = length(point);
     
-    if (distance < 0.0) break;
+    if ( distance < 0.0 || distance < float(-NSTEPS)*STEP) break;
     
     bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
@@ -207,12 +207,15 @@ void main()	{
           
           // use blackbody 
           float disk_temperature = 10000.0*(pow(r/DISK_IN, -3.0/4.0));
-          //doppler effect
+          float disk_alpha = 1.0;
+            //doppler effect
           if (doppler_shift)
             disk_temperature /= ray_doppler_factor*disk_doppler_factor;
+          if (beaming)
+            disk_alpha /= pow(disk_doppler_factor,3.0);
             
           vec3 disk_color = temp_to_color(disk_temperature);
-          color += vec4(disk_color, 1.0);
+          color += vec4(disk_color, 1.0)*disk_alpha;
           
           }
         }
