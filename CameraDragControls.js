@@ -122,7 +122,7 @@ THREE.CameraDragControls = function ( object, domElement ) {
     
       if (this.lookVertical){
         this.pitch += this.lookSpeed * this.offsetY;
-        this.pitch = Math.min(Math.PI/2, Math.max(-Math.PI/2, this.pitch))
+        this.pitch = Math.min(Math.PI/2-0.01, Math.max(-Math.PI/2+0.01, this.pitch))
 
       }
       this.offsetX /= 2;
