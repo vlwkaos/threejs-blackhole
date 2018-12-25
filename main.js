@@ -52,15 +52,14 @@ const init = ()=>{
   
   loadTexture('bg1','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/milkyway.jpg', THREE.NearestFilter)
   loadTexture('bg2','https://cdn-images-1.medium.com/max/2000/1*i53XJF3x04oq3BUJHy4TQQ.png', THREE.NearestFilter)
-  loadTexture('star','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/stars.png', THREE.LinearFilter)
+  loadTexture('star','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545708387887', THREE.LinearFilter)
   //loadTexture('disk','https://raw.githubusercontent.com/oseiskar/black-hole/master/img/accretion-disk.png', THREE.LinearFilter)
-  loadTexture('disk','http://i.imgur.com/eUR6ytQ.jpg', THREE.LinearFilter)
+  loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FeUR6ytQ.jpg?1545708629824', THREE.LinearFilter)
   // screen frame
   uniforms = {
 		time: { type: "f", value: 1.0 },
 		resolution: { type: "v2", value: new THREE.Vector2()},
     accretion_disk: {type: "b", value: false},
-    disk_type: { type: "i", value: 0},
     lorentz_transform: {type: "b", value: false},
     cam_pos: {type:"v3", value: new THREE.Vector3()},
     cam_vel: {type:"v3", value: new THREE.Vector3()},
@@ -181,13 +180,13 @@ const updateUniforms = ()=>{
   uniforms.star_texture.value = textures['star']
   uniforms.disk_texture.value = textures['disk']
   
+  
   // controls
   observer.distance = camconf.distance
   observer.moving = camconf.orbit
   observer.fov = camconf.fov  
   uniforms.lorentz_transform.value = effectconf.lorentz_transform
   uniforms.accretion_disk.value = effectconf.accretion_disk
-  
 }
 
 const render = ()=>{

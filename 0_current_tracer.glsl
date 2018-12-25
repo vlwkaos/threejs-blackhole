@@ -17,7 +17,7 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-uniform int disk_type;
+uniform int disk_type = 0;
 const int USE_TEXTURE = 0;
 const int USE_BLACKBODY = 1;
 const float DISK_IN = 2.0;
@@ -180,7 +180,7 @@ void main()	{
           float phi = atan(intersection.x, intersection.z);
           
           
-          if (disk_type == USE_TEXTURE){
+          //if (disk_type == USE_TEXTURE){
           // texture
             vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord);
@@ -188,12 +188,13 @@ void main()	{
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
             color += vec4(disk_color.xyz,disk_alpha);
             //color += disk_color;
+          /*
           } else if (disk_type == USE_BLACKBODY){
           // use blackbody 
             
             float disk_temperature = MIN_TEMPERATURE+9000.0*(pow(r/3.0, -3.0/4.0));
-            vec3 disk_ = 
-          }
+           // vec3 disk_ = 
+          }*/
         }
       }
     }
@@ -206,13 +207,15 @@ void main()	{
     ray_dir = normalize(point - oldpoint);
     vec2 tex_coord = to_spherical(ray_dir * ROT_Z(45.0 * DEG_TO_RAD));
     // taken from source
-    // red = luminance
-    // green = temperature
+    // red = temperature
+    // green = alpha
+    // blue = shift
     float t_coord;
     vec4 star_color = texture2D(star_texture, tex_coord);
     if (star_color.r > 0.0){
-      t_coord = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.g);
-      color += vec4(temp_to_color(t_coord) * star_color.r, 1.0);
+      t_coord = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.r);
+      color += vec4(temp_to_color(t_coord) * star_color.g, 1.0);
+      // 
     }
 
     color += texture2D(bg_texture, tex_coord) * 0.4;
