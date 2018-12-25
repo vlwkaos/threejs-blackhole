@@ -22,7 +22,12 @@ window.onload = ()=>{
   
   composer = new THREE.EffectComposer(renderer)
   let renderPass = new THREE.RenderPass(scene, camera)
-  let effectBloom = new THREE.BloomPass(0.5,25,4) // strength, kernelSize, sigma, res
+  // strength, kernelSize, sigma, res
+  //
+  // sigma for blur width
+  // then choose kernel size ( 6 times sigma)
+  
+  let effectBloom = new THREE.BloomPass(0.50,32,5)
   let scenePass = new THREE.RenderPass(scene, camera)
   let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
   effectCopy.renderToScreen  =true
@@ -133,7 +138,7 @@ const addControlGUI = ()=>{
   
   // define properties
   camconf = {
-    distance : 8.0,
+    distance : 10.0,
     orbit: true,
     fov: 90.0
   }

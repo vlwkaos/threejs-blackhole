@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 0.05
-#define NSTEPS 500
+#define STEP 0.02
+#define NSTEPS 1000
 #define SPEED 1
 
 
@@ -18,7 +18,7 @@ uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
 uniform bool use_disk_texture;
-const float DISK_IN = 3.0;
+const float DISK_IN = 2.0;
 const float DISK_WIDTH = 4.0;
 
 const float MIN_TEMPERATURE = 1000.0;
@@ -170,6 +170,7 @@ void main()	{
     // intersect accretion disk
     if (accretion_disk){
       if (oldpoint.y * point.y < 0.0){
+        // move along y axis
         float lambda = - oldpoint.y/velocity.y;
         vec3 intersection = oldpoint + lambda*velocity;
         float r = length(intersection);//dot(intersection,intersection);
