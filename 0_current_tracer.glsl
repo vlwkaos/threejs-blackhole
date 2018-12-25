@@ -27,6 +27,7 @@ const float DISK_WIDTH = 4.0;
 
 uniform bool doppler_shift;
 uniform bool lorentz_transform;
+uniform bool beaming;
 
 uniform sampler2D bg_texture;
 uniform sampler2D star_texture;
@@ -150,7 +151,8 @@ void main()	{
   float ray_doppler_factor = ray_gamma * (1.0 + dot(point, -cam_vel));
     
   float ray_intensity = 1.0;
-  ray_intensity /= pow(ray_doppler_factor , 3.0);
+  if (beaming)
+    ray_intensity /= pow(ray_doppler_factor , 3.0);
   
   vec3 oldpoint; 
   float pointsqr;
@@ -196,6 +198,9 @@ void main()	{
             vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord) / (ray_doppler_factor * disk_doppler_factor);
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
+            
+            if (beaming)
+              disk_alpha /= pow(disk_doppler_factor,3.0);
             
             color += vec4(disk_color)*disk_alpha;
           } else {
