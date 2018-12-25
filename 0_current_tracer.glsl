@@ -159,13 +159,17 @@ void main()	{
   float pointsqr;
   
   float distance = length(point);
+  
   float step = 0.02;
+  if (distance > DISK_IN+DISK_WIDTH)
+  
+  
   // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * step;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
-    
+    float step = 0.02;
     velocity += accel * step;    
     
     // distance from origin
