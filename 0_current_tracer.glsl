@@ -248,7 +248,7 @@ void main()	{
       color += vec4(temp_to_color(star_temperature) * star_color.g, 1.0);
     }
 
-    color += texture2D(bg_texture, tex_coord) * 0.2;
+    color += texture2D(bg_texture, tex_coord) * 0.25;
 // gl_FragColor = color;
   }
   gl_FragColor = color*ray_intensity;

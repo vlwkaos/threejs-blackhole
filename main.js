@@ -11,7 +11,6 @@ window.onload = ()=>{
 
   renderer = new THREE.WebGLRenderer()
   renderer.setClearColor(0x000000, 1.0)
-  renderer.toneMapping = THREE.ReinhardToneMapping
   renderer.setSize(window.innerWidth, window.innerHeight) // res
   renderer.autoClear = false
   
@@ -140,14 +139,13 @@ const addControlGUI = ()=>{
   }
   
   bloomconf = {
-    exposure: 1.0,
-    strength :1.0, 
-	  radius :0.0,
-    threshold:0.0 
+    strength :0.6, 
+	  radius :0.99,
+    threshold:0.75 
   }
   
   camconf = {
-    distance : 10.0,
+    distance : 10,
     orbit: false,
     fov: 90.0
   }
@@ -164,14 +162,13 @@ const addControlGUI = ()=>{
   let perfFolder = gui.addFolder('Performance')
   perfFolder.add(perfconf, 'resolution', [0.25,0.5,1.0,2.0,4.0])
   let bloomFolder = gui.addFolder('Bloom')
-  bloomFolder.add(bloomconf, 'exposure', 0.0, 2.0)
   bloomFolder.add(bloomconf, 'strength', 0.0, 3.0)
   bloomFolder.add(bloomconf, 'radius', 0.0, 1.0)
   bloomFolder.add(bloomconf, 'threshold', 0.0, 1.0)
   
   
   let observerFolder = gui.addFolder('Observer')
-  observerFolder.add(camconf, 'distance', 3, 12)
+  observerFolder.add(camconf, 'distance', 2, 14)
   observerFolder.add(camconf, 'fov', 30, 90)
   observerFolder.add(camconf, 'orbit')
   
@@ -230,13 +227,10 @@ const updateUniforms = ()=>{
   
   
   // controls
-  renderer.tonMapping = 
   effectBloom.strength = bloomconf.strength
   effectBloom.radius = bloomconf.radius
   effectBloom.threshold = bloomconf.threshold
-  
-  
-  
+
   
   observer.distance = camconf.distance
   observer.moving = camconf.orbit
