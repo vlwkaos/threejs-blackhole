@@ -13,12 +13,12 @@ window.onload = ()=>{
   renderer.setClearColor(0x000000, 1.0)
   renderer.setSize(window.innerWidth, window.innerHeight) // res
   renderer.autoClear = false
+  
 
   camera = new THREE.Camera() 
   camera.position.z = 1
   
   document.body.appendChild( renderer.domElement )
-  
   
   composer = new THREE.EffectComposer(renderer)
   let renderPass = new THREE.RenderPass(scene, camera)
@@ -160,7 +160,8 @@ const addControlGUI = ()=>{
   let effectFolder = gui.addFolder('Effects')
   effectFolder.add(effectconf, 'lorentz_transform')
   effectFolder.add(effectconf, 'doppler_shift')
-  effectFolder.add(effectconf, 'beami  effectFolder.add(effectconf, 'accretion_disk')
+  effectFolder.add(effectconf, 'beaming')
+  effectFolder.add(effectconf, 'accretion_disk')
   effectFolder.add(effectconf, 'use_disk_texture')  
   observerFolder.open()
   effectFolder.open()
