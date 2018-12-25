@@ -140,8 +140,8 @@ const addControlGUI = ()=>{
   
   bloomconf = {
     strength :1.0, 
-	  radius :0.99,
-    threshold:0.75 
+	  radius :0.2,
+    threshold:0.7 
   }
   
   camconf = {
