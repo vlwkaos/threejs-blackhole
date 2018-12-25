@@ -111,10 +111,14 @@ vec3 temp_to_color(float temp_kelvin){
 // for reference
 void main()	{
   // z towards you, y towards up, x towards your left
-  float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
+  //float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   
+  float d = 1.0/tan(fov*DEG_TO_RAD / 2.0);
+  float hfov = d/ 
   
   vec2 uv = square_frame(resolution); 
+  float hfov = (2.0 * ((uv.x)/)
+  
   uv *= vec2(resolution.x/resolution.y, 1.0);
   vec3 forward = normalize(cam_dir); // 
   vec3 up = normalize(cam_up);
