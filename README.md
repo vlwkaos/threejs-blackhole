@@ -6,9 +6,6 @@ Help material
 -----------
 
 ### More Maths 
-[**Example 1**](https://github.com/oseiskar/black-hole)  
-[**Example 2**](https://github.com/rantonels/schwarzschild/blob/master/tracer.py)  
-[**Physics of blackhole**](http://rantonels.github.io/starless/)  
 -[Killing Vector](https://phys.libretexts.org/TextBooks_and_TextMaps/Relativity/Book%3A_General_Relativity_(Crowell)/7%3A_Symmetries/7.1%3A_Killing_Vectors)  
 -[Binet Equation](https://en.wikipedia.org/wiki/Binet_equation)  
 -[Proper Time]()
