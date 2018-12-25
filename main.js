@@ -116,7 +116,7 @@ const addControlGUI = ()=>{
   // define properties
   camconf = {
     distance : 8.0,
-    orbit: false,
+    orbit: true,
     fov: 90.0
   }
   

@@ -2,8 +2,8 @@
 #define DEG_TO_RAD (PI/180.0)
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
-#define STEP 0.2
-#define NSTEPS 50
+#define STEP 0.05
+#define NSTEPS 500
 #define SPEED 1
 
 
@@ -17,7 +17,7 @@ uniform float fov;
 uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
-const float DISK_IN = 1.5;
+const float DISK_IN = 3.0;
 const float DISK_WIDTH = 2.5;
 
 const float MIN_TEMPERATURE = 1000.0;
