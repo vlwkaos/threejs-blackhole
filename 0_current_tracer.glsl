@@ -3,7 +3,7 @@
 #define ROT_Y(a) mat3(1, 0, 0, 0, cos(a), sin(a), 0, -sin(a), cos(a))
 #define ROT_Z(a) mat3(cos(a), -sin(a), 0, sin(a), cos(a), 0, 0, 0, 1)
 #define STEP 0.02
-#define NSTEPS 1000
+#define NSTEPS 500
 #define SPEED 1
 
 
@@ -159,24 +159,20 @@ void main()	{
   float pointsqr;
   
   float distance = length(point);
-  float step = 0.5;
+  float step = 0.02;
   // Leapfrog
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * step;
     vec3 accel = -1.5 * h2 * point / pow(dot(point,point),2.5);
+    
     velocity += accel * step;    
     
     // distance from origin
     distance = length(point);
+
     
-    if (distance > DISK_IN+DISK_WIDTH+1.0)
-      step = 0.5;
-    else {
-      step = 0.02;
-    }
-    
-    if ( distance < 0.0 || length(cam_pos ) break;
+    if ( distance < 0.0) break;
     
     bool horizon_mask = distance < 1.0 && length(oldpoint) > 1.0;// intersecting eventhorizon
     // does it enter event horizon?
