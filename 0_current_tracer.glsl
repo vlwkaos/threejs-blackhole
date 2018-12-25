@@ -18,7 +18,7 @@ uniform vec3 cam_vel;
 
 uniform bool accretion_disk;
 uniform bool use_disk_texture;
-const float DISK_IN = 2.0;
+const float DISK_IN = 3.0;
 const float DISK_WIDTH = 4.0;
 
 const float MIN_TEMPERATURE = 1000.0;
@@ -180,14 +180,14 @@ void main()	{
           // texture
             vec2 tex_coord = vec2((phi)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord);
-
             float disk_alpha = clamp(dot(disk_color,disk_color)/3.0,0.0,1.0);
             color += vec4(disk_color.xyz,disk_alpha);
           } else {
           
           // use blackbody 
-          float disk_temperature = MIN_TEMPERATURE+9000.0*(pow(r/3.0, -3.0/4.0));
-         // disk_color = 
+          float disk_temperature = 10000.0*(pow(r/3.0, -3.0/4.0));
+          vec3 disk_color = temp_to_color(disk_temperature);
+          color += vec4(disk_color, 1.0);
         
           }
         }
