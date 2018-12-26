@@ -137,7 +137,8 @@ const addControlGUI = ()=>{
   
   // define properties
   perfconf = {
-    resolution : 1.0 
+    resolution : 1.0, 
+    quality: 'high'
   }
   
   bloomconf = {
@@ -162,7 +163,18 @@ const addControlGUI = ()=>{
   
   let gui = new dat.GUI()
   let perfFolder = gui.addFolder('Performance')
-  perfFolder.add(perfconf, 'resolution', [0.25,0.5,1.0,2.0,4.0])
+  perfFolder.add(perfconf, 'resolution', [0.25,0.5,1.0,2.0,4.0]).onChange((val)=>{
+    renderer.setPixelRatio( window.devicePixelRatio*perfconf.resolution)
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    composer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
+  })
+  perfFolder.add(perfconf, 'quality', ['low','medium','high']).onChange((val)=>{
+    switch (val){
+      case 'low':
+        
+      break
+    }
+  })
   let bloomFolder = gui.addFolder('Bloom')
   bloomFolder.add(bloomconf, 'strength', 0.0, 3.0)
   bloomFolder.add(bloomconf, 'radius', 0.0, 1.0)
@@ -196,10 +208,7 @@ const update = ()=>{
   time += delta
   stats.update()
   
-  renderer.setPixelRatio( window.devicePixelRatio*perfconf.resolution)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  composer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
-  
+
   // update what is drawn
   observer.update(delta)
   camControl.update(delta)
