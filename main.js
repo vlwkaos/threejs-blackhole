@@ -171,10 +171,15 @@ const addControlGUI = ()=>{
       getImageData = true;
       render()
       renderer.domElement.toBlob(function(blob) {
-        saveAs(blob, "pretty image.png");
+           let URLObj = window.URL || window.webkitURL;
+            let a = document.createElement("a");  
+        a.href = URLObj.createObjectURL(blob);
+        a.download = "untitled.png";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       });
       let image = renderer.domElement.toDataURL("image/png").replace("image/png", "image/octet-stream");  
-      window.location.download = 'image.png'
       window.location.href=image;
     }
     
