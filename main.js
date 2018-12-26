@@ -181,7 +181,7 @@ const addControlGUI = ()=>{
   effectFolder.add(effectconf, 'accretion_disk')
   effectFolder.add(effectconf, 'use_disk_texture')  
   perfFolder.open()
-  bloomFolder.open()
+  //bloomFolder.open()
   observerFolder.open()
   effectFolder.open()
 }

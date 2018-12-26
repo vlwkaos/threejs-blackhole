@@ -12,13 +12,13 @@ CC-BY-NC 2.0
  
 GNU, General Public License, Version 3.0
  - [https://github.com/rantonels/starless](https://github.com/rantonels/starless)
-   - Accretion disk texture is provided by this repository. 
+   - Original texture for accretion disk is provided by this repository. It is slightly modified to reduce the brightness at the edge. 
    - Code works & derived formulae were referenced from and reproduced in GLSL.
 
 
 All other files in this glitch project are hereby licensed under GPL, v3.0  
 
-This project renders schwarzchild blackhole in realtime (+ various effects). 
+This project renders schwarzchild blackhole (+ various effects). 
 
     Copyright (C) <2018>  <pizzakinggod>
 

@@ -113,18 +113,15 @@ void main()	{
   // z towards you, y towards up, x towards your left
   //  float hfov = (2.0 * ((uv.x+0.5)/resolution.x) - 1.0) * d * resolution.x/resolution.y;
   // float vfov = (1.0 - 2.0 * ((uv.y+0.5)/resolution.y)) * d;
-  //
-  float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
-  
-  float d = tan(fov*DEG_TO_RAD / 2.0);
+  //  float d = tan(fov*DEG_TO_RAD / 2.0);
 
+  float uvfov = tan(fov / 2.0 * DEG_TO_RAD);
   vec2 uv = square_frame(resolution); 
 
   uv *= vec2(resolution.x/resolution.y, 1.0);
   vec3 forward = normalize(cam_dir); // 
   vec3 up = normalize(cam_up);
   vec3 nright = normalize(cross(forward, up));
-  // don't forget
   up = cross(nright, forward);
   // generate ray
   vec3 pixel_pos =cam_pos + forward +
