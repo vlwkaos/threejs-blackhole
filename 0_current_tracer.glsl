@@ -203,7 +203,7 @@ void main()	{
           // texture
             vec2 tex_coord = vec2(mod(phi,2.0*PI)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord) / (ray_doppler_factor * disk_doppler_factor);
-            float disk_alpha = clamp(dot(disk_color,disk_color)/4.0,0.0,1.0);
+            float disk_alpha = clamp(dot(disk_color,disk_color)/4.5,0.0,1.0);
             
             if (beaming)
               disk_alpha /= pow(disk_doppler_factor,3.0);
