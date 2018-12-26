@@ -174,7 +174,7 @@ const addControlGUI = ()=>{
         let URLObj = window.URL || window.webkitURL;
         let a = document.createElement("a");  
         a.href = URLObj.createObjectURL(blob);
-        a.download = "untitled.png";
+        a.download = `${Date.getMonth()}${Date.getDay()}${Date.getFullYear()}.png`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
