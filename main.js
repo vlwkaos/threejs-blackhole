@@ -97,7 +97,12 @@ const init = ()=>{
 			vertexShader: document.getElementById( 'vertexShader' ).textContent
 		})
   loader.load('0_current_tracer.glsl', (data)=>{
-    material.fragmentShader = data
+           let defines = 
+          `#define STEP 0.05
+#define NSTEPS 600
+`
+    
+    material.fragmentShader = defines+data
     material.fragmentShader.needsUpdate = true
     material.needsUpdate = true
     mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material )
@@ -120,7 +125,7 @@ const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrappin
 
 
 // dat.gui
-let camconf,effectconf,perfconf,bloomconf
+let camconf,effectconf,perfconf,bloomconf,etcconf
 let stats
 const addStatsGUI = ()=>{
      
@@ -138,7 +143,7 @@ const addControlGUI = ()=>{
   // define properties
   perfconf = {
     resolution : 1.0, 
-    quality: 'high'
+    quality: 'medium'
   }
   
   bloomconf = {
@@ -159,6 +164,16 @@ const addControlGUI = ()=>{
     use_disk_texture : true,
     doppler_shift : true,
     beaming: true
+  }
+  
+  etcconf = {
+    save: ()=>{
+      getImageData = true;
+      render()
+      let image = renderer.domElement.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+      window.location.href=image;
+    }
+    
   }
   
   let gui = new dat.GUI()
@@ -192,9 +207,6 @@ const addControlGUI = ()=>{
       material.fragmentShader.needsUpdate = true
       material.needsUpdate = true
     })
-  
-    
-    
   })
   let bloomFolder = gui.addFolder('Bloom')
   bloomFolder.add(bloomconf, 'strength', 0.0, 3.0)
@@ -217,6 +229,9 @@ const addControlGUI = ()=>{
   //bloomFolder.open()
   observerFolder.open()
   effectFolder.open()
+  
+  gui.add(etcconf, 'save')
+  
 }
 
 
@@ -278,8 +293,12 @@ const updateUniforms = ()=>{
   
 }
 
+let getImageData, imgData
 const render = ()=>{
-  
+  if(getImageData == true){
+    imgData = renderer.domElement.toDataURL();
+    getImageData = false;
+  }
   //renderer.render( scene, camera )
   composer.render()
 }
