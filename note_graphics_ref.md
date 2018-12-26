@@ -17,7 +17,3 @@ Learn with examples
 - https://stackoverflow.com/questions/5532595/how-do-opengl-texture-coordinates-work
 
 
-
-Eyecandy
-------------
- - https://slsdo.github.io/volumetric-cloud/
