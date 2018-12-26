@@ -170,7 +170,11 @@ const addControlGUI = ()=>{
     save: ()=>{
       getImageData = true;
       render()
-      let image = renderer.domElement.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+      renderer.domElement.toBlob(function(blob) {
+        saveAs(blob, "pretty image.png");
+      });
+      let image = renderer.domElement.toDataURL("image/png").replace("image/png", "image/octet-stream");  
+      window.location.download = 'image.png'
       window.location.href=image;
     }
     
