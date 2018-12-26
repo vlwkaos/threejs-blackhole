@@ -69,6 +69,8 @@ const init = ()=>{
   loadTexture('bg1','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fmilkyway.jpg?1545745139132', THREE.NearestFilter)
   loadTexture('star','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545722529872', THREE.LinearFilter)
   loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FeUR6ytQ.jpg?1545708629824', THREE.LinearFilter)
+
+  
   // screen frame
   uniforms = {
 		time: { type: "f", value: 0.0 },
