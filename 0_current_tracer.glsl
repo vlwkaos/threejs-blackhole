@@ -199,15 +199,16 @@ void main()	{
           float disk_gamma = 1.0/sqrt(1.0-dot(disk_velocity, disk_velocity));
           float disk_doppler_factor = disk_gamma*(1.0+dot(ray_dir/distance, disk_velocity)); // from source 
           
-          float disk_flux = 2.0*(DISK_IN+DISK_WIDTH)/(r*r);
+          
           float disk_temperature = 1000.0+9000.0*(pow(r, -3.0/4.0));
-          vec3 disk_color = temp_to_color(disk_temperature);
+          float disk_flux = 1.0/(exp(29622.4/disk_temperature) - 1.0);
+          vec3 disk_temp_color = temp_to_color(disk_temperature);
 
           if (use_disk_texture){
           // texture
-            vec2 tex_coord = vec2(mod(phi,2.0*PI)/(2.0*PI),1.0-(r-DISK_IN)/(DISK_WIDTH));
+            vec2 tex_coord = vec2(phi/PI*0.5+0.5, 1.0-(r-DISK_IN)/(DISK_WIDTH));
             vec4 disk_color = texture2D(disk_texture, tex_coord);
-            disk_color *= vec4(disk_color.xyz*disk_temperature,1.0);
+            //disk_color *= vec4(disk_color.xyz*disk_temp_color,1.0);
             
             if (doppler_shift)
               disk_color /= (ray_doppler_factor * disk_doppler_factor);
@@ -224,7 +225,7 @@ void main()	{
             if (doppler_shift)
               disk_temperature /= ray_doppler_factor*disk_doppler_factor;
 
-            vec3 disk_color = temp_to_color(disk_temperature);
+            vec3 disk_color = disk_temp_color;
 
             if (beaming)
               disk_flux /= pow(disk_doppler_factor,3.0);
