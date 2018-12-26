@@ -94,6 +94,7 @@ const init = ()=>{
   
   material = new THREE.ShaderMaterial( {
 			uniforms: uniforms,
+      
 			vertexShader: document.getElementById( 'vertexShader' ).textContent
 		})
   loader.load('0_current_tracer.glsl', (data)=>{
