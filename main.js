@@ -167,17 +167,17 @@ const addControlGUI = ()=>{
   }
   
   etcconf = {
-    save: ()=>{
+    'save as an image': ()=>{
       getImageData = true;
       render()
       renderer.domElement.toBlob(function(blob) {
         let URLObj = window.URL || window.webkitURL;
-        let a = document.createElement("a");  
-        a.href = URLObj.createObjectURL(blob);
-        a.download = `${Date.getMonth()}${Date.getDay()}${Date.getFullYear()}.png`;
-        document.body.appendChild(a);
+        let a = document.createElement("a")
+        a.href = URLObj.createObjectURL(blob)
+        a.download = 'image.png'
+        document.body.appendChild(a)
         a.click();
-        document.body.removeChild(a);
+        document.body.removeChild(a)
       });
     }
     
@@ -237,7 +237,7 @@ const addControlGUI = ()=>{
   observerFolder.open()
   effectFolder.open()
   
-  gui.add(etcconf, 'save')
+  gui.add(etcconf, 'save as an image')
   
 }
 
