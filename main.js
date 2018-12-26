@@ -68,7 +68,7 @@ const init = ()=>{
   
   loadTexture('bg1','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fmilkyway.jpg?1545745139132', THREE.NearestFilter)
   loadTexture('star','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545722529872', THREE.LinearFilter)
-  loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FeUR6ytQ.jpg?1545708629824', THREE.LinearFilter)
+  loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fd.png?1545795381565', THREE.LinearFilter)
 
   
   // screen frame
@@ -143,7 +143,7 @@ const addControlGUI = ()=>{
   bloomconf = {
     strength :1.0, 
 	  radius :0.5,
-    threshold:0.7 
+    threshold:0.6 
   }
   
   camconf = {
