@@ -216,7 +216,7 @@ void main()	{
             if (beaming)
               disk_alpha /= pow(disk_doppler_factor,3.0);
             
-            color += vec4(disk_color)*disk_alpha;
+            color += vec4(disk_color.xyz,disk_alpha);
           } else {
           
           // use blackbody 
