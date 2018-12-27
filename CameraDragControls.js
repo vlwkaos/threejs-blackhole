@@ -1,4 +1,7 @@
 /* global THREE */
+/*
+  This is a modified pointerlockcontrols.js from THREE.js
+*/
 
 THREE.CameraDragControls = function ( object, domElement ) {
 

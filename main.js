@@ -301,6 +301,7 @@ const updateUniforms = ()=>{
   
 }
 
+//little hacks for screenshot
 let getImageData, imgData
 const render = ()=>{
   if(getImageData == true){

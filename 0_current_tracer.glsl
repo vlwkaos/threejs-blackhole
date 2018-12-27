@@ -161,7 +161,7 @@ void main()	{
   
   float distance = length(point);
 
-  // Leapfrog
+  // Leapfrog geodesic
   for (int i=0; i<NSTEPS;i++){ 
     oldpoint = point; // remember previous point for finding intersection
     point += velocity * STEP;
@@ -237,11 +237,11 @@ void main()	{
     // taken from source
     // red = temp
     // green = lum
-    // blue = vel
+    // blue = vel 
     vec4 star_color = texture2D(star_texture, tex_coord);
     if (star_color.g > 0.0){
       float star_temperature = (MIN_TEMPERATURE + TEMPERATURE_RANGE*star_color.r);
-      // arbitrarily decide background stars'
+      // arbitrarily sets background stars' velocity for random shifts
       float star_velocity = star_color.b - 0.5;
       float star_doppler_factor = sqrt((1.0+star_velocity)/(1.0-star_velocity));
       if (doppler_shift)
