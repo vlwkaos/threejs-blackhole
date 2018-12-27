@@ -31,12 +31,6 @@ uniform sampler2D bg_texture;
 uniform sampler2D star_texture;
 uniform sampler2D disk_texture;
 
-vec4 blend_color(vec4 front, vec4 back){
-  vec4 ret = vec4(front.xyz + back.xyz*back.w*(1.0-front.w),back.w*(1.0-front.w));
-  
-  return ret;
-}
-
 vec2 square_frame(vec2 screen_size){
   vec2 position = 2.0 * (gl_FragCoord.xy / screen_size.xy) - 1.0; 
   // first make pixels arranged in 0..1
