@@ -67,7 +67,7 @@ vec3 lorentz_transform_velocity(vec3 u, vec3 v){
 
 vec3 temp_to_color(float temp_kelvin){
   vec3 color;
-  // 1k ~ 40k rescale by deviding 100
+  // 1k ~ 40k rescale by dividing 100
   temp_kelvin = clamp(temp_kelvin, 1000.0, 40000.0) / 100.0;
   if (temp_kelvin <= 66.0){
     color.r = 255.0;
