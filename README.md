@@ -1,5 +1,11 @@
 three-js-blackhole
 =======
+
+<p align="center">
+   <img src="https://i.imgur.com/I6eMiFS.jpg" width="720px"/>
+   <br> Title screen
+</p>
+
 My attempt at building realtime blackhole ray tracer, 
 reproducing [[1]](http://rantonels.github.io/starless/) and [[2]](https://github.com/oseiskar/black-hole).  
 They helped me a lot because I had zero knowledge to begin with.  
