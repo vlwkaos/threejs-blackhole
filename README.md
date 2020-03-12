@@ -3,7 +3,7 @@ three-js-blackhole
 
 <p align="center">
    <img src="https://i.imgur.com/I6eMiFS.jpg" width="720px"/>
-   <br> Title screen
+   <br> Screenshot
 </p>
 
 My attempt at building realtime blackhole ray tracer, 
