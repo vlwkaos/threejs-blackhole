@@ -38,10 +38,10 @@ this may be a work-in-progess project(?).
 ## How it was built
 
 - Learn how to do basic ray tracing (ex: sphere)
-- Think is light's perspective (ex: raymarching)
+- Think in light's perspective (ex: raymarching)
 - Apply Camera concept to shader
 - Learn a bit about various physical phenomena involving light and blackhole
-- Scrutinize available resoureces, steal mathematical formulas because I am not a physics genius.
+- Scrutinize available resources, steal(?) mathematical formulas from gathered resources because I am not a physics genius.
 - Apply equations to shader.
 
 --------------------
