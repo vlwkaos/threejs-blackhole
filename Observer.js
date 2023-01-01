@@ -22,8 +22,8 @@ export class Observer extends THREE.PerspectiveCamera {
   
   update(delta){
     // time dilation
-    if (this.timeDiltion){
-      this.delta = Math.sqrt((delta*delta * (1.0 - this.angularVelocity*this.anuglularVelocity)) / (1-1.0/this.r));  
+    if (this.timeDilation) {
+      this.delta = Math.sqrt((delta * delta * (1.0 - this.angularVelocity * this.angularVelocity)) / (1 - 1.0 / this.r));  
     } else {
       this.delta = delta 
     }
