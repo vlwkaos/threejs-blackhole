@@ -8,6 +8,29 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
+let lastframe = Date.now()
+let delta = 0
+let time = 0
+
+// variables for shader
+const uniforms = {
+  time: { type: "f", value: 0.0 },
+  resolution: { type: "v2", value: new THREE.Vector2() },
+  accretion_disk: { type: "b", value: false },
+  use_disk_texture: { type: "b", value: true },
+  lorentz_transform: { type: "b", value: false },
+  doppler_shift: { type: "b", value: false },
+  beaming: { type: "b", value: false },
+  cam_pos: { type: "v3", value: new THREE.Vector3() },
+  cam_vel: { type: "v3", value: new THREE.Vector3() },
+  cam_dir: { type: "v3", value: new THREE.Vector3() },
+  cam_up: { type: "v3", value: new THREE.Vector3() },
+  fov: { type: "f", value: 0.0 },
+  bg_texture: { type: "t", value: null },
+  star_texture: { type: "t", value: null },
+  disk_texture: { type: "t", value: null }
+}
+
 let scene, camera, renderer 
 let composer, effectBloom
 let observer, camControl
@@ -63,7 +86,7 @@ window.onload = ()=>{
     textures[i].dispose()
  }
 // Scene drawing
-let material, mesh, uniforms
+let material, mesh
 let loader, textureLoader
 let textures
 
@@ -78,27 +101,7 @@ const init = ()=>{
   loadTexture('star','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545722529872', THREE.LinearFilter)
   loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FdQ.png?1545846159297', THREE.LinearFilter)
 
-  
-  // screen frame
-  uniforms = {
-		time: { type: "f", value: 0.0 },
-		resolution: { type: "v2", value: new THREE.Vector2()},
-    accretion_disk: {type: "b", value: false},
-    use_disk_texture: {type: "b", value: true},
-    lorentz_transform: {type: "b", value: false},
-    doppler_shift: {type: "b", value: false},
-    beaming: {type: "b", value: false},
-    cam_pos: {type:"v3", value: new THREE.Vector3()},
-    cam_vel: {type:"v3", value: new THREE.Vector3()},
-    cam_dir: {type:"v3", value: new THREE.Vector3()},
-    cam_up: {type:"v3", value: new THREE.Vector3()},
-    fov: { type: "f", value: 0.0 },
-    bg_texture: {type: "t", value: null},
-    star_texture: {type: "t", value: null},
-    disk_texture: {type: "t", value:null}
-    
-	}
-  
+
   material = new THREE.ShaderMaterial( {
     uniforms: uniforms,
 			vertexShader: document.getElementById( 'vertexShader' ).textContent
@@ -249,9 +252,6 @@ const addControlGUI = ()=>{
 
 
 // UPDATING
-
-let delta, lastframe
-let time
 const update = ()=>{
   delta = (Date.now()-lastframe)/1000  
   time += delta
