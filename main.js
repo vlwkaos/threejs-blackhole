@@ -1,6 +1,6 @@
 /* globals THREE dat Stats Observer*/
 import * as THREE from 'three';
-import { createCamera, createRenderer, createScene, loadTextures } from './render';
+import { createCamera, createRenderer, createScene, createShaderProjectionPlane, loadTextures } from './render';
 import { createStatsGUI } from './src/statsGUI';
 import { createConfigGUI } from './src/datGUI';
 
@@ -8,7 +8,7 @@ let lastframe = Date.now()
 let delta = 0
 let time = 0
 
-// variables for shader
+// set variables types for shader
 const uniforms = {
   time: { type: "f", value: 0.0 },
   resolution: { type: "v2", value: new THREE.Vector2() },
@@ -27,99 +27,62 @@ const uniforms = {
   disk_texture: { type: "t", value: null }
 }
 
-let scene, renderer
-let composer, effectBloom
-let observer, camControl
-let stats;
-let camconf, effectconf, perfconf, bloomconf;
-window.onload = ()=>{
-  //
-  lastframe = Date.now()
+// create scene, 3d context, etc.. instances
+const renderer = createRenderer()
+const { composer, bloomPass, scene } = createScene(renderer);
+document.body.appendChild(renderer.domElement)
 
-  renderer = createRenderer()
-  document.body.appendChild( renderer.domElement )
+// init graphics
+const textures = loadTextures();
+const { material, fragmentShader, mesh } = await createShaderProjectionPlane(uniforms);
+// add shader plane to scene
+scene.add(mesh);
 
-  const a = createScene(renderer);
-  composer = a.composer;
-  effectBloom = a.bloomPass;
-  scene = a.scene;
-  
-  textures = loadTextures();
-  init()
+// setup camera
+const { observer, cameraControl } = createCamera(renderer);
+// add camera object to scene
+scene.add(observer)
 
+// GUI
+const { cameraConfig, effectConfig, performanceConfig, bloomConfig } = createConfigGUI(changePerformanceQuality, saveToScreenshot);
+const stats = createStatsGUI();
+document.body.appendChild(stats.dom);
 
-  const b = createCamera(renderer);
-  observer = b.observer;
-  camControl = b.cameraControl;
-  // camControl sets up vector
-  scene.add(observer)
-  delta = 0
-  time = 0
-  
-  const c = createConfigGUI(changePerformanceQuality, saveToScreenshot);
-  camconf = c.cameraConfig;
-  effectconf = c.effectConfig;
-  perfconf = c.performanceConfig;
-  bloomconf = c.bloomConfig;
+// start loop
+update();
 
-  stats = createStatsGUI();
-  document.body.appendChild(stats.dom);
-  update()
-  
-}
-
-// Scene drawing
-let material, mesh
-let loader;
-let textures;
-
-const init = () => {
-  loader = new THREE.FileLoader()
-
-
-
-  material = new THREE.ShaderMaterial( {
-    uniforms: uniforms,
-			vertexShader: document.getElementById( 'vertexShader' ).textContent
-		})
-  loader.load('0_current_tracer.glsl', (data)=>{
-           let defines = 
-          `#define STEP 0.05
-#define NSTEPS 600
-`
-    
-    material.fragmentShader = defines + data
-    material.needsUpdate = true
-    mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material )
-  	scene.add( mesh )   
-  })
-  
-}
 
 // UPDATING
-const update = ()=>{
-  delta = (Date.now()-lastframe)/1000  
+function update() {
+  delta = (Date.now() - lastframe) / 1000
   time += delta
-  stats.update()
-  
-  renderer.setPixelRatio( window.devicePixelRatio*perfconf.resolution)
-  renderer.setSize(window.innerWidth, window.innerHeight)
-  composer.setSize(window.innerWidth*perfconf.resolution, window.innerHeight*perfconf.resolution)
-  // update what is drawn
-  observer.update(delta)
-  camControl.update(delta)
-  updateUniforms()
-    
-  render()
-  requestAnimationFrame(update)
 
+  // update peripherals
+  stats.update()
+  // window size
+  renderer.setPixelRatio(window.devicePixelRatio * performanceConfig.resolution)
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  composer.setSize(window.innerWidth * performanceConfig.resolution, window.innerHeight * performanceConfig.resolution)
+
+  // update renderer
+  observer.update(delta)
+  cameraControl.update(delta)
+
+  // update shader variables
+  updateUniforms()
+
+  // render
+  composer.render()
+
+  // loop
+  requestAnimationFrame(update)
   lastframe = Date.now()
 }
 
-const updateUniforms = ()=>{
+function updateUniforms() {
   uniforms.time.value = time
-  uniforms.resolution.value.x = window.innerWidth*perfconf.resolution
-	uniforms.resolution.value.y = window.innerHeight*perfconf.resolution
+  uniforms.resolution.value.x = window.innerWidth * performanceConfig.resolution
+  uniforms.resolution.value.y = window.innerHeight * performanceConfig.resolution
 
   uniforms.cam_pos.value = observer.position
   uniforms.cam_dir.value = observer.direction
@@ -128,38 +91,24 @@ const updateUniforms = ()=>{
 
   uniforms.cam_vel.value = observer.velocity
 
-  uniforms.bg_texture.value = textures.get('bg1');
-  uniforms.star_texture.value = textures.get('star');
-  uniforms.disk_texture.value = textures.get('disk');
-  
-  
-  // controls
-  effectBloom.strength = bloomconf.strength
-  effectBloom.radius = bloomconf.radius
-  effectBloom.threshold = bloomconf.threshold
+  uniforms.bg_texture.value = textures.get('bg1')
+  uniforms.star_texture.value = textures.get('star')
+  uniforms.disk_texture.value = textures.get('disk')
 
-  
-  observer.distance = camconf.distance
-  observer.moving = camconf.orbit
-  observer.fov = camconf.fov  
-  uniforms.lorentz_transform.value = effectconf.lorentz_transform
-  uniforms.accretion_disk.value = effectconf.accretion_disk
-  uniforms.use_disk_texture.value = effectconf.use_disk_texture
-  uniforms.doppler_shift.value = effectconf.doppler_shift
-  uniforms.beaming.value = effectconf.beaming
-  
-  
-}
 
-//little hacks for screenshot
-let getImageData, imgData
-const render = ()=>{
-  if(getImageData == true){
-    imgData = renderer.domElement.toDataURL();
-    getImageData = false;
-  }
-  //renderer.render( scene, camera )
-  composer.render()
+  bloomPass.strength = bloomConfig.strength
+  bloomPass.radius = bloomConfig.radius
+  bloomPass.threshold = bloomConfig.threshold
+
+
+  observer.distance = cameraConfig.distance
+  observer.moving = cameraConfig.orbit
+  observer.fov = cameraConfig.fov
+  uniforms.lorentz_transform.value = effectConfig.lorentz_transform
+  uniforms.accretion_disk.value = effectConfig.accretion_disk
+  uniforms.use_disk_texture.value = effectConfig.use_disk_texture
+  uniforms.doppler_shift.value = effectConfig.doppler_shift
+  uniforms.beaming.value = effectConfig.beaming
 }
 
 function saveToScreenshot() {
@@ -206,9 +155,6 @@ function changePerformanceQuality(quality) {
   #define STEP ${STEP} 
   #define NSTEPS ${NSTEPS} 
 `
-  loader.load('0_current_tracer.glsl', (data) => {
-    material.fragmentShader = defines + data
-    material.fragmentShader.needsUpdate = true
-    material.needsUpdate = true
-  })
+  material.fragmentShader = defines + fragmentShader;
+  material.needsUpdate;
 }

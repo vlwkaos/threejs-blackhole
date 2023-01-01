@@ -76,33 +76,32 @@ export function loadTextures() {
   return textures;
 }
 
-export function loadShader(scene, uniforms) {
-  const fileLoader = new THREE.FileLoader()
+export async function createShaderProjectionPlane(uniforms) {
+  const loader = new THREE.FileLoader()
 
-  const vertexShader = document.getElementById('vertexShader')?.textContent;
+  const vertexShader = document.getElementById('vertexShader')?.textContent
   if (!vertexShader) {
-    throw new Error('Failed to load shader program!');
+    throw new Error('Error reading vertex shader!');
   }
+
+  const fragmentShader = await loader.loadAsync('./src/fragmentShader.glsl');
+  let defines = `
+    #define STEP 0.05 
+    #define NSTEPS 600
+`
 
   const material = new THREE.ShaderMaterial({
-    uniforms,
+    uniforms: uniforms,
     vertexShader,
-  });
+    fragmentShader: defines + fragmentShader,
+  })
+  material.needsUpdate = true;
 
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material)
-  scene.add(mesh)
-
-  // load fragment shader
-  let fragmentShader;
-  fileLoader.load('./src/fragmentShader.glsl', (data) => {
-    fragmentShader = data;
-    material.fragmentShader = String(data);
-    material.needsUpdate = true;
-  });
 
   return {
-    vertexShader,
-    fragmentShader,
     material,
-  }
+    fragmentShader,
+    mesh
+  };
 }
