@@ -7,6 +7,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { CameraDragControls } from "../camera/CameraDragControls";
 import { Observer } from "../camera/Observer";
 import { Vector2 } from 'three/src/math/Vector2';
+import fragmentShader from './fragmentShader.glsl?raw';
 
 export function createRenderer() {
   const renderer = new THREE.WebGLRenderer()
@@ -77,14 +78,11 @@ export function loadTextures() {
 }
 
 export async function createShaderProjectionPlane(uniforms) {
-  const loader = new THREE.FileLoader()
 
   const vertexShader = document.getElementById('vertexShader')?.textContent
   if (!vertexShader) {
     throw new Error('Error reading vertex shader!');
   }
-
-  const fragmentShader = await loader.loadAsync('src/graphics/fragmentShader.glsl');
 
   const defines = getShaderDefineConstant('medium');
   const material = new THREE.ShaderMaterial({
