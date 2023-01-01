@@ -1,6 +1,6 @@
+import * as THREE from 'three';
 
-/* global THREE */
-class Observer extends THREE.PerspectiveCamera {
+export class Observer extends THREE.PerspectiveCamera {
   constructor(fov, ratio, near, far) {
     super(fov, ratio, near, far)
 

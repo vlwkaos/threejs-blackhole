@@ -1,9 +1,9 @@
-/* global THREE */
+import * as THREE from 'three';
 /*
   This is a modified pointerlockcontrols.js from THREE.js
 */
 
-THREE.CameraDragControls = function ( object, domElement ) {
+export function CameraDragControls(object, domElement) {
 
 	this.object = object;
   

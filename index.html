@@ -10,18 +10,8 @@
     <link rel="stylesheet" href="/style.css">
     
     <!-- import the webpage's javascript file -->
-    <script src="https://threejs.org/build/three.js"></script>
-     <script src="https://threejs.org/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://threejs.org/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://threejs.org/examples/js/postprocessing/ShaderPass.js"></Script>
-    <script src="https://threejs.org/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://threejs.org/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://threejs.org/examples/js/postprocessing/UnrealBloomPass.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.3/dat.gui.min.js"></script>
-    <script src="/CameraDragControls.js" defer></script>
-    <script src="/Observer.js" defer></script>
-    <script src="/main.js" defer></script>
 
   </head>  
   <body>
@@ -32,7 +22,7 @@
         gl_Position = vec4( position, 1.0 );
       }
     </script>
-    
+    <script type="module" src="/main.js" defer></script>
     <!-- include the Glitch button to show what the webpage is about and
           to make it easier for folks to view source and remix -->
     <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>

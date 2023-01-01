@@ -1,4 +1,12 @@
 /* globals THREE dat Stats Observer*/
+import * as THREE from 'three';
+import { Observer } from './Observer';
+import { CameraDragControls } from './CameraDragControls';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 
 let scene, camera, renderer 
 let composer, effectBloom
@@ -20,14 +28,14 @@ window.onload = ()=>{
   
   document.body.appendChild( renderer.domElement )
   
-  composer = new THREE.EffectComposer(renderer)
-  let renderPass = new THREE.RenderPass(scene, camera)
+  composer = new EffectComposer(renderer)
+  let renderPass = new RenderPass(scene, camera)
   // strength, kernelSize, sigma, res
   //
   // resolution, strength, radius, threshold
-  effectBloom = new THREE.UnrealBloomPass(128, 0.8, 2.0, 0.0)
-  let scenePass = new THREE.RenderPass(scene, camera)
-  let effectCopy = new THREE.ShaderPass(THREE.CopyShader)
+  effectBloom = new UnrealBloomPass(128, 0.8, 2.0, 0.0)
+  let scenePass = new RenderPass(scene, camera)
+  let effectCopy = new ShaderPass(CopyShader)
   effectCopy.renderToScreen  =true
   composer.addPass(renderPass)
   composer.addPass(effectBloom)
@@ -38,7 +46,7 @@ window.onload = ()=>{
   
   observer = new Observer(60.0, window.innerWidth/window.innerHeight, 1, 80000)
   observer.distance=8
-  camControl = new THREE.CameraDragControls(observer, renderer.domElement) // take care of camera view
+  camControl = new CameraDragControls(observer, renderer.domElement) // take care of camera view
   // camControl sets up vector
   scene.add(observer)
   delta = 0
@@ -84,8 +92,7 @@ const init = ()=>{
     cam_vel: {type:"v3", value: new THREE.Vector3()},
     cam_dir: {type:"v3", value: new THREE.Vector3()},
     cam_up: {type:"v3", value: new THREE.Vector3()},
-    fov: {type:"f", value: 0.0},
-    cam_vel: {type:"v3", value: new THREE.Vector3()},
+    fov: { type: "f", value: 0.0 },
     bg_texture: {type: "t", value: null},
     star_texture: {type: "t", value: null},
     disk_texture: {type: "t", value:null}
@@ -93,8 +100,7 @@ const init = ()=>{
 	}
   
   material = new THREE.ShaderMaterial( {
-			uniforms: uniforms,
-      
+    uniforms: uniforms,
 			vertexShader: document.getElementById( 'vertexShader' ).textContent
 		})
   loader.load('0_current_tracer.glsl', (data)=>{
@@ -103,8 +109,7 @@ const init = ()=>{
 #define NSTEPS 600
 `
     
-    material.fragmentShader = defines+data
-    material.fragmentShader.needsUpdate = true
+    material.fragmentShader = defines + data
     material.needsUpdate = true
     mesh = new THREE.Mesh( new THREE.PlaneGeometry( 2, 2 ), material )
   	scene.add( mesh )   
