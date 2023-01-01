@@ -24,14 +24,6 @@ export function createScene(renderer) {
   const camera = new THREE.Camera()
   camera.position.z = 1
 
-  // Actual camera - observer object
-  const observer = new Observer(60.0, window.innerWidth / window.innerHeight, 1, 80000)
-  observer.distance = 8
-  // camera control
-  const cameraControl = new CameraDragControls(observer, renderer.domElement) // take care of camera view
-  scene.add(observer)
-
-
   // render pass composing
   const composer = new EffectComposer(renderer);
   const renderPass = new RenderPass(scene, camera)
@@ -41,11 +33,11 @@ export function createScene(renderer) {
   const shaderPass = new ShaderPass(CopyShader);
   shaderPass.renderToScreen = true;
   composer.addPass(renderPass);
-  // composer.addPass(bloomPass);
+  composer.addPass(bloomPass);
   composer.addPass(shaderPass);
 
   return {
-    observer, cameraControl, scene, composer
+    scene, composer, bloomPass
   }
 }
 

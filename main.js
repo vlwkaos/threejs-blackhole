@@ -7,7 +7,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { createRenderer } from './render';
+import { createRenderer, createScene } from './render';
 
 let lastframe = Date.now()
 let delta = 0
@@ -32,34 +32,20 @@ const uniforms = {
   disk_texture: { type: "t", value: null }
 }
 
-let scene, camera, renderer 
+let scene, renderer
 let composer, effectBloom
 let observer, camControl
 window.onload = ()=>{
   //
   lastframe = Date.now()
-  
-  scene = new THREE.Scene()
 
   renderer = createRenderer()
-  camera = new THREE.Camera() 
-  camera.position.z = 1
-  
   document.body.appendChild( renderer.domElement )
-  
-  composer = new EffectComposer(renderer)
-  let renderPass = new RenderPass(scene, camera)
-  // strength, kernelSize, sigma, res
-  //
-  // resolution, strength, radius, threshold
-  effectBloom = new UnrealBloomPass(128, 0.8, 2.0, 0.0)
-  let scenePass = new RenderPass(scene, camera)
-  let effectCopy = new ShaderPass(CopyShader)
-  effectCopy.renderToScreen  =true
-  composer.addPass(renderPass)
-  composer.addPass(effectBloom)
-  composer.addPass(effectCopy)
-  
+
+  const a = createScene(renderer);
+  composer = a.composer;
+  effectBloom = a.bloomPass;
+  scene = a.scene;
   
   init()
   
