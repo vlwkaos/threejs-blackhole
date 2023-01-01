@@ -8,6 +8,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { createCamera, createRenderer, createScene } from './render';
+import { createStatsGUI } from './src/statsGUI';
 
 let lastframe = Date.now()
 let delta = 0
@@ -35,6 +36,7 @@ const uniforms = {
 let scene, renderer
 let composer, effectBloom
 let observer, camControl
+let stats;
 window.onload = ()=>{
   //
   lastframe = Date.now()
@@ -58,7 +60,8 @@ window.onload = ()=>{
   time = 0
   
   addControlGUI()
-  addStatsGUI()
+  stats = createStatsGUI();
+  document.body.appendChild(stats.dom);
   update()
   
 }
@@ -116,18 +119,7 @@ const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrappin
 
 
 // dat.gui
-let camconf,effectconf,perfconf,bloomconf,etcconf
-let stats
-const addStatsGUI = ()=>{
-     
-  stats = new Stats()
-  stats.setMode(0)
-  stats.domElement.style.position = 'absolute'
-  stats.domElement.style.left = '0px'
-  stats.domElement.style.top = '0px'
-  document.body.appendChild( stats.domElement ) 
-  
-}
+let camconf, effectconf, perfconf, bloomconf, etcconf
 
 const addControlGUI = ()=>{
   
