@@ -7,6 +7,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { createRenderer } from './render';
 
 let lastframe = Date.now()
 let delta = 0
@@ -40,12 +41,7 @@ window.onload = ()=>{
   
   scene = new THREE.Scene()
 
-  renderer = new THREE.WebGLRenderer()
-  renderer.setClearColor(0x000000, 1.0)
-  renderer.setSize(window.innerWidth, window.innerHeight) // res
-  renderer.autoClear = false
-  
-
+  renderer = createRenderer()
   camera = new THREE.Camera() 
   camera.position.z = 1
   
