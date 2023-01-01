@@ -1,14 +1,8 @@
 /* globals THREE dat Stats Observer*/
 import * as THREE from 'three';
-import { Observer } from './Observer';
-import { CameraDragControls } from './CameraDragControls';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { createCamera, createRenderer, createScene } from './render';
 import { createStatsGUI } from './src/statsGUI';
+import { createConfigGUI } from './src/datGUI';
 
 let lastframe = Date.now()
 let delta = 0
@@ -37,6 +31,7 @@ let scene, renderer
 let composer, effectBloom
 let observer, camControl
 let stats;
+let camconf, effectconf, perfconf, bloomconf;
 window.onload = ()=>{
   //
   lastframe = Date.now()
@@ -59,7 +54,12 @@ window.onload = ()=>{
   delta = 0
   time = 0
   
-  addControlGUI()
+  const c = createConfigGUI(changePerformanceQuality, saveToScreenshot);
+  camconf = c.cameraConfig;
+  effectconf = c.effectConfig;
+  perfconf = c.performanceConfig;
+  bloomconf = c.bloomConfig;
+
   stats = createStatsGUI();
   document.body.appendChild(stats.dom);
   update()
@@ -114,114 +114,6 @@ const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrappin
       texture.wrapS = wrap
       textures[name] = texture
     })
-}
-
-
-
-// dat.gui
-let camconf, effectconf, perfconf, bloomconf, etcconf
-
-const addControlGUI = ()=>{
-  
-  // define properties
-  perfconf = {
-    resolution : 1.0, 
-    quality: 'medium'
-  }
-  
-  bloomconf = {
-    strength :1.0, 
-	  radius :0.5,
-    threshold:0.6 
-  }
-  
-  camconf = {
-    distance : 10,
-    orbit: true,
-    fov: 90.0
-  }
-  
-  effectconf = {
-    lorentz_transform: true,
-    accretion_disk : true,
-    use_disk_texture : true,
-    doppler_shift : true,
-    beaming: true
-  }
-  
-  etcconf = {
-    'save as an image': ()=>{
-      getImageData = true;
-      render()
-      renderer.domElement.toBlob(function(blob) {
-        let URLObj = window.URL || window.webkitURL;
-        let a = document.createElement("a")
-        a.href = URLObj.createObjectURL(blob)
-        a.download = 'image.png'
-        document.body.appendChild(a)
-        a.click();
-        document.body.removeChild(a)
-      });
-    }
-    
-  }
-  
-  let gui = new dat.GUI()
-  let perfFolder = gui.addFolder('Performance')
-  perfFolder.add(perfconf, 'resolution', [0.25,0.5,1.0,2.0,4.0])
-  perfFolder.add(perfconf, 'quality', ['low','medium','high']).onChange((val)=>{
-    let defines = ''
-    switch (val){
-      case 'low':
-        defines = 
-          `#define STEP 0.1
-#define NSTEPS 300
-`
-      break
-      case 'medium':
-        defines = 
-          `#define STEP 0.05
-#define NSTEPS 600
-`
-      break
-      case 'high':
-        defines = `#define STEP 0.02
-#define NSTEPS 1000
-`
-      break
-    }
-      
-    loader.load('0_current_tracer.glsl', (data)=>{
-          
-      material.fragmentShader = defines+data
-      material.fragmentShader.needsUpdate = true
-      material.needsUpdate = true
-    })
-  })
-  let bloomFolder = gui.addFolder('Bloom')
-  bloomFolder.add(bloomconf, 'strength', 0.0, 3.0)
-  bloomFolder.add(bloomconf, 'radius', 0.0, 1.0)
-  bloomFolder.add(bloomconf, 'threshold', 0.0, 1.0)
-  
-  
-  let observerFolder = gui.addFolder('Observer')
-  observerFolder.add(camconf, 'distance', 2, 14)
-  observerFolder.add(camconf, 'fov', 30, 90)
-  observerFolder.add(camconf, 'orbit')
-  
-  let effectFolder = gui.addFolder('Effects')
-  effectFolder.add(effectconf, 'lorentz_transform')
-  effectFolder.add(effectconf, 'doppler_shift')
-  effectFolder.add(effectconf, 'beaming')
-  effectFolder.add(effectconf, 'accretion_disk')
-  effectFolder.add(effectconf, 'use_disk_texture')  
-  perfFolder.open()
-  //bloomFolder.open()
-  observerFolder.open()
-  effectFolder.open()
-  
-  gui.add(etcconf, 'save as an image')
-  
 }
 
 
@@ -289,4 +181,55 @@ const render = ()=>{
   }
   //renderer.render( scene, camera )
   composer.render()
+}
+
+function saveToScreenshot() {
+  renderer.domElement.toBlob((blob) => {
+    if (!blob) return;
+    let URLObj = window.URL || window.webkitURL;
+    let a = document.createElement("a")
+    a.href = URLObj.createObjectURL(blob)
+    a.download = 'image.png'
+    document.body.appendChild(a)
+    a.click();
+    document.body.removeChild(a)
+  });
+}
+
+function changePerformanceQuality(quality) {
+  const getShaderDefineConstant = () => {
+    switch (quality) {
+      case 'low':
+        return {
+          STEP: 0.1,
+          NSTEPS: 300,
+        };
+      case 'medium':
+        return {
+          STEP: 0.05,
+          NSTEPS: 600,
+        };
+      case 'high':
+        return {
+          STEP: 0.02,
+          NSTEPS: 1000
+        };
+      default:
+        return {
+          STEP: 0.05,
+          NSTEPS: 600,
+        }
+    }
+  }
+
+  const { STEP, NSTEPS } = getShaderDefineConstant();
+  let defines = `
+  #define STEP ${STEP} 
+  #define NSTEPS ${NSTEPS} 
+`
+  loader.load('0_current_tracer.glsl', (data) => {
+    material.fragmentShader = defines + data
+    material.fragmentShader.needsUpdate = true
+    material.needsUpdate = true
+  })
 }
