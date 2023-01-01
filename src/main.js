@@ -4,6 +4,9 @@ import { createCamera, createRenderer, createScene, createShaderProjectionPlane,
 import { createStatsGUI } from './gui/statsGUI';
 import { createConfigGUI } from './gui/datGUI';
 
+
+(async () => {
+
 let lastframe = Date.now()
 let delta = 0
 let time = 0
@@ -129,3 +132,4 @@ function saveToScreenshot() {
     document.body.removeChild(a)
   });
 }
+})();
