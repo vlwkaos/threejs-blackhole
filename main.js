@@ -1,6 +1,6 @@
 /* globals THREE dat Stats Observer*/
 import * as THREE from 'three';
-import { createCamera, createRenderer, createScene } from './render';
+import { createCamera, createRenderer, createScene, loadTextures } from './render';
 import { createStatsGUI } from './src/statsGUI';
 import { createConfigGUI } from './src/datGUI';
 
@@ -44,8 +44,10 @@ window.onload = ()=>{
   effectBloom = a.bloomPass;
   scene = a.scene;
   
+  textures = loadTextures();
   init()
-  
+
+
   const b = createCamera(renderer);
   observer = b.observer;
   camControl = b.cameraControl;
@@ -66,25 +68,14 @@ window.onload = ()=>{
   
 }
 
- window.onbeforeunload = ()=>{
-  for (let i= 0;i<textures.length;i++)
-    textures[i].dispose()
- }
 // Scene drawing
 let material, mesh
-let loader, textureLoader
-let textures
+let loader;
+let textures;
 
-const init = ()=>{
-  textureLoader = new THREE.TextureLoader()
+const init = () => {
   loader = new THREE.FileLoader()
 
-  textures = {}
-  
-  
-  loadTexture('bg1','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fmilkyway.jpg?1545745139132', THREE.NearestFilter)
-  loadTexture('star','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545722529872', THREE.LinearFilter)
-  loadTexture('disk','https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FdQ.png?1545846159297', THREE.LinearFilter)
 
 
   material = new THREE.ShaderMaterial( {
@@ -104,18 +95,6 @@ const init = ()=>{
   })
   
 }
-
-const loadTexture = (name, image, interpolation ,wrap = THREE.ClampToEdgeWrapping)=>{
-    textures[name]= null
-    textureLoader.load(image, (texture)=> {
-      texture.magFilter = interpolation
-      texture.minFilter = interpolation
-      texture.wrapT = wrap
-      texture.wrapS = wrap
-      textures[name] = texture
-    })
-}
-
 
 // UPDATING
 const update = ()=>{
@@ -149,9 +128,9 @@ const updateUniforms = ()=>{
 
   uniforms.cam_vel.value = observer.velocity
 
-  uniforms.bg_texture.value = textures['bg1']
-  uniforms.star_texture.value = textures['star']
-  uniforms.disk_texture.value = textures['disk']
+  uniforms.bg_texture.value = textures.get('bg1');
+  uniforms.star_texture.value = textures.get('star');
+  uniforms.disk_texture.value = textures.get('disk');
   
   
   // controls

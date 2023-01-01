@@ -67,6 +67,12 @@ export function loadTextures() {
   loadTexture('star', 'https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545722529872', THREE.LinearFilter)
   loadTexture('disk', 'https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FdQ.png?1545846159297', THREE.LinearFilter)
 
+  window.onbeforeunload = () => {
+    for (const texture of textures.values()) {
+      texture.dispose();
+    }
+  }
+
   return textures;
 }
 
