@@ -41,6 +41,14 @@ export function createScene(renderer) {
   }
 }
 
+export function createCamera(renderer) {
+  const observer = new Observer(60.0, window.innerWidth / window.innerHeight, 1, 80000)
+  const cameraControl = new CameraDragControls(observer, renderer.domElement) // take care of camera view
+  return {
+    observer, cameraControl
+  }
+}
+
 export function loadTextures() {
   const textures = new Map();
   const textureLoader = new THREE.TextureLoader()

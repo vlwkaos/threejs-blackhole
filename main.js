@@ -7,7 +7,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { createRenderer, createScene } from './render';
+import { createCamera, createRenderer, createScene } from './render';
 
 let lastframe = Date.now()
 let delta = 0
@@ -49,9 +49,9 @@ window.onload = ()=>{
   
   init()
   
-  observer = new Observer(60.0, window.innerWidth/window.innerHeight, 1, 80000)
-  observer.distance=8
-  camControl = new CameraDragControls(observer, renderer.domElement) // take care of camera view
+  const b = createCamera(renderer);
+  observer = b.observer;
+  camControl = b.cameraControl;
   // camControl sets up vector
   scene.add(observer)
   delta = 0
