@@ -13,6 +13,7 @@ They helped me a lot because I had zero knowledge to begin with.
 I was fascinated by the idea of ray tracing blackhole with now popularized accretion disk around it. So I hopped in.  
  
 ### Features
+
 - Left click your mouse drag to look around.
 - Adjust quality for more accurate ray marching.
 - Adjust bloom effect for aesthetics
