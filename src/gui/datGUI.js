@@ -73,9 +73,9 @@ export function createConfigGUI(changePerformanceQuality, saveScreenshot) {
 
   function addSaveToScreenshot() {
     const etcconf = {
-      'save as an image.png': saveScreenshot
+      'save as an image': saveScreenshot
     }
-    gui.add(etcconf, 'save as an image.png')
+    gui.add(etcconf, 'save as an image')
   }
 
 

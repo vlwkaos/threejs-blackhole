@@ -4,8 +4,8 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { CopyShader } from 'three/examples/jsm/shaders/CopyShader';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
-import { CameraDragControls } from "./CameraDragControls";
-import { Observer } from "./Observer";
+import { CameraDragControls } from "../camera/CameraDragControls";
+import { Observer } from "../camera/Observer";
 import { Vector2 } from 'three/src/math/Vector2';
 
 export function createRenderer() {
@@ -84,12 +84,9 @@ export async function createShaderProjectionPlane(uniforms) {
     throw new Error('Error reading vertex shader!');
   }
 
-  const fragmentShader = await loader.loadAsync('./src/fragmentShader.glsl');
-  let defines = `
-    #define STEP 0.05 
-    #define NSTEPS 600
-`
+  const fragmentShader = await loader.loadAsync('src/graphics/fragmentShader.glsl');
 
+  const defines = getShaderDefineConstant('medium');
   const material = new THREE.ShaderMaterial({
     uniforms: uniforms,
     vertexShader,
@@ -99,9 +96,41 @@ export async function createShaderProjectionPlane(uniforms) {
 
   const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material)
 
+
+  async function changePerformanceQuality(quality) {
+    const defines = getShaderDefineConstant(quality);
+    material.fragmentShader = defines + fragmentShader;
+    material.needsUpdate = true;
+  }
+
+
+  function getShaderDefineConstant(quality) {
+    let STEP, NSTEPS;
+    switch (quality) {
+      case 'low':
+        STEP = 0.1;
+        NSTEPS = 300;
+        break;
+      case 'medium':
+        STEP = 0.05;
+        NSTEPS = 600;
+        break;
+      case 'high':
+        STEP = 0.02;
+        NSTEPS = 1000;
+        break;
+      default:
+        STEP = 0.05;
+        NSTEPS = 600;
+    }
+    return `
+  #define STEP ${STEP} 
+  #define NSTEPS ${NSTEPS} 
+`
+  }
+
   return {
-    material,
-    fragmentShader,
-    mesh
+    mesh,
+    changePerformanceQuality
   };
 }

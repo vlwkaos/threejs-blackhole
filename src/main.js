@@ -1,8 +1,8 @@
 /* globals THREE dat Stats Observer*/
 import * as THREE from 'three';
-import { createCamera, createRenderer, createScene, createShaderProjectionPlane, loadTextures } from './render';
-import { createStatsGUI } from './src/statsGUI';
-import { createConfigGUI } from './src/datGUI';
+import { createCamera, createRenderer, createScene, createShaderProjectionPlane, loadTextures } from './graphics/render';
+import { createStatsGUI } from './gui/statsGUI';
+import { createConfigGUI } from './gui/datGUI';
 
 let lastframe = Date.now()
 let delta = 0
@@ -34,7 +34,7 @@ document.body.appendChild(renderer.domElement)
 
 // init graphics
 const textures = loadTextures();
-const { material, fragmentShader, mesh } = await createShaderProjectionPlane(uniforms);
+const { mesh, changePerformanceQuality } = await createShaderProjectionPlane(uniforms);
 // add shader plane to scene
 scene.add(mesh);
 
@@ -72,11 +72,15 @@ function update() {
   updateUniforms()
 
   // render
-  composer.render()
+  render();
 
   // loop
   requestAnimationFrame(update)
   lastframe = Date.now()
+}
+
+function render() {
+  composer.render()
 }
 
 function updateUniforms() {
@@ -111,50 +115,17 @@ function updateUniforms() {
   uniforms.beaming.value = effectConfig.beaming
 }
 
+// https://r105.threejsfundamentals.org/threejs/lessons/threejs-tips.html
 function saveToScreenshot() {
+  render();
   renderer.domElement.toBlob((blob) => {
     if (!blob) return;
     let URLObj = window.URL || window.webkitURL;
     let a = document.createElement("a")
     a.href = URLObj.createObjectURL(blob)
-    a.download = 'image.png'
+    a.download = `blackhole-image-${new Date(Date.now()).toLocaleDateString('en-GB').replace(/\//g, '-')}.png`
     document.body.appendChild(a)
     a.click();
     document.body.removeChild(a)
   });
-}
-
-function changePerformanceQuality(quality) {
-  const getShaderDefineConstant = () => {
-    switch (quality) {
-      case 'low':
-        return {
-          STEP: 0.1,
-          NSTEPS: 300,
-        };
-      case 'medium':
-        return {
-          STEP: 0.05,
-          NSTEPS: 600,
-        };
-      case 'high':
-        return {
-          STEP: 0.02,
-          NSTEPS: 1000
-        };
-      default:
-        return {
-          STEP: 0.05,
-          NSTEPS: 600,
-        }
-    }
-  }
-
-  const { STEP, NSTEPS } = getShaderDefineConstant();
-  let defines = `
-  #define STEP ${STEP} 
-  #define NSTEPS ${NSTEPS} 
-`
-  material.fragmentShader = defines + fragmentShader;
-  material.needsUpdate;
 }
