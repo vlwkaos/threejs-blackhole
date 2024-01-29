@@ -8,6 +8,9 @@ import { CameraDragControls } from "../camera/CameraDragControls";
 import { Observer } from "../camera/Observer";
 import { Vector2 } from 'three/src/math/Vector2';
 import fragmentShader from './fragmentShader.glsl?raw';
+import starUrl from '../../assets/star_noise.png';
+import milkywayUrl from '../../assets/milkyway.jpg';
+import diskUrl from '../../assets/accretion_disk.png';
 
 export function createRenderer() {
   const renderer = new THREE.WebGLRenderer()
@@ -53,7 +56,20 @@ export function createCamera(renderer) {
 export function loadTextures() {
   const textures = new Map();
   const textureLoader = new THREE.TextureLoader()
-  const loadTexture = (name, image, interpolation, wrap = THREE.ClampToEdgeWrapping) => {
+
+  loadTexture('bg1', milkywayUrl, THREE.NearestFilter)
+  loadTexture('star', starUrl, THREE.LinearFilter)
+  loadTexture('disk', diskUrl, THREE.LinearFilter)
+
+  window.onbeforeunload = () => {
+    for (const texture of textures.values()) {
+      texture.dispose();
+    }
+  }
+
+  return textures;
+
+  function loadTexture(name, image, interpolation, wrap = THREE.ClampToEdgeWrapping) {
     textures.set(name, null);
     textureLoader.load(image, (texture) => {
       texture.magFilter = interpolation
@@ -63,18 +79,6 @@ export function loadTextures() {
       textures.set(name, texture);
     })
   }
-
-  loadTexture('bg1', 'https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fmilkyway.jpg?1545745139132', THREE.NearestFilter)
-  loadTexture('star', 'https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2Fstars.png?1545722529872', THREE.LinearFilter)
-  loadTexture('disk', 'https://cdn.glitch.com/631097e7-5a58-45aa-a51f-cc6b44f8b30b%2FdQ.png?1545846159297', THREE.LinearFilter)
-
-  window.onbeforeunload = () => {
-    for (const texture of textures.values()) {
-      texture.dispose();
-    }
-  }
-
-  return textures;
 }
 
 export async function createShaderProjectionPlane(uniforms) {
